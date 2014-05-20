@@ -29,6 +29,8 @@ public class GridManager : MonoBehaviour {
 
 	void Awake()
 	{
+		Application.targetFrameRate = 60;
+
 		Instance = this;
 		_xRadius = (xSize*xPadding)/2.0f;
 		_yRadius = (ySize*yPadding)/2.0f;
@@ -45,7 +47,14 @@ public class GridManager : MonoBehaviour {
 
 	void Update()
 	{
+		if (InputManager.Instance == null)
+			return;
+
 		Vector3 moveDir = InputManager.Instance.GetMoveDir();
+
+		if (moveDir.magnitude == 0)
+			return;
+
 		Vector3 cameraPos = Camera.main.transform.position;
 		Vector3 center = cameraPos + Vector3.forward * _zRadius - Vector3.right * _xRadius/2.0f + Vector3.up * _yRadius;
 
