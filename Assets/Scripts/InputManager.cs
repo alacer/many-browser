@@ -4,6 +4,8 @@ using System.Collections;
 public class InputManager : MonoBehaviour {
 
 	public float Speed = 10;
+	public float SwipeSpeed = .5f;
+	public float Friction = 2;
 
 	int _lastTouchCount;
 	Vector2 _lastTouchPos;
@@ -12,46 +14,66 @@ public class InputManager : MonoBehaviour {
 	Vector3 _forward;
 	Vector3 _right;
 	Vector3 _moveDir;
+	Vector3 _velocity;
 
 	public static InputManager Instance;
 
 	// Use this for initialization
 	void Awake () {
 		Instance = this;
-		_forward = transform.right;
-		_right = -transform.forward;
+//		transform.rotation = Quaternion.LookRotation( Quaternion.AngleAxis(-30,Vector3.up) * Vector3.forward);
 
-		_forward = transform.rotation * _forward;
-		_right = transform.rotation * _right;
+		_forward = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * Vector3.forward;
+		_right = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * Vector3.right;
 
 	}
 
 	public Vector3 GetMoveDir()
 	{
-		return _moveDir;
+		Vector3 movDir = Quaternion.AngleAxis(-transform.rotation.y,Vector3.up) *_velocity;
+
+		return movDir;
 	}
+
+
 	
 	// Update is called once per frame
 	void Update () {
 
-		_moveDir =  _forward * Input.GetAxis("Vertical") + _right * Input.GetAxis("Horizontal");
-		transform.Translate( _moveDir * Time.deltaTime * Speed);
+		if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+			_velocity =  (_forward * Input.GetAxis("Vertical") + _right * Input.GetAxis("Horizontal")) * Speed;
 
 
 		if (_lastTouchCount == 1 && GetTouchCount() == 1) // && Input.touches[0].deltaPosition.magnitude > 0)
 		{
 			Vector3 delta = (GetWorldPos(_lastTouchPos) - GetWorldPos(GetTouchPos()));
-		
+			float sign = (delta.x > 0) ? 1 : -1;
+			delta = delta.magnitude * _right * sign;
+			_velocity = delta * SwipeSpeed;
 
-			transform.position += delta;
 		}
-	
+
+		float magnitude = _velocity.magnitude;
+
+		if (magnitude > 0)
+		{
+			transform.position += _velocity * Time.deltaTime;
+				
+			magnitude -= Friction * Time.deltaTime;
+
+			magnitude = Mathf.Max(0,magnitude);
+
+			_velocity = _velocity.normalized * magnitude;
+		}
+
 
 		if (GetTouchCount() == 1)
 			_lastTouchPos = GetTouchPos();
 
 		_lastTouchCount = GetTouchCount();
 	}
+
+
 
 	int GetTouchCount()
 	{

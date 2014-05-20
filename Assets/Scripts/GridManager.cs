@@ -47,18 +47,18 @@ public class GridManager : MonoBehaviour {
 	{
 		Vector3 moveDir = InputManager.Instance.GetMoveDir();
 		Vector3 cameraPos = Camera.main.transform.position;
-		Vector3 center = cameraPos + Vector3.forward * _zRadius - Vector3.right * _xRadius + Vector3.up * _yRadius;
+		Vector3 center = cameraPos + Vector3.forward * _zRadius - Vector3.right * _xRadius/2.0f + Vector3.up * _yRadius;
 
-		// is the camera moving right and do we need to shift the cube right?
-		if (moveDir.x > 0 &&  (center.x - _xLayers[0][0].position.x) > _xRadius) 
+		// is the camera moving right and do we need to shift the cube right? use .01 to account for float point error
+		if (moveDir.x > .01f &&  (center.x - _xLayers[0][0].position.x) > _xRadius) 
 			ShiftRight();
-		else if (moveDir.x < 0 &&  (_xLayers[_xLayers.Count-1][0].position.x - center.x) > _xRadius) // left?
+		else if (moveDir.x < .01f &&  (_xLayers[_xLayers.Count-1][0].position.x - center.x) > _xRadius) // left?
 			ShiftLeft();
 
 		// is the camera moving backward and do we need to shift the cube back?
-		if (moveDir.z < 0 &&  (_zLayers[_zLayers.Count-1][0].position.z - center.z) > _zRadius) 
+		if (moveDir.z < .01f &&  (_zLayers[_zLayers.Count-1][0].position.z - center.z) > _zRadius) 
 			ShiftBackward();
-		else if (moveDir.z > 0 &&  (center.z - _zLayers[0][0].position.z) > _zRadius) // forward?
+		else if (moveDir.z > .01f &&  (center.z - _zLayers[0][0].position.z) > _zRadius) // forward?
 			ShiftForward();
 		
 	}
