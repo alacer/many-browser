@@ -6,7 +6,10 @@ using System.Collections.Generic;
 public class ImageObj : MonoBehaviour {
 
 	public float MoveSpeed = 5;
+	public float RotateDistance = 5;
+
 	static float MaxZOffset = 3;
+	bool _isFacingCamera;
 
 	string _url;
 	bool _loaded;
@@ -43,33 +46,71 @@ public class ImageObj : MonoBehaviour {
 			_visibleObjs.Remove(this);
 	}
 
-	void Update()
+	void UpdateRoation()
+	{
+		float dist = Vector3.Distance(transform.position, Camera.main.transform.position);
+
+		if (dist < RotateDistance && !_isFacingCamera)
+		{
+			FaceCamera();
+		}
+		else if (dist > RotateDistance && _isFacingCamera)
+		{
+			FaceOriginalDirection();
+		}
+
+	}
+
+	void FaceCamera()
+	{
+
+		LeanTween.rotate(gameObject,Camera.main.transform.rotation.eulerAngles,.2f);
+
+		_isFacingCamera = true;
+	}
+
+	void FaceOriginalDirection()
+	{
+		LeanTween.rotate(gameObject,Vector3.zero,.2f);
+		_isFacingCamera = false;
+	}
+
+	void UpdateRandomMovement()
 	{
 		float magnitude = _moveDelta.magnitude;
 		if (magnitude > 0)
 		{
 			Vector3 delta =  _moveDelta.normalized * Time.deltaTime * MoveSpeed;
 			_totalZMovement += delta;
-
+			
 			// don't move any more if the image has reached it's max z limit
 			if (_totalZMovement.magnitude >= MaxZOffset)
 			{
 				_moveDelta = Vector3.zero;
 				return;
-
+				
 			}
-
+			
 			transform.position += delta;
-
+			
 			magnitude -= delta.magnitude;
-
+			
 			if (magnitude < 0)
 				magnitude = 0;
-
+			
 			_moveDelta = _moveDelta.normalized * magnitude;
-
+			
 		}
+	}
 
+
+
+	void Update()
+	{
+
+		UpdateRandomMovement();
+
+		UpdateRoation();
 	}
 
 	public void SetMoveDelta(Vector3 moveDelta)
