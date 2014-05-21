@@ -42,9 +42,18 @@ public class InputManager : MonoBehaviour {
 
 	public Vector3 GetMoveDir()
 	{
-		Vector3 movDir = Quaternion.AngleAxis(-transform.rotation.y,Vector3.up) *_velocity;
 
+	//	Debug.Log("vel: " + _velocity);
+		Vector3 movDir = Quaternion.AngleAxis(-transform.rotation.y,Vector3.up) *_velocity;
+//		Debug.Log("vel: " + _velocity + " movedir: " + movDir);
 		return movDir;
+	}
+
+	public Vector3 MoveDirToWorldDir(Vector2 moveDir)
+	{
+		Vector3 worldDir = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * new Vector3( moveDir.x, moveDir.y, 0);
+		
+		return worldDir;
 	}
 
 	// Update is called once per frame
@@ -58,15 +67,21 @@ public class InputManager : MonoBehaviour {
 
 		// if they just touch the screen and stuff is moving.. stop everything
 		if (_lastTouchCount == 0 && GetTouchCount() == 1)
+		{
 			_currentStopFrame = _stopFrames;
+	//		_oneFingerTouchStartPos = GetTouchPos(0);
+		}
 
 		// get one finger swipe velocity
 		if (_lastTouchCount == 1 && GetTouchCount() == 1 && Input.GetMouseButton(1) == false) // && Input.touches[0].deltaPosition.magnitude > 0)
 		{
 
-			Vector3 delta = (GetWorldPos(_lastTouchPos) - GetWorldPos(GetTouchPos(0)));
-			float sign = (delta.x > 0) ? 1 : -1;
-			delta = delta.magnitude * _right * sign;
+//			Vector2 delta = (GetTouchPos(0) - _oneFingerTouchStartPos);
+//			_velocity = delta * OneFingerSwipeSpeed;
+
+			Vector3 delta = MoveDirToWorldDir (GetWorldPos(_lastTouchPos) - GetWorldPos(GetTouchPos(0)));
+	//		float sign = (delta.x > 0) ? 1 : -1;
+	//		delta = delta.magnitude * _right * sign;
 
 			// no movement with finger
 			if (delta.magnitude == 0)
@@ -113,6 +128,10 @@ public class InputManager : MonoBehaviour {
 
 			_velocity = _velocity.normalized * magnitude;
 		}
+
+		// if they were moving through depth and let go.. stop
+		if (  Mathf.Abs( Vector3.Dot(_velocity,_forward) ) > .01f && GetTouchCount() == 0)
+			_velocity = Vector3.zero;
 
 
 		if (GetTouchCount() == 1)

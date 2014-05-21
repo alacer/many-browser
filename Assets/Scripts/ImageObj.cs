@@ -5,33 +5,33 @@ using System.Collections.Generic;
 
 public class ImageObj : MonoBehaviour {
 
+	public float MoveSpeed = 5;
+	static float MaxZOffset = 3;
+
 	string _url;
 	bool _loaded;
+	
+	Vector3 _totalZMovement;
+	Vector3 _moveDelta;
 
-	// Use this for initialization
-//	void Initialize (string url) {
-//
-//		_url = url;
-////		if (renderer.isVisible)
-////		{
-////			Debug.Log("adding image");
-////
-////		}
-////		else
-////			_invisibleObjs.Add(this);
-//		
-////		renderer.enabled = false;
-//	}
+	static Dictionary<string,Texture2D>  _imageCache = new Dictionary<string, Texture2D>();
+	static List<ImageObj> _visibleObjs = new List<ImageObj>();
+	
 
-	void Awake()
+	void Start()
 	{
-//		renderer.enabled = false;
+		_totalZMovement = transform.forward * Random.Range(-MaxZOffset,MaxZOffset);
+		transform.position += _totalZMovement;
 	}
 
 	void OnBecameVisible()
 	{
 		if (!_loaded)
 			ImageManager.Instance.AddObjToLoad(this);
+
+
+
+		_visibleObjs.Add(this);
 	}
 
 	void OnBecameInvisible()
@@ -39,35 +39,102 @@ public class ImageObj : MonoBehaviour {
 		if (!_loaded)
 			ImageManager.Instance.AddObjToQueue(this);
 
-	//	Debug.Log("became invisible: " + transform.position + " viewport" + Camera.main.WorldToViewportPoint(transform.position));
+		if (_visibleObjs.Contains(this))
+			_visibleObjs.Remove(this);
 	}
 
+	void Update()
+	{
+		float magnitude = _moveDelta.magnitude;
+		if (magnitude > 0)
+		{
+			Vector3 delta =  _moveDelta.normalized * Time.deltaTime * MoveSpeed;
+			_totalZMovement += delta;
+
+			// don't move any more if the image has reached it's max z limit
+			if (_totalZMovement.magnitude >= MaxZOffset)
+			{
+				_moveDelta = Vector3.zero;
+				return;
+
+			}
+
+			transform.position += delta;
+
+			magnitude -= delta.magnitude;
+
+			if (magnitude < 0)
+				magnitude = 0;
+
+			_moveDelta = _moveDelta.normalized * magnitude;
+
+		}
+
+	}
+
+	public void SetMoveDelta(Vector3 moveDelta)
+	{
+		_moveDelta = moveDelta;
+	}
+
+	public static void DoRandomMove()
+	{
+		if (_visibleObjs.Count == 0)
+			return;
+
+		ImageObj obj = _visibleObjs[Random.Range(0,_visibleObjs.Count)];
+
+		obj.SetMoveDelta(Random.Range(-MaxZOffset,MaxZOffset) * obj.transform.forward);
+
+
+
+	}
 
 	public IEnumerator LoadTexture(string url)
 	{
-		
-		WWW imageWWW = new WWW (url);
-		
-//		Debug.Log("loadig url: " + url);
-		
-		yield return imageWWW;
-		
-		if (string.IsNullOrEmpty(imageWWW.error))
+
+		while (ImageManager.Instance.GetFPS() < 40)
 		{
-			renderer.enabled = true;
-			renderer.material.mainTexture = imageWWW.texture;
-			
-			float aspectRatio = imageWWW.texture.width / imageWWW.texture.height;
-			Vector3 scale = transform.localScale;
-			scale.x *= aspectRatio;
-			transform.localScale = scale;
+			// don't load if the framerate is too low
+			yield return new WaitForSeconds(Random.Range(.1f,.3f));
+		}
+
+		// do we already have this image downloaded? if so Just set it. 
+		if (_imageCache.ContainsKey(url))
+		{
+			SetTexture(_imageCache[url]);
+
+		}
+		else // otherwise, download it and set it
+		{
+			WWW imageWWW = new WWW (url);
+
 		
-			LeanTween.rotateX(gameObject,0,1).setEase(LeanTweenType.easeOutElastic);
+
+			yield return imageWWW;
 			
+			if (string.IsNullOrEmpty(imageWWW.error))
+			{
+				_imageCache[url] = imageWWW.texture;
+				SetTexture(imageWWW.texture);
+				
+			}
 		}
 
 		_loaded = true;
-//		_loadingObjs.Remove(this);
+
+	}
+
+	void SetTexture(Texture2D tex)
+	{
+		renderer.material.mainTexture = tex;
+		
+		float aspectRatio = tex.width / tex.height;
+		Vector3 scale = transform.localScale;
+		scale.x *= aspectRatio;
+		transform.localScale = scale;
+		
+		LeanTween.rotateX(gameObject,0,1).setEase(LeanTweenType.easeOutElastic);
 
 	}
 

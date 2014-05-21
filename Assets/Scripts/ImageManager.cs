@@ -29,6 +29,10 @@ public class ImageManager : MonoBehaviour {
 		}
 	}
 
+	public float GetFPS()
+	{
+		return _frameRate;
+	}
 
 	void Awake()
 	{
