@@ -139,7 +139,11 @@ public class InputManager : MonoBehaviour {
 		_lastTouchCount = GetTouchCount();
 	}
 
-
+	public Vector3 GetForward()
+	{
+		return _forward;
+	}
+	
 
 	int GetTouchCount()
 	{

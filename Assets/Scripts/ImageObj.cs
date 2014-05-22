@@ -23,6 +23,7 @@ public class ImageObj : MonoBehaviour {
 
 	void Start()
 	{
+
 		_totalZMovement = transform.forward * Random.Range(-MaxZOffset,MaxZOffset);
 		transform.position += _totalZMovement;
 	}
@@ -30,9 +31,10 @@ public class ImageObj : MonoBehaviour {
 	void OnBecameVisible()
 	{
 		if (!_loaded)
+		{
 			ImageManager.Instance.AddObjToLoad(this);
-
-
+			renderer.enabled = false;
+		}
 
 		_visibleObjs.Add(this);
 	}
@@ -174,7 +176,7 @@ public class ImageObj : MonoBehaviour {
 		Vector3 scale = transform.localScale;
 		scale.x *= aspectRatio;
 		transform.localScale = scale;
-		
+		renderer.enabled = true;
 		LeanTween.rotateX(gameObject,0,1).setEase(LeanTweenType.easeOutElastic);
 
 	}

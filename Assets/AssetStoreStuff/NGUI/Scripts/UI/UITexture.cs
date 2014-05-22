@@ -55,7 +55,7 @@ public class UITexture : UIWidget
 			{
 				Material mat = material;
 				if (mat != null) mShader = mat.shader;
-				if (mShader == null) mShader = Shader.Find("Unlit/Texture");
+				if (mShader == null) mShader = Shader.Find("Unlit/Transparent");
 			}
 			return mShader;
 		}

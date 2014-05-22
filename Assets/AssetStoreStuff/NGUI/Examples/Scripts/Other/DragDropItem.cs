@@ -18,6 +18,8 @@ public class DragDropItem : MonoBehaviour
 	bool mIsDragging = false;
 	Transform mParent;
 
+	static float _minZ = float.MaxValue;
+
 	/// <summary>
 	/// Update the table, if there is one.
 	/// </summary>
@@ -38,20 +40,20 @@ public class DragDropItem : MonoBehaviour
 		Collider col = UICamera.lastHit.collider;
 		DragDropContainer container = (col != null) ? col.gameObject.GetComponent<DragDropContainer>() : null;
 
-		if (container != null)
-		{
-			// Container found -- parent this object to the container
-			mTrans.parent = container.transform;
-
-			Vector3 pos = mTrans.localPosition;
-			pos.z = 0f;
-			mTrans.localPosition = pos;
-		}
-		else
-		{
-			// No valid container under the mouse -- revert the item's parent
-			mTrans.parent = mParent;
-		}
+//		if (container != null)
+//		{
+//			// Container found -- parent this object to the container
+//			mTrans.parent = container.transform;
+//
+//			Vector3 pos = mTrans.localPosition;
+//			pos.z = 0f;
+//			mTrans.localPosition = pos;
+//		}
+//		else
+//		{
+//			// No valid container under the mouse -- revert the item's parent
+//			mTrans.parent = mParent;
+//		}
 
 		// Notify the table of this change
 		UpdateTable();
@@ -64,7 +66,12 @@ public class DragDropItem : MonoBehaviour
 	/// Cache the transform.
 	/// </summary>
 
-	void Awake () { mTrans = transform; }
+	void Awake () 
+	{
+		mTrans = transform; 
+		if (transform.position.z < _minZ)
+			_minZ = transform.position.z;
+	}
 
 	/// <summary>
 	/// Start the drag event and perform the dragging.
@@ -74,22 +81,24 @@ public class DragDropItem : MonoBehaviour
 	{
 		if (UICamera.currentTouchID > -2)
 		{
-			if (!mIsDragging)
-			{
-				mIsDragging = true;
-				mParent = mTrans.parent;
-				mTrans.parent = DragDropRoot.root;
-				
-				Vector3 pos = mTrans.localPosition;
-				pos.z = 0f;
-				mTrans.localPosition = pos;
-				
-				mTrans.BroadcastMessage("CheckParent", SendMessageOptions.DontRequireReceiver);
-			}
-			else
-			{
-				mTrans.localPosition += (Vector3)delta;
-			}
+//			if (!mIsDragging)
+//			{
+//				mIsDragging = true;
+//				mParent = mTrans.parent;
+//				mTrans.parent = DragDropRoot.root;
+//				
+//				Vector3 pos = mTrans.localPosition;
+//				pos.z = 0f;
+//				mTrans.localPosition = pos;
+//				
+//				mTrans.BroadcastMessage("CheckParent", SendMessageOptions.DontRequireReceiver);
+//			}
+//			else
+//			{
+			Debug.Log("moving delta: " + delta);
+			mTrans.localPosition += (Vector3)delta;
+
+//			}
 		}
 	}
 
@@ -100,6 +109,8 @@ public class DragDropItem : MonoBehaviour
 	void OnPress (bool isPressed)
 	{
 		mIsDragging = false;
+		_minZ -= .1f;
+		mTrans.position = new Vector3(mTrans.position.x,mTrans.position.y,_minZ);
 		Collider col = collider;
 		if (col != null) col.enabled = !isPressed;
 		if (!isPressed) Drop();
