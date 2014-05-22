@@ -49,12 +49,13 @@ public class GridManager : MonoBehaviour {
 		_urls = urls;
 		CreateGrid();
 		ImageManager.Instance.Initialize(urls);
+	//	SetAllVisible(false);
 	}
 	
 
 	void Update()
 	{
-		if (InputManager.Instance == null)
+		if (CameraManager.Instance == null || SceneManager.Instance.GetScene() != Scene.Browse)
 			return;
 
 
@@ -64,7 +65,7 @@ public class GridManager : MonoBehaviour {
 
 		if (_timeUntilRandomMove <= 0)
 		{
-			DoRandomMove();
+		//	DoRandomMove();
 			_timeUntilRandomMove = Random.Range(RandomMoveMinTime,RandomMoveMaxTime);
 		}
 	}
@@ -81,14 +82,23 @@ public class GridManager : MonoBehaviour {
 
 	}
 
+	public void SetAllVisible(bool visible)
+	{
+		for (int i=0; i < transform.childCount; i++)
+		{
+			transform.GetChild(i).GetComponent<Renderer>().enabled = visible;
+		}
+
+	}
+
 
 #region Shift Functions
 
 	void CheckForNeededShifts()
 	{
-		Vector3 moveDir = InputManager.Instance.GetMoveDir();
+		Vector3 moveDir = CameraManager.Instance.GetMoveDir();
 		
-		if (moveDir.magnitude == 0)
+		if (moveDir.magnitude == 0 && LeanTween.isTweening(Camera.main.gameObject) == false)
 			return;
 		
 		Vector3 cameraPos = Camera.main.transform.position;
@@ -101,13 +111,13 @@ public class GridManager : MonoBehaviour {
 			ShiftLeft();
 
 		// is the camera moving backward and do we need to shift the cube back?
-		if (moveDir.z < -.01f &&  (_zLayers[_zLayers.Count-1][0].position.z - center.z) > _zRadius) 
+		if ((moveDir.z < -.01f || LeanTween.isTweening(Camera.main.gameObject)) &&  (_zLayers[_zLayers.Count-1][0].position.z - center.z) > _zRadius+1) 
 			ShiftBackward();
-		else if (moveDir.z > .01f &&  (center.z - _zLayers[0][0].position.z) > _zRadius) // forward?
+		else if ((moveDir.z > .01f || LeanTween.isTweening(Camera.main.gameObject)) &&  (center.z - _zLayers[0][0].position.z) > _zRadius) // forward?
 			ShiftForward();
 		
 		// is the camera moving backward and do we need to shift the cube back?
-		if (moveDir.y < -.01f &&  (_yLayers[_yLayers.Count-1][0].position.y - center.y) > _yRadius) 
+		if ((moveDir.y < -.01f || LeanTween.isTweening(Camera.main.gameObject)) &&  (_yLayers[_yLayers.Count-1][0].position.y - center.y) > _yRadius) 
 			ShiftDown();
 		else if (moveDir.y > .01f &&  (center.y - _yLayers[0][0].position.y) > _yRadius) // forward?
 			ShiftUp();
@@ -157,11 +167,12 @@ public class GridManager : MonoBehaviour {
 		List<Transform> newZLayer = new List<Transform>();
 		float lastLayerZPos = _zLayers[_zLayers.Count-1][0].position.z;
 		float newLayerZPos = lastLayerZPos + zPadding;
-		
+
 		for (int i=_zLayers[0].Count-1; i >= 0 ; i--)
 		{
 			Transform imageObj = _zLayers[0][i];
 			imageObj.position = new Vector3(imageObj.position.x,imageObj.position.y,newLayerZPos);
+
 			_zLayers[0].Remove(imageObj);
 			newZLayer.Add(imageObj);
 		}
@@ -226,6 +237,41 @@ public class GridManager : MonoBehaviour {
 		_xLayers.Add(newXLayer);
 	}
 
+//	List<float> GetZPositionDelays(List<Transform> zLayer)
+//	{
+//		List<float> delays = new List<float>();
+//
+//		float maxX = float.MinValue;
+//		float minX = float.MaxValue;
+//
+//		// first get the min and max x values
+//		for (int i=0; i < zLayer.Count; i++)
+//		{
+//			float x = zLayer[i].position.x;
+//
+//			if (x > maxX)
+//				maxX = x;
+//
+//			if (x < minX)
+//				minX = x;
+//		}
+//
+//		float xDist = maxX - minX;
+//
+//		for (int i=0; i < zLayer.Count; i++)
+//		{
+//			float x = zLayer[i].position.x;
+//			float percent = (x - minX) / xDist;
+//
+//			float delay = (1 - percent) * 1;
+//			delays.Add(delay);
+//			Debug.Log("addding delay: " + delay);
+//
+//		}
+//
+//		return delays;
+//	}
+
 #endregion
 
 	void CreateGrid()
@@ -280,5 +326,10 @@ public class GridManager : MonoBehaviour {
 			}
 
 		}
+	}
+
+	public float GetZPadding()
+	{
+		return zPadding;
 	}
 }

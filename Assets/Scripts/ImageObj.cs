@@ -8,7 +8,7 @@ public class ImageObj : MonoBehaviour {
 	public float MoveSpeed = 5;
 	public float RotateDistance = 5;
 
-	static float MaxZOffset = 3;
+	static float MaxZOffset = .1f;
 	bool _isFacingCamera;
 
 	string _url;
@@ -24,8 +24,8 @@ public class ImageObj : MonoBehaviour {
 	void Start()
 	{
 
-		_totalZMovement = transform.forward * Random.Range(-MaxZOffset,MaxZOffset);
-		transform.position += _totalZMovement;
+//		_totalZMovement = transform.forward * Random.Range(-MaxZOffset,MaxZOffset);
+//		transform.position += _totalZMovement;
 	}
 
 	void OnBecameVisible()
@@ -33,7 +33,6 @@ public class ImageObj : MonoBehaviour {
 		if (!_loaded)
 		{
 			ImageManager.Instance.AddObjToLoad(this);
-			renderer.enabled = false;
 		}
 
 		_visibleObjs.Add(this);
@@ -162,10 +161,27 @@ public class ImageObj : MonoBehaviour {
 				SetTexture(imageWWW.texture);
 				
 			}
+			else
+			{
+				if (_imageCache.Count > 0)
+				{
+					List<string> keyList = new List<string>(_imageCache.Keys);
+					SetTexture(_imageCache[keyList[Random.Range(0,keyList.Count)]]);
+				}
+				else
+					Debug.Log("didnt get image");
+			}
 		}
 
 		_loaded = true;
 
+	}
+
+	public IEnumerator SetPositionAfterDelay(Vector3 pos, float delay)
+	{
+		yield return new WaitForSeconds(delay);
+
+		transform.position = pos;
 	}
 
 	void SetTexture(Texture2D tex)
@@ -175,7 +191,7 @@ public class ImageObj : MonoBehaviour {
 		float aspectRatio = tex.width / tex.height;
 		Vector3 scale = transform.localScale;
 		scale.x *= aspectRatio;
-		transform.localScale = scale;
+	//	transform.localScale = scale;
 		renderer.enabled = true;
 		LeanTween.rotateX(gameObject,0,1).setEase(LeanTweenType.easeOutElastic);
 

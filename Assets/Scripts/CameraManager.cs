@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InputManager : MonoBehaviour {
+public class CameraManager : MonoBehaviour {
 
 	public float Speed = 10;
 	public float MaxSpeed = 15;
 	public float OneFingerSwipeSpeed = .5f;
 	public float TwoFingerSwipeSpeed = .1f;
 	public float Friction = 2;
+	public float MinTwoFingerSwipeDist = 5;
 
 	int _lastTouchCount;
 	Vector2 _lastTouchPos;
@@ -20,11 +21,14 @@ public class InputManager : MonoBehaviour {
 	Vector2 _twoFingerTouchStartPos;
 	Vector2 _simulatedFinger2Pos;
 	float _lastTwoFingerSwipeSpeed;
+	float _lastFingerDist;
 	int _stopFrames = 5;
+
 	int _currentStopFrame;
+	bool _hasLiftedFingersSinceLastSwipe = true;
 
 
-	public static InputManager Instance;
+	public static CameraManager Instance;
 
 	// Use this for initialization
 	void Awake () {
@@ -58,6 +62,9 @@ public class InputManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate () {
+
+		if (SceneManager.Instance.GetScene() != Scene.Browse)
+			return;
 
 		if (Input.GetMouseButtonDown(1))
 			_simulatedFinger2Pos = Input.mousePosition;
@@ -102,11 +109,11 @@ public class InputManager : MonoBehaviour {
 
 
 		// two finger swipe?
-		float speed;
-		if (GetTwoFingerSwipeSpeed(out speed))
+		if (UpdateTwoFingerSwipe())
 		{
-			_velocity = _forward * speed;
+			_velocity = Vector3.zero;// _forward * speed;
 		}
+
 
 		// apply velocity and friction
 		float magnitude = _velocity.magnitude;
@@ -179,33 +186,42 @@ public class InputManager : MonoBehaviour {
 		return Vector2.zero;
 	}
 
-	bool GetTwoFingerSwipeSpeed(out float speed)
+	bool UpdateTwoFingerSwipe()
 	{
 
 		if (GetTouchCount() < 2)
 		{
-			speed = 0;
 			return false;
 		}
 
-		if (_lastTouchCount < 2 && GetTouchCount() >= 2)
-			_twoFingerTouchStartPos = GetTouchPos(0);
-
-		speed = (GetTouchPos(0) - _twoFingerTouchStartPos).y * TwoFingerSwipeSpeed;
-		return true;
-
-
-//		float fingerDist = (GetTouchPos(1) - GetTouchPos(0)).magnitude;
+//		if (_lastTouchCount < 2 && GetTouchCount() >= 2)
+//			_twoFingerTouchStartPos = GetTouchPos(0);
 //
-//		// did they just put down two fingers?
-//		if (_lastFingerDist == 0)
-//		{
-//			_lastFingerDist = fingerDist;
-//			speed = 0;
-//			return false;
-//		}
-//		else // they may be moving their fingers
-//		{
+//		speed = (GetTouchPos(0) - _twoFingerTouchStartPos).y * TwoFingerSwipeSpeed;
+//		return true;
+
+
+		float fingerDist = (GetTouchPos(1) - GetTouchPos(0)).magnitude;
+
+		// did they just put down two fingers?
+		if (_lastTouchCount < 2)
+		{
+			_hasLiftedFingersSinceLastSwipe = true;
+			_lastFingerDist = fingerDist;
+			return true;
+		}
+		else if (LeanTween.isTweening(gameObject) == false && _hasLiftedFingersSinceLastSwipe) // they may be moving their fingers
+		{
+
+			if (fingerDist > (_lastFingerDist + MinTwoFingerSwipeDist) )
+			{
+				LeanTween.move(gameObject,transform.position + _forward * GridManager.Instance.GetZPadding(),1).setEase(LeanTweenType.easeOutQuint);
+			}
+			else if (fingerDist < (_lastFingerDist - MinTwoFingerSwipeDist))
+			{
+				LeanTween.move(gameObject,transform.position - _forward * GridManager.Instance.GetZPadding(),1).setEase(LeanTweenType.easeOutQuint);
+			}
+
 //			float newSpeed = (fingerDist - _lastFingerDist) * TwoFingerSwipeSpeed;
 //
 //			// not moving fingers, if the stop for a few frames then stop
@@ -224,13 +240,14 @@ public class InputManager : MonoBehaviour {
 //
 //			
 //			speed = newSpeed;
-//
-//			_lastFingerDist = fingerDist;
-//			_lastTwoFingerSwipeSpeed = speed;
-//
-//		return true;
-//		}
 
+
+//			_lastTwoFingerSwipeSpeed = speed;
+
+
+		}
+		_lastFingerDist = fingerDist;
+		return true;
 	}
 
 //	Vector2 GetTouchPos()

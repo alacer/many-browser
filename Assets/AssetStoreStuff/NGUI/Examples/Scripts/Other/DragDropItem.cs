@@ -34,7 +34,7 @@ public class DragDropItem : MonoBehaviour
 	/// Drop the dragged object.
 	/// </summary>
 
-	void Drop ()
+	public void Drop ()
 	{
 		// Is there a droppable container?
 		Collider col = UICamera.lastHit.collider;
@@ -79,6 +79,9 @@ public class DragDropItem : MonoBehaviour
 
 	void OnDrag (Vector2 delta)
 	{
+		if (SceneManager.Instance.GetScene() != Scene.Default)
+			return;
+
 		if (UICamera.currentTouchID > -2)
 		{
 //			if (!mIsDragging)

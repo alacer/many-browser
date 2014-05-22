@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class CenterObj : MonoBehaviour {
@@ -36,25 +36,33 @@ public class CenterObj : MonoBehaviour {
 
 	void Update()
 	{
-		if (!IsClickable)
+		if (!IsClickable || SceneManager.Instance.GetScene() == Scene.Default)
 			return;
 
 		_currentTime += Time.deltaTime;
 
-		if (_currentTime >= ShakeTime)
-		{
-			LeanTween.moveX( gameObject, transform.position.x+0.01f, .1f).setRepeat(3).setLoopPingPong();
-			_currentTime = 0;
-		}
+//		if (_currentTime >= ShakeTime)
+//		{
+//			LeanTween.moveX( gameObject, transform.position.x+0.01f, .1f).setRepeat(3).setLoopPingPong();
+//			_currentTime = 0;
+//		}
 
 
 	}
 
 	void OnTap()
 	{
+		gameObject.GetComponent<DragDropItem>().Drop();
 
-		SceneTransition.Instance.TransitionToBrowseView();
+		LeanTween.cancel(gameObject);
+		StartCoroutine(StartTransition());
 	}
-	
+
+	IEnumerator StartTransition()
+	{
+		yield return new WaitForSeconds(.1f);
+
+		SceneManager.Instance.TransitionToBrowseView();
+	}
 
 }
