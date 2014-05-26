@@ -32,6 +32,8 @@ public class ImageSearch : MonoBehaviour {
 	// Use this for initialization
 	IEnumerator SearchRoutine (string search) {
 
+		Loader.Instance.Show();
+		Debug.Log("game obj: " + gameObject.name);
 		GetComponent<UIInput>().label.text = search;
 
 
@@ -94,6 +96,7 @@ public class ImageSearch : MonoBehaviour {
 			}
 		}
 
+		Loader.Instance.Hide();
 
 		GridManager.Initialize(_urls);
 
