@@ -14,6 +14,7 @@ public class ImageManager : MonoBehaviour {
 	float _frames;
 	float _time;
 	float _checkTime = .5f;
+	int _imageIndex;
 
 	void CalculateFramerate()
 	{
@@ -76,7 +77,8 @@ public class ImageManager : MonoBehaviour {
 				for (int i = _objsToLoad.Count-1; i >= 0; i--)
 				{
 					ImageObj obj = _objsToLoad[i];
-					StartCoroutine(obj.LoadTexture(_urls[Random.Range(0,_urls.Count)]));
+					StartCoroutine(obj.LoadTexture(_urls[_imageIndex]));
+					_imageIndex = (_imageIndex + 1) % _urls.Count;
 					_objsToLoad.Remove(obj);
 				}
 

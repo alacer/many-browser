@@ -207,12 +207,7 @@ public class GridManager : MonoBehaviour {
 	{
 		return Camera.main.transform.FindChild("GridCenter").position;
 	}
-
-	void DoRandomMove()
-	{
-
-		ImageObj.DoRandomMove();
-	}
+	
 
 	public void SetAllVisible(bool visible)
 	{

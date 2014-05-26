@@ -131,17 +131,7 @@ public class ImageObj : MonoBehaviour {
 	{
 		_moveDelta = moveDelta;
 	}
-
-	public static void DoRandomMove()
-	{
-		if (_visibleObjs.Count == 0)
-			return;
-
-		ImageObj obj = _visibleObjs[Random.Range(0,_visibleObjs.Count)];
-
-		obj.SetMoveDelta(Random.Range(-MaxZOffset,MaxZOffset) * obj.transform.forward);
-
-	}
+	
 
 	public IEnumerator LoadTexture(string url)
 	{
