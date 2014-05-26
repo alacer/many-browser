@@ -34,8 +34,6 @@ public class ImageSearch : MonoBehaviour {
 
 		GetComponent<UIInput>().label.text = search;
 
-		if (SceneManager.Instance.GetScene() == Scene.Default)
-			SceneManager.Instance.TransitionToBrowseView();
 
 		Debug.Log("searching for: " + search);
 
@@ -51,14 +49,14 @@ public class ImageSearch : MonoBehaviour {
 		string returnStr = null;
 
 		float time = 0;
-		float timeOut = 3;
+		float timeOut = 6;
 		while (timeOut < timeOut && www.isDone == false)
 		{
 			yield return new WaitForSeconds(.1f);
 			time += .1f;
 		}
 
-//		yield return www;
+		yield return www;
 
 		Debug.Log("search complete");
 
@@ -97,9 +95,10 @@ public class ImageSearch : MonoBehaviour {
 		}
 
 
-		GridManager.Instance.Initialize(_urls);
+		GridManager.Initialize(_urls);
 
-
+		if (SceneManager.Instance.GetScene() == Scene.Default)
+			SceneManager.Instance.TransitionToBrowseView();
 	}
 
 

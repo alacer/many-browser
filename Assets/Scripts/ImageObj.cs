@@ -196,6 +196,9 @@ public class ImageObj : MonoBehaviour {
 
 	void SetTexture(Texture2D tex)
 	{
+		if (gameObject == null)
+			return;
+
 		renderer.material.mainTexture = tex;
 		
 		float aspectRatio = tex.width / tex.height;

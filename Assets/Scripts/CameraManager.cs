@@ -131,6 +131,10 @@ public class CameraManager : MonoBehaviour {
 			//	_helixObj.Rotate(Vector3.up,_velocity.x * 10);
 				transform.position += new Vector3(0,_velocity.y,0);
 
+				if (transform.position.y > GridManager.Instance.GetHelixMaxY())
+					transform.position = new Vector3(transform.position.x, GridManager.Instance.GetHelixMaxY(), transform.position.z);
+				else if (transform.position.y < GridManager.Instance.GetHelixMinY())
+					transform.position = new Vector3(transform.position.x, GridManager.Instance.GetHelixMinY(), transform.position.z);
 			}
 			else
 				transform.position += _velocity;

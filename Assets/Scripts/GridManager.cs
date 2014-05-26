@@ -18,16 +18,18 @@ public class GridManager : MonoBehaviour {
 
 	public float MaxZ;
 	public float MinZ;
-
-	float _timeUntilRandomMove;
+	
 	float _xRadius;
 	float _yRadius;
 	float _zRadius;
+	float _maxHelixY;
+	float _minHelixY;
 	List<List<Transform>> _xLayers = new List<List<Transform>>();
 	List<List<Transform>> _yLayers = new List<List<Transform>>();
 	List<List<Transform>> _zLayers = new List<List<Transform>>();
 
 	List<Transform> _allObjs = new List<Transform>();
+
 
 	List<string> _urls = new List<string>();
 
@@ -37,7 +39,6 @@ public class GridManager : MonoBehaviour {
 	{
 		LeanTween.init(2000);
 		Application.targetFrameRate = 60;
-		_timeUntilRandomMove = Random.Range(RandomMoveMinTime,RandomMoveMaxTime);
 
 		Instance = this;
 		_xRadius = (xSize*xPadding)/2.0f;
@@ -45,13 +46,35 @@ public class GridManager : MonoBehaviour {
 		_zRadius = (zSize*zPadding)/2.0f;
 	}
 
-	public void Initialize(List<string> urls)
+	public static void Initialize(List<string> urls)
+	{
+		if (Instance != null)
+			DestroyImmediate(Instance.gameObject);
+
+
+		Instance =  ((GameObject)Instantiate(Resources.Load("GridManager"))).GetComponent<GridManager>();
+		Instance.SetUrls(urls);
+
+	//	SetAllVisible(false);
+	}
+
+	public void SetUrls(List<string> urls)
 	{
 		_urls = urls;
 		CreateGrid();
 		ImageManager.Instance.Initialize(urls);
-	//	SetAllVisible(false);
 	}
+
+	public float GetHelixMaxY()
+	{
+		return _maxHelixY;
+	}
+	
+	public float GetHelixMinY()
+	{
+		return _minHelixY;
+	}
+
 
 	public void FormHelix()
 	{
@@ -59,11 +82,11 @@ public class GridManager : MonoBehaviour {
 		StartCoroutine(FormHelixRoutine());
 	}
 
+
 	IEnumerator FormHelixRoutine()
 	{
 		SceneManager.Instance.SetScene(Scene.Helix);
 
-//		LeanTween.rotate(Camera.main.gameObject,Vector3.zero,.5f);
 
 		List<Vector3> positions = new List<Vector3>();
 		List<Vector3> rotations = new List<Vector3>();
@@ -97,6 +120,7 @@ public class GridManager : MonoBehaviour {
 //
 //		yield return new WaitForSeconds(animateUpTime);
 			
+		// Create lists of new positions and rotations
 		for (int i=0; i < _allObjs.Count; i++)
 		{
 
@@ -111,11 +135,17 @@ public class GridManager : MonoBehaviour {
 			Vector3 pos = center + (radius * dir);
 			rotation = Quaternion.LookRotation(dir.normalized).eulerAngles;
 
+			if (i == 0)
+				_minHelixY = pos.y;
+
+			if (i == _allObjs.Count-1)
+				_maxHelixY = pos.y;
+
 			positions.Add(pos);
 			rotations.Add(rotation);
 		}
 
-
+		// now animate all to new positions and rotations
 		for (int i=0; i < _allObjs.Count; i++)
 		{
 
@@ -135,7 +165,7 @@ public class GridManager : MonoBehaviour {
 //					}
 				});
 			}
-			else
+			else // 
 			{
 				obj.transform.position = positions[i];
 				obj.transform.rotation = Quaternion.Euler(rotations[i]);
