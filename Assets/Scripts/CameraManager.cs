@@ -9,6 +9,7 @@ public class CameraManager : MonoBehaviour {
 	public float TwoFingerSwipeSpeed = .1f;
 	public float Friction = 2;
 	public float MinTwoFingerSwipeDist = 5;
+	public float MaxAngularSpeed = 6;
 
 	int _lastTouchCount;
 	Vector2 _lastTouchPos;
@@ -22,7 +23,7 @@ public class CameraManager : MonoBehaviour {
 	Vector2 _simulatedFinger2Pos;
 	float _lastTwoFingerSwipeSpeed;
 	float _lastFingerDist;
-	int _stopFrames = 5;
+	int _stopFrames = 10;
 
 	Transform _helixObj;
 	int _currentStopFrame;
@@ -72,9 +73,6 @@ public class CameraManager : MonoBehaviour {
 		if (Input.GetMouseButtonDown(1))
 			_simulatedFinger2Pos = Input.mousePosition;
 
-		if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
-			_velocity =  (_forward * Input.GetAxis("Vertical") + _right * Input.GetAxis("Horizontal")) * Speed;
-
 		// if they just touch the screen and stuff is moving.. stop everything
 		if (_lastTouchCount == 0 && GetTouchCount() == 1)
 		{
@@ -85,7 +83,7 @@ public class CameraManager : MonoBehaviour {
 		if (_lastTouchCount == 1 && GetTouchCount() == 1 && Input.GetMouseButton(1) == false) // && Input.touches[0].deltaPosition.magnitude > 0)
 		{
 
-			Vector3 delta = MoveDirToWorldDir (GetWorldPos(_lastTouchPos) - GetWorldPos(GetTouchPos(0)));
+			Vector3 delta = ScreenToWorldPos(_lastTouchPos) - ScreenToWorldPos( GetTouchPos(0) );
 
 
 			// no movement with finger
@@ -93,14 +91,17 @@ public class CameraManager : MonoBehaviour {
 			{
 				_currentStopFrame++;
 				if (_currentStopFrame >= _stopFrames)
+				{
+					Debug.Log("stopping");
 					_velocity = Vector3.zero;
+				}
 
 			}
 			else // some movement
 			{
 				_currentStopFrame = 0;
 
-				_velocity = delta * OneFingerSwipeSpeed;
+				UpdateVelocity(delta);
 			}
 
 		}
@@ -116,46 +117,77 @@ public class CameraManager : MonoBehaviour {
 		// apply velocity and friction
 		float magnitude = _velocity.magnitude;
 
+		bool isTooFast = (magnitude > MaxSpeed && GetTouchCount() == 0);
 
-		if (magnitude > MaxSpeed)
-		{
-			_velocity = _velocity.normalized * MaxSpeed;
-			magnitude = MaxSpeed;
-		}
 
 		if (magnitude > 0)
 		{
+
+			// do helix movement if we are in the helix
 			if (SceneManager.Instance.GetScene() == Scene.Helix)
 			{
-				GridManager.Instance.transform.RotateAround(_helixObj.position,Vector3.up,_velocity.x*10);
-			//	_helixObj.Rotate(Vector3.up,_velocity.x * 10);
-				transform.position += new Vector3(0,_velocity.y,0);
-
-				if (transform.position.y > GridManager.Instance.GetHelixMaxY())
-					transform.position = new Vector3(transform.position.x, GridManager.Instance.GetHelixMaxY(), transform.position.z);
-				else if (transform.position.y < GridManager.Instance.GetHelixMinY())
-					transform.position = new Vector3(transform.position.x, GridManager.Instance.GetHelixMinY(), transform.position.z);
+				HelixUpdate();
 			}
 			else
 				transform.position += _velocity;
 				
-			magnitude -= Friction;
-
+			// apply friction
+			magnitude -= Friction * ((isTooFast) ? 5 : 1);
 			magnitude = Mathf.Max(0,magnitude);
-
 			_velocity = _velocity.normalized * magnitude;
 		}
 
 		// if they were moving through depth and let go.. stop
-		if (  Mathf.Abs( Vector3.Dot(_velocity,_forward) ) > .01f && GetTouchCount() == 0)
+		if (  Mathf.Abs( Vector3.Dot(_velocity,_forward) ) > .01f && GetTouchCount() == 0 && SceneManager.Instance.GetScene() == Scene.Browse)
+		{
 			_velocity = Vector3.zero;
+		}
 
 
 		if (GetTouchCount() == 1)
-			_lastTouchPos = GetTouchPos(0);
+			_lastTouchPos =  GetTouchPos(0) ;
+
 		_lastTouchCount = GetTouchCount();
 	}
 
+	void UpdateVelocity(Vector3 delta)
+	{
+		if (SceneManager.Instance.GetScene() == Scene.Browse)
+			_velocity = delta;
+		else if (SceneManager.Instance.GetScene() == Scene.Helix)
+		{
+			if (ScreenToWorldPos( GetTouchPos(0)) != Vector3.zero)
+			{
+				Vector3 lastPos = ScreenToWorldPos(_lastTouchPos) - _helixObj.position;
+				Vector3 currentPos = ScreenToWorldPos( GetTouchPos(0)) - _helixObj.position;
+				lastPos.y = 0;
+				currentPos.y = 0;
+				float dir = (Vector3.Cross(lastPos,currentPos).y > 0) ? 1 : -1;
+				float angleDelta = Vector3.Angle(lastPos,currentPos);
+				
+				if (angleDelta > 0)
+				{
+					angleDelta = Mathf.Min(angleDelta,MaxAngularSpeed);
+					_velocity = new Vector3( angleDelta * dir , delta.y, 0);
+				}
+			}
+
+		}
+	}
+
+	void HelixUpdate()
+	{
+
+		GridManager.Instance.transform.RotateAround(_helixObj.position,Vector3.up,_velocity.x);
+		transform.position += new Vector3(0,_velocity.y,0);
+
+		// clamp bounds
+		if (transform.position.y > GridManager.Instance.GetHelixMaxY())
+			transform.position = new Vector3(transform.position.x, GridManager.Instance.GetHelixMaxY(), transform.position.z);
+		else if (transform.position.y < GridManager.Instance.GetHelixMinY())
+			transform.position = new Vector3(transform.position.x, GridManager.Instance.GetHelixMinY(), transform.position.z);
+	}
+	
 	public Vector3 GetForward()
 	{
 		return _forward;
@@ -182,7 +214,10 @@ public class CameraManager : MonoBehaviour {
 		if (Application.isEditor)
 		{
 			if (fingerIndex == 0)
+			{
+
 				return Input.mousePosition;
+			}
 			else if (fingerIndex == 1)
 			{
 				return _simulatedFinger2Pos;
@@ -190,12 +225,29 @@ public class CameraManager : MonoBehaviour {
 		}
 		else 
 		{
-			return Input.GetTouch(fingerIndex).position;
+			return  Input.GetTouch(fingerIndex).position;
 		}
 
 		return Vector2.zero;
 	}
 
+	Vector3 ScreenToWorldPos(Vector3 screenPos)
+	{
+		Ray ray = Camera.main.ScreenPointToRay(screenPos);
+
+		RaycastHit[] hits = Physics.RaycastAll(ray);
+
+		foreach (RaycastHit hit in hits)
+		{
+			Scene scene = SceneManager.Instance.GetScene();
+			if (( scene == Scene.Browse && hit.transform.name == "HitPlane" ) || 
+			    ( scene == Scene.Helix && hit.transform.name == "HelixHitCylinder" ))
+				return hit.point;
+		}
+
+		return Vector3.zero;
+	}
+	
 	bool UpdateTwoFingerSwipe()
 	{
 
@@ -204,14 +256,9 @@ public class CameraManager : MonoBehaviour {
 			return false;
 		}
 
-//		if (_lastTouchCount < 2 && GetTouchCount() >= 2)
-//			_twoFingerTouchStartPos = GetTouchPos(0);
-//
-//		speed = (GetTouchPos(0) - _twoFingerTouchStartPos).y * TwoFingerSwipeSpeed;
-//		return true;
-
 
 		float fingerDist = (GetTouchPos(1) - GetTouchPos(0)).magnitude;
+
 
 		// did they just put down two fingers?
 		if (_lastTouchCount < 2)
@@ -222,6 +269,7 @@ public class CameraManager : MonoBehaviour {
 		}
 		else if (LeanTween.isTweening(gameObject) == false && _hasLiftedFingersSinceLastSwipe) // they may be moving their fingers
 		{
+			Debug.Log("finger dist: " + (_lastFingerDist - fingerDist));
 
 			if (fingerDist > (_lastFingerDist + MinTwoFingerSwipeDist) )
 			{
@@ -232,27 +280,6 @@ public class CameraManager : MonoBehaviour {
 				LeanTween.move(gameObject,transform.position - _forward * GridManager.Instance.GetZPadding(),1).setEase(LeanTweenType.easeOutQuint);
 			}
 
-//			float newSpeed = (fingerDist - _lastFingerDist) * TwoFingerSwipeSpeed;
-//
-//			// not moving fingers, if the stop for a few frames then stop
-//			if (newSpeed == 0)
-//			{
-//				_currentStopFrame++;
-//
-//				if (_currentStopFrame >= _stopFrames)
-//				{
-//					speed = 0;
-//					return true;
-//				}
-//			}
-//			else // they are moving their fingers
-//				_currentStopFrame = 0;
-//
-//			
-//			speed = newSpeed;
-
-
-//			_lastTwoFingerSwipeSpeed = speed;
 
 
 		}
@@ -260,13 +287,6 @@ public class CameraManager : MonoBehaviour {
 		return true;
 	}
 
-//	Vector2 GetTouchPos()
-//	{
-//		if (Application.isEditor)
-//			return new Vector2(Input.mousePosition.x,Input.mousePosition.y);
-//		else
-//			return Input.touches[0].position;
-//	}
 
 	Vector3 GetWorldPos(Vector2 touchPos)
 	{

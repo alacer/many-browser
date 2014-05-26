@@ -14,7 +14,7 @@ public class GridManager : MonoBehaviour {
 	public float RandomMoveMaxTime = 1;
 	public float RandomMoveMinTime = .5f;
 	public float MaxRandomZMovement = 3;
-
+	public float HelixRadius = 2.5f;
 
 	public float MaxZ;
 	public float MinZ;
@@ -44,6 +44,8 @@ public class GridManager : MonoBehaviour {
 		_xRadius = (xSize*xPadding)/2.0f;
 		_yRadius = (ySize*yPadding)/2.0f;
 		_zRadius = (zSize*zPadding)/2.0f;
+
+		GameObject.Find("HelixHitCylinder").transform.localScale = new Vector3(HelixRadius*2,5000,HelixRadius*2);
 	}
 
 	public static void Initialize(List<string> urls)
@@ -79,13 +81,16 @@ public class GridManager : MonoBehaviour {
 	public void FormHelix()
 	{
 		Debug.Log("forming helix");
-		StartCoroutine(FormHelixRoutine());
+		if (SceneManager.Instance.GetScene() != Scene.Helix && SceneManager.Instance.GetScene() != Scene.InTransition)
+			StartCoroutine(FormHelixRoutine());
 	}
 
 
 	IEnumerator FormHelixRoutine()
 	{
-		SceneManager.Instance.SetScene(Scene.Helix);
+
+
+		SceneManager.Instance.SetScene(Scene.InTransition);
 
 
 		List<Vector3> positions = new List<Vector3>();
@@ -100,7 +105,7 @@ public class GridManager : MonoBehaviour {
 		Transform helixObj = Camera.main.transform.FindChild("HelixBottom");
 		Vector3 center = helixObj.position;
 		Vector3 dir = Vector3.right;
-		float radius = 2.5f;
+
 		float angleDelta = 35;
 		float angle = 0;
 		float heightDelta = .2f;
@@ -132,8 +137,8 @@ public class GridManager : MonoBehaviour {
 			dir = Quaternion.AngleAxis(angle,Vector3.up) * Vector3.right;
 
 
-			Vector3 pos = center + (radius * dir);
-			rotation = Quaternion.LookRotation(dir.normalized).eulerAngles;
+			Vector3 pos = center + (HelixRadius * dir);
+			rotation = Quaternion.LookRotation(-dir.normalized).eulerAngles;
 
 			if (i == 0)
 				_minHelixY = pos.y;
@@ -152,41 +157,28 @@ public class GridManager : MonoBehaviour {
 	//		yield return new WaitForSeconds(.01f);
 			GameObject obj = _allObjs[i].gameObject;
 			LeanTween.cancel(obj);
-			if (obj.renderer.isVisible)
-			{
 
-				LeanTween.move(obj,positions[i],2).setEase(LeanTweenType.easeOutExpo);
-				LeanTween.rotate(obj,rotations[i],2).setEase(LeanTweenType.easeOutExpo).setOnComplete(() => 
-				{
-//					for (int j=0; j < _allObjs.Count; j++)
-//					{
-//						_allObjs[j].transform.parent = helixObj;
-//						
-//					}
-				});
+			Vector3 newPos = positions[i];
+			Vector3 newRotation = rotations[i];
+
+			Vector3 viewportPos = Camera.main.WorldToViewportPoint(newPos);
+			bool newPosIsVisible = (viewportPos.x >= 0 && viewportPos.x <= 1 && viewportPos.y >= 0 && viewportPos.y <= 1);
+			if (obj.GetComponent<ImageObj>().IsVisible() || newPosIsVisible)
+			{
+				LeanTween.move(obj,newPos,3).setEase(LeanTweenType.easeOutExpo);
+				LeanTween.rotate(obj,newRotation,3).setEase(LeanTweenType.easeOutExpo);
+
+				yield return new WaitForSeconds(.03f);
+
 			}
-			else // 
+			else 
 			{
 				obj.transform.position = positions[i];
 				obj.transform.rotation = Quaternion.Euler(rotations[i]);
 			}
 		}
 
-//		yield return new WaitForSeconds(2);
-//
-
-
-//		for (int i=0; i < _visibleObjs.Count; i++)
-//		{
-//			GameObject obj = _visibleObjs[i].gameObject;
-//			LeanTween.cancel(obj);
-//			LeanTween.move(obj,positions[i],animTime);
-//			LeanTween.rotate(obj,rotations[i],animTime);
-//			
-//			//		yield return new WaitForSeconds(.1f);
-//		}
-
-
+		SceneManager.Instance.SetScene(Scene.Helix);
 		yield return null;
 	}
 	
@@ -213,7 +205,7 @@ public class GridManager : MonoBehaviour {
 	{
 		for (int i=0; i < transform.childCount; i++)
 		{
-			transform.GetChild(i).GetComponent<Renderer>().enabled = visible;
+			transform.GetChild(i).GetComponent<ImageObj>().SetVisible(visible);
 		}
 	}
 

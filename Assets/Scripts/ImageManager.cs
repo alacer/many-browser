@@ -60,20 +60,31 @@ public class ImageManager : MonoBehaviour {
 		
 	}
 
+	public void Clear()
+	{
+		_objsToLoad.Clear();
+		_objsInQueue.Clear();
+		_urls.Clear();
+	}
 
 	public void Initialize(List<string> urls)
 	{
+		Debug.Log("got urls");
 		_urls = urls;
 	}
 
 	void Update()
 	{
+		if (_urls.Count == 0)
+			return;
+
 		CalculateFramerate();
 
 		if (_frameRate > 50)
 		{
 			if (_objsToLoad.Count > 0 && _urls != null)
 			{
+
 				for (int i = _objsToLoad.Count-1; i >= 0; i--)
 				{
 					ImageObj obj = _objsToLoad[i];

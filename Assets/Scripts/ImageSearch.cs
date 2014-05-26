@@ -31,7 +31,8 @@ public class ImageSearch : MonoBehaviour {
 
 	// Use this for initialization
 	IEnumerator SearchRoutine (string search) {
-
+		ImageManager.Instance.Clear();
+		_urls.Clear();
 		Loader.Instance.Show();
 		Debug.Log("game obj: " + gameObject.name);
 		GetComponent<UIInput>().label.text = search;
@@ -68,7 +69,7 @@ public class ImageSearch : MonoBehaviour {
 			returnStr = www.text;
 
 			var data = JsonConvert.DeserializeObject<List< Dictionary<string, object>>>(returnStr);
-			
+
 			//	Debug.Log("picture: " + data[0]["picture"].ToString());
 			
 			foreach(Dictionary<string,object> obj in data)

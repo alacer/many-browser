@@ -55,7 +55,10 @@ public class SceneManager : MonoBehaviour {
 					_currentScene = Scene.Browse;
 				});
 			});
-			LeanTween.move(camera,startPos,2).setEase(LeanTweenType.easeInOutQuad);
+			LeanTween.move(camera,startPos,2).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => 
+			                                                                                     { 
+				camera.transform.position = startPos;
+			});;
 		});
 
 		_currentScene = Scene.InTransition;
