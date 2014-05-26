@@ -24,6 +24,7 @@ public class CameraManager : MonoBehaviour {
 	float _lastFingerDist;
 	int _stopFrames = 5;
 
+	Transform _helixObj;
 	int _currentStopFrame;
 	bool _hasLiftedFingersSinceLastSwipe = true;
 
@@ -33,6 +34,8 @@ public class CameraManager : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		Instance = this;
+
+		_helixObj = transform.Find("HelixBottom");
 //		transform.rotation = Quaternion.LookRotation( Quaternion.AngleAxis(-30,Vector3.up) * Vector3.forward);
 
 		_forward = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * Vector3.forward;
@@ -63,7 +66,7 @@ public class CameraManager : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
-		if (SceneManager.Instance.GetScene() != Scene.Browse)
+		if (SceneManager.Instance.GetScene() != Scene.Browse && SceneManager.Instance.GetScene() != Scene.Helix)
 			return;
 
 		if (Input.GetMouseButtonDown(1))
@@ -76,19 +79,14 @@ public class CameraManager : MonoBehaviour {
 		if (_lastTouchCount == 0 && GetTouchCount() == 1)
 		{
 			_currentStopFrame = _stopFrames;
-	//		_oneFingerTouchStartPos = GetTouchPos(0);
 		}
 
 		// get one finger swipe velocity
 		if (_lastTouchCount == 1 && GetTouchCount() == 1 && Input.GetMouseButton(1) == false) // && Input.touches[0].deltaPosition.magnitude > 0)
 		{
 
-//			Vector2 delta = (GetTouchPos(0) - _oneFingerTouchStartPos);
-//			_velocity = delta * OneFingerSwipeSpeed;
-
 			Vector3 delta = MoveDirToWorldDir (GetWorldPos(_lastTouchPos) - GetWorldPos(GetTouchPos(0)));
-	//		float sign = (delta.x > 0) ? 1 : -1;
-	//		delta = delta.magnitude * _right * sign;
+
 
 			// no movement with finger
 			if (delta.magnitude == 0)
@@ -111,13 +109,13 @@ public class CameraManager : MonoBehaviour {
 		// two finger swipe?
 		if (UpdateTwoFingerSwipe())
 		{
-			_velocity = Vector3.zero;// _forward * speed;
+			_velocity = Vector3.zero;
 		}
 
 
 		// apply velocity and friction
 		float magnitude = _velocity.magnitude;
-//		Debug.Log("speed: " + magnitude);
+
 
 		if (magnitude > MaxSpeed)
 		{
@@ -127,7 +125,15 @@ public class CameraManager : MonoBehaviour {
 
 		if (magnitude > 0)
 		{
-			transform.position += _velocity;
+			if (SceneManager.Instance.GetScene() == Scene.Helix)
+			{
+				GridManager.Instance.transform.RotateAround(_helixObj.position,Vector3.up,_velocity.x*10);
+			//	_helixObj.Rotate(Vector3.up,_velocity.x * 10);
+				transform.position += new Vector3(0,_velocity.y,0);
+
+			}
+			else
+				transform.position += _velocity;
 				
 			magnitude -= Friction;
 

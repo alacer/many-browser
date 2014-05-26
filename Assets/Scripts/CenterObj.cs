@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CenterObj : MonoBehaviour {
 
+	public string SearchTerm;
 	public bool IsClickable;
 	
 	public float ShakeTime = 5;
@@ -55,14 +56,8 @@ public class CenterObj : MonoBehaviour {
 		gameObject.GetComponent<DragDropItem>().Drop();
 
 		LeanTween.cancel(gameObject);
-		StartCoroutine(StartTransition());
+		ImageSearch.Instance.Search(SearchTerm);
 	}
 
-	IEnumerator StartTransition()
-	{
-		yield return new WaitForSeconds(.1f);
-
-		SceneManager.Instance.TransitionToBrowseView();
-	}
 
 }

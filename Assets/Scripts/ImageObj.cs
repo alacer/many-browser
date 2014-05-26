@@ -5,8 +5,10 @@ using System.Collections.Generic;
 
 public class ImageObj : MonoBehaviour {
 
+
 	public float MoveSpeed = 5;
 	public float RotateDistance = 5;
+	public float MinDistToCamera = 3;
 
 	static float MaxZOffset = .1f;
 	bool _isFacingCamera;
@@ -23,9 +25,14 @@ public class ImageObj : MonoBehaviour {
 
 	void Start()
 	{
+//		transform.localScale = Vector3.one * .3f;
 
-//		_totalZMovement = transform.forward * Random.Range(-MaxZOffset,MaxZOffset);
-//		transform.position += _totalZMovement;
+
+	}
+
+	public static List<ImageObj> GetVisibleObjs()
+	{
+		return _visibleObjs;
 	}
 
 	void OnBecameVisible()
@@ -49,6 +56,10 @@ public class ImageObj : MonoBehaviour {
 
 	void UpdateRoation()
 	{
+		if (SceneManager.Instance.GetScene() != Scene.Browse)
+			return;
+
+
 		float dist = Vector3.Distance(transform.position, Camera.main.transform.position);
 
 		if (dist < RotateDistance && !_isFacingCamera)
@@ -64,7 +75,6 @@ public class ImageObj : MonoBehaviour {
 
 	void FaceCamera()
 	{
-
 		LeanTween.rotate(gameObject,Camera.main.transform.rotation.eulerAngles,.2f);
 
 		_isFacingCamera = true;
@@ -108,10 +118,13 @@ public class ImageObj : MonoBehaviour {
 
 	void Update()
 	{
-
 		UpdateRandomMovement();
 
 		UpdateRoation();
+
+//		float  zDist = Vector3.Dot( (transform.position - Camera.main.transform.position) , CameraManager.Instance.GetForward());
+//
+//		renderer.enabled = (Mathf.Abs(zDist) > MinDistToCamera || LeanTween.isTweening(CameraManager.Instance.gameObject));
 	}
 
 	public void SetMoveDelta(Vector3 moveDelta)
@@ -127,8 +140,6 @@ public class ImageObj : MonoBehaviour {
 		ImageObj obj = _visibleObjs[Random.Range(0,_visibleObjs.Count)];
 
 		obj.SetMoveDelta(Random.Range(-MaxZOffset,MaxZOffset) * obj.transform.forward);
-
-
 
 	}
 
@@ -152,7 +163,6 @@ public class ImageObj : MonoBehaviour {
 			WWW imageWWW = new WWW (url);
 
 		
-
 			yield return imageWWW;
 			
 			if (string.IsNullOrEmpty(imageWWW.error))
@@ -192,9 +202,10 @@ public class ImageObj : MonoBehaviour {
 		Vector3 scale = transform.localScale;
 		scale.x *= aspectRatio;
 	//	transform.localScale = scale;
-		renderer.enabled = true;
-		LeanTween.rotateX(gameObject,0,1).setEase(LeanTweenType.easeOutElastic);
+	//	renderer.enabled = true;
+	//	LeanTween.rotateX(gameObject,0,1).setEase(LeanTweenType.easeOutElastic);
 
+//		LeanTween.scale(gameObject,Vector3.one,1).setEase(LeanTweenType.easeInOutElastic);
 	}
 
 	

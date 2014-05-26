@@ -35,6 +35,7 @@ public class GridManager : MonoBehaviour {
 
 	void Awake()
 	{
+		LeanTween.init(2000);
 		Application.targetFrameRate = 60;
 		_timeUntilRandomMove = Random.Range(RandomMoveMinTime,RandomMoveMaxTime);
 
@@ -51,35 +52,136 @@ public class GridManager : MonoBehaviour {
 		ImageManager.Instance.Initialize(urls);
 	//	SetAllVisible(false);
 	}
+
+	public void FormHelix()
+	{
+		Debug.Log("forming helix");
+		StartCoroutine(FormHelixRoutine());
+	}
+
+	IEnumerator FormHelixRoutine()
+	{
+		SceneManager.Instance.SetScene(Scene.Helix);
+
+//		LeanTween.rotate(Camera.main.gameObject,Vector3.zero,.5f);
+
+		List<Vector3> positions = new List<Vector3>();
+		List<Vector3> rotations = new List<Vector3>();
+
+//		List<ImageObj> _visibleObjs = ImageObj.GetVisibleObjs();
+
+//		for (int i=0; i < _allObjs.Count; i++
+
+//		Debug.Log("visible obj count: " + _visibleObjs.Count);
+
+		Transform helixObj = Camera.main.transform.FindChild("HelixBottom");
+		Vector3 center = helixObj.position;
+		Vector3 dir = Vector3.right;
+		float radius = 2.5f;
+		float angleDelta = 35;
+		float angle = 0;
+		float heightDelta = .2f;
+		float animTime = 2;
+		float startHeight = 10;
+		float animateUpTime = .5f;
+		Vector3 rotation = Vector3.zero;
+
+	//	Vector3 pos = center + (radius * dir);
+
+//		for (int i=0; i < _allObjs.Count; i++)
+//		{
+//
+//			LeanTween.move(_allObjs[i].gameObject,center + startHeight*Vector3.up,animateUpTime);
+//
+//		}
+//
+//		yield return new WaitForSeconds(animateUpTime);
+			
+		for (int i=0; i < _allObjs.Count; i++)
+		{
+
+//			Debug.Log("rotation: " + rotation);
+
+			center += heightDelta * Vector3.up;
+			angle += angleDelta;
+
+			dir = Quaternion.AngleAxis(angle,Vector3.up) * Vector3.right;
+
+
+			Vector3 pos = center + (radius * dir);
+			rotation = Quaternion.LookRotation(dir.normalized).eulerAngles;
+
+			positions.Add(pos);
+			rotations.Add(rotation);
+		}
+
+
+		for (int i=0; i < _allObjs.Count; i++)
+		{
+
+	//		yield return new WaitForSeconds(.01f);
+			GameObject obj = _allObjs[i].gameObject;
+			LeanTween.cancel(obj);
+			if (obj.renderer.isVisible)
+			{
+
+				LeanTween.move(obj,positions[i],2).setEase(LeanTweenType.easeOutExpo);
+				LeanTween.rotate(obj,rotations[i],2).setEase(LeanTweenType.easeOutExpo).setOnComplete(() => 
+				{
+//					for (int j=0; j < _allObjs.Count; j++)
+//					{
+//						_allObjs[j].transform.parent = helixObj;
+//						
+//					}
+				});
+			}
+			else
+			{
+				obj.transform.position = positions[i];
+				obj.transform.rotation = Quaternion.Euler(rotations[i]);
+			}
+		}
+
+//		yield return new WaitForSeconds(2);
+//
+
+
+//		for (int i=0; i < _visibleObjs.Count; i++)
+//		{
+//			GameObject obj = _visibleObjs[i].gameObject;
+//			LeanTween.cancel(obj);
+//			LeanTween.move(obj,positions[i],animTime);
+//			LeanTween.rotate(obj,rotations[i],animTime);
+//			
+//			//		yield return new WaitForSeconds(.1f);
+//		}
+
+
+		yield return null;
+	}
 	
 
 	void Update()
 	{
-		if (CameraManager.Instance == null || SceneManager.Instance.GetScene() != Scene.Browse)
+		if (CameraManager.Instance == null)
 			return;
 
 
-		CheckForNeededShifts();
-
-		_timeUntilRandomMove -= Time.deltaTime;
-
-		if (_timeUntilRandomMove <= 0)
+		if (SceneManager.Instance.GetScene() == Scene.Browse)
 		{
-		//	DoRandomMove();
-			_timeUntilRandomMove = Random.Range(RandomMoveMinTime,RandomMoveMaxTime);
+			CheckForNeededShifts();
 		}
 	}
 
 	Vector3 GetCenterPos()
 	{
-		return Camera.main.transform.GetChild(0).position;
+		return Camera.main.transform.FindChild("GridCenter").position;
 	}
 
 	void DoRandomMove()
 	{
 
 		ImageObj.DoRandomMove();
-
 	}
 
 	public void SetAllVisible(bool visible)
@@ -88,7 +190,6 @@ public class GridManager : MonoBehaviour {
 		{
 			transform.GetChild(i).GetComponent<Renderer>().enabled = visible;
 		}
-
 	}
 
 
@@ -237,40 +338,7 @@ public class GridManager : MonoBehaviour {
 		_xLayers.Add(newXLayer);
 	}
 
-//	List<float> GetZPositionDelays(List<Transform> zLayer)
-//	{
-//		List<float> delays = new List<float>();
-//
-//		float maxX = float.MinValue;
-//		float minX = float.MaxValue;
-//
-//		// first get the min and max x values
-//		for (int i=0; i < zLayer.Count; i++)
-//		{
-//			float x = zLayer[i].position.x;
-//
-//			if (x > maxX)
-//				maxX = x;
-//
-//			if (x < minX)
-//				minX = x;
-//		}
-//
-//		float xDist = maxX - minX;
-//
-//		for (int i=0; i < zLayer.Count; i++)
-//		{
-//			float x = zLayer[i].position.x;
-//			float percent = (x - minX) / xDist;
-//
-//			float delay = (1 - percent) * 1;
-//			delays.Add(delay);
-//			Debug.Log("addding delay: " + delay);
-//
-//		}
-//
-//		return delays;
-//	}
+
 
 #endregion
 
@@ -297,7 +365,7 @@ public class GridManager : MonoBehaviour {
 						float zOffset = Random.Range(MinZ,MaxZ);
 						float zPos = z + zOffset;
 
-						GameObject imageObj = (GameObject) Instantiate (imageObjPrefab,new Vector3(x + center.x,y + center.y,zPos + center.z),Quaternion.Euler(90,0,0));
+						GameObject imageObj = (GameObject) Instantiate (imageObjPrefab,new Vector3(x + center.x,y + center.y,zPos + center.z),Quaternion.Euler(0,0,0));
 						imageObj.transform.parent = transform;
 						
 				//		imageObj.SendMessage("Initialize",_urls[Random.Range(0,_urls.Count)]);

@@ -5,6 +5,7 @@ public enum Scene
 {
 	Default,
 	Browse,
+	Helix,
 	InTransition
 
 }
@@ -27,6 +28,11 @@ public class SceneManager : MonoBehaviour {
 		return _currentScene;
 	}
 
+	public void SetScene(Scene scene)
+	{
+		_currentScene = scene;
+	}
+
 	public void TransitionToBrowseView()
 	{
 		GridManager.Instance.SetAllVisible(true);
@@ -38,7 +44,7 @@ public class SceneManager : MonoBehaviour {
 		Vector3 startRotation = camera.transform.rotation.eulerAngles;
 
 		camera.transform.rotation = Quaternion.Euler(Vector3.zero);
-		camera.transform.position +=  CameraManager.Instance.GetForward() * 10;
+		camera.transform.position +=  CameraManager.Instance.GetForward() * GridManager.Instance.GetZPadding()/2.0f;
 
 		LeanTween.scale(CenterPanel,Vector3.zero,1).setOnComplete(() => 
 		{ 
