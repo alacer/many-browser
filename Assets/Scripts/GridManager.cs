@@ -230,13 +230,13 @@ public class GridManager : MonoBehaviour {
 			ShiftLeft();
 
 		// is the camera moving backward and do we need to shift the cube back?
-		if ((moveDir.z < -.01f || LeanTween.isTweening(Camera.main.gameObject)) &&  (_zLayers[_zLayers.Count-1][0].position.z - center.z) > _zRadius+1) 
+		if (moveDir.z < -.01f &&  (_zLayers[_zLayers.Count-1][0].position.z - center.z) > _zRadius+1) 
 			ShiftBackward();
-		else if ((moveDir.z > .01f || LeanTween.isTweening(Camera.main.gameObject)) &&  (center.z - _zLayers[0][0].position.z) > _zRadius) // forward?
+		else if (moveDir.z > .01f &&  (center.z - _zLayers[0][0].position.z) > _zRadius) // forward?
 			ShiftForward();
 		
 		// is the camera moving backward and do we need to shift the cube back?
-		if ((moveDir.y < -.01f || LeanTween.isTweening(Camera.main.gameObject)) &&  (_yLayers[_yLayers.Count-1][0].position.y - center.y) > _yRadius) 
+		if (moveDir.y < -.01f  &&  (_yLayers[_yLayers.Count-1][0].position.y - center.y) > _yRadius) 
 			ShiftDown();
 		else if (moveDir.y > .01f &&  (center.y - _yLayers[0][0].position.y) > _yRadius) // forward?
 			ShiftUp();

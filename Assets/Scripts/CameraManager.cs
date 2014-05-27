@@ -14,6 +14,7 @@ public class CameraManager : MonoBehaviour {
 	int _lastTouchCount;
 	Vector2 _lastTouchPos;
 	float _lastTouchDist;
+	Vector3 _tweenDir;
 
 	Vector3 _forward;
 	Vector3 _right;
@@ -55,6 +56,8 @@ public class CameraManager : MonoBehaviour {
 	//	Debug.Log("vel: " + _velocity);
 		Vector3 movDir = Quaternion.AngleAxis(-transform.rotation.y,Vector3.up) *_velocity;
 //		Debug.Log("vel: " + _velocity + " movedir: " + movDir);
+
+		movDir += _tweenDir;
 		return movDir;
 	}
 
@@ -107,6 +110,10 @@ public class CameraManager : MonoBehaviour {
 
 		}
 
+//		foreach(Touch touch in Input.touches)
+//		{
+//			Debug.Log("touch pos: " + touch.position + " phase: " + touch.phase + " delta: " + touch.deltaPosition);
+//		}
 
 		// two finger swipe?
 		if (UpdateTwoFingerSwipe())
@@ -288,11 +295,23 @@ public class CameraManager : MonoBehaviour {
 
 			if (fingerDist > (_lastFingerDist + MinTwoFingerSwipeDist) )
 			{
-				LeanTween.move(gameObject,transform.position + _forward * GridManager.Instance.GetZPadding(),1).setEase(LeanTweenType.easeOutQuint);
+				_tweenDir = Vector3.forward;
+
+				LeanTween.move(gameObject,transform.position + _forward * GridManager.Instance.GetZPadding(),1).setEase(LeanTweenType.easeOutQuint).setOnComplete( () =>
+				                                                                                                                                                  {
+					_tweenDir = Vector3.zero;
+					
+				});
 			}
 			else if (fingerDist < (_lastFingerDist - MinTwoFingerSwipeDist))
 			{
-				LeanTween.move(gameObject,transform.position - _forward * GridManager.Instance.GetZPadding(),1).setEase(LeanTweenType.easeOutQuint);
+				_tweenDir = Vector3.back;
+				LeanTween.move(gameObject,transform.position - _forward * GridManager.Instance.GetZPadding(),1).setEase(LeanTweenType.easeOutQuint).setOnComplete( () =>
+				                                                                                                                                                  {
+					_tweenDir = Vector3.zero;
+			
+				});
+
 			}
 
 
