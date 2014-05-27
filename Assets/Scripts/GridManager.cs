@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -90,7 +90,7 @@ public class GridManager : MonoBehaviour {
 	{
 
 
-		SceneManager.Instance.SetScene(Scene.InTransition);
+		SceneManager.Instance.OnSceneTransition();
 
 
 		List<Vector3> positions = new List<Vector3>();
@@ -179,7 +179,7 @@ public class GridManager : MonoBehaviour {
 		}
 
 		yield return new WaitForSeconds (3);
-		SceneManager.Instance.SetScene(Scene.Helix);
+		SceneManager.Instance.PushScene(Scene.Helix);
 		yield return null;
 	}
 	

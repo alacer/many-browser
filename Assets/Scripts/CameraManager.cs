@@ -8,117 +8,160 @@ public class CameraManager : MonoBehaviour {
 	public float OneFingerSwipeSpeed = .5f;
 	public float TwoFingerSwipeSpeed = .1f;
 	public float Friction = 2;
-	public float MinTwoFingerSwipeDist = 5;
-	public float MaxAngularSpeed = 6;
 
-	int _lastTouchCount;
-	Vector2 _lastTouchPos;
-	float _lastTouchDist;
+	public float MaxAngularSpeed = 6;
+	
 	Vector3 _tweenDir;
 
 	Vector3 _forward;
 	Vector3 _right;
 	Vector3 _moveDir;
 	Vector3 _velocity;
-	Vector2 _twoFingerTouchStartPos;
-	Vector2 _simulatedFinger2Pos;
-	float _lastTwoFingerSwipeSpeed;
-	float _lastFingerDist;
-	int _stopFrames = 20;
-
 	Transform _helixObj;
-	int _currentStopFrame;
-	bool _hasLiftedFingersSinceLastSwipe = true;
+	Scene _currentScene;
+
+	Transform _selectedObj;
+	Transform _previousParent;
+	Vector3 _previousPos;
+	Vector3 _previousRot;
 
 
 	public static CameraManager Instance;
 
+
 	// Use this for initialization
 	void Awake () {
 		Instance = this;
-
+		
 		_helixObj = transform.Find("HelixBottom");
-//		transform.rotation = Quaternion.LookRotation( Quaternion.AngleAxis(-30,Vector3.up) * Vector3.forward);
-
+		
 		_forward = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * Vector3.forward;
 		_right = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * Vector3.right;
-
-		float screenFactor = Screen.width / 1024.0f;
-//		OneFingerSwipeSpeed *= screenFactor;
-//		TwoFingerSwipeSpeed *= screenFactor;
-//		MaxSpeed *= screenFactor;
-//		MaxAngularSpeed *= screenFactor;
-	}
-
-	public Vector3 GetMoveDir()
-	{
-
-	//	Debug.Log("vel: " + _velocity);
-		Vector3 movDir = Quaternion.AngleAxis(-transform.rotation.y,Vector3.up) *_velocity;
-//		Debug.Log("vel: " + _velocity + " movedir: " + movDir);
-
-		movDir += _tweenDir;
-		return movDir;
-	}
-
-	public Vector3 MoveDirToWorldDir(Vector2 moveDir)
-	{
-		Vector3 worldDir = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * new Vector3( moveDir.x, moveDir.y, 0);
 		
-		return worldDir;
+		
 	}
+	
+#region Selection
+
+	void OnSingleTap(Vector3 screenPos)
+	{
+		
+		Debug.Log("current scene: " + _currentScene);
+		Ray ray = Camera.main.ScreenPointToRay(screenPos);
+		Debug.DrawRay(ray.origin,ray.direction*1000);
+		RaycastHit hit;
+		
+		
+		if (Physics.Raycast(ray, out hit,1000, 1 << LayerMask.NameToLayer("ImageObj")))
+		{
+			if (IsInHelixOrBrowse())
+				OnSelectObj(hit.transform);
+			Debug.Log("hit obj: " + hit.transform.name);
+			//	hit.transform.localScale *= .5f;
+		}
+		
+	}
+
+	void OnSelectObj(Transform obj)
+	{
+		SceneManager.Instance.OnSceneTransition();
+		_selectedObj = obj;
+
+		_previousPos = obj.position;
+		_previousRot = obj.rotation.eulerAngles;
+		_previousParent = obj.parent;
+
+		obj.parent = transform;
+
+		_velocity = Vector3.zero;
+		LeanTween.cancel(gameObject);
+		float animTime = .3f;
+		Vector3 left = -Vector3.Cross(Vector3.up,GetForward());
+		LeanTween.move(obj.gameObject,transform.position + GetForward()*.9f + left*.5f ,animTime).setEase(LeanTweenType.easeOutQuad);
+		LeanTween.rotateLocal(obj.gameObject,Vector3.zero, animTime).setEase(LeanTweenType.easeOutQuad).setOnComplete ( () =>
+		{
+			SceneManager.Instance.PushScene(Scene.Selected);
+		});
+	}
+
+	void LeaveSelectedObj()
+	{
+		SceneManager.Instance.OnSceneTransition();
+
+		_selectedObj.parent = _previousParent;
+		float animTime = .3f;
+		LeanTween.move(_selectedObj.gameObject,_previousPos,animTime);
+		LeanTween.rotate(_selectedObj.gameObject,_previousRot, animTime).setOnComplete ( () =>
+		                                                            {
+			SceneManager.Instance.PopScene();
+		});
+	}
+
+#endregion
+	
+
+#region Finger Swiping
+	
+
+	void OnTwoFingerSwipe(Vector3 dir)
+	{
+		if (LeanTween.isTweening(gameObject))
+			return;
+
+		if (_currentScene == Scene.Browse)
+			HandleBrowseTwoFingerSwipe(dir);
+		else if (_currentScene == Scene.Selected && dir == Vector3.back)
+			LeaveSelectedObj();
+
+	}
+
+	
+	void HandleBrowseTwoFingerSwipe(Vector3 dir)
+	{
+		_velocity = Vector3.zero;
+		
+		_tweenDir = dir;
+		
+		Vector3 moveDir = (dir.z == 1) ? _forward : -_forward;
+		
+		LeanTween.move(gameObject,transform.position + moveDir * GridManager.Instance.GetZPadding(),1).setEase(LeanTweenType.easeOutQuint).setOnComplete( () =>
+		                                                                                                                                                 {
+			_tweenDir = Vector3.zero;
+			
+		});
+	}
+
+
+#endregion
+
+#region movement
 
 	// Update is called once per frame
 	void FixedUpdate () {
+		_currentScene = SceneManager.Instance.GetScene();
 
-		if (SceneManager.Instance.GetScene() != Scene.Browse && SceneManager.Instance.GetScene() != Scene.Helix)
+
+		if (IsInHelixOrBrowse() == false)
 			return;
 
-		if (Input.GetMouseButtonDown(1))
-			_simulatedFinger2Pos = Input.mousePosition;
+	//	Debug.Log("current scene " + _currentScene + " is in: " +IsInHelixOrBrowse());
+		Vector3 worldTouchPos = ScreenToWorldPos( InputManager.Instance.GetTouchPos(0));
+		Vector3 lastWorldTouchPos = ScreenToWorldPos(InputManager.Instance.GetLastTouchPos());
 
-		// if they just touch the screen and stuff is moving.. stop everything
-		if (_lastTouchCount == 0 && GetTouchCount() == 1)
-		{
-			_currentStopFrame = _stopFrames;
-		}
 
 		// get one finger swipe velocity
-		if (_lastTouchCount == 1 && GetTouchCount() == 1 && Input.GetMouseButton(1) == false) // && Input.touches[0].deltaPosition.magnitude > 0)
+		if (InputManager.Instance.IsTouchingWithOneFinger()) // && Input.touches[0].deltaPosition.magnitude > 0)
 		{
 
-			Vector3 delta = ScreenToWorldPos(_lastTouchPos) - ScreenToWorldPos( GetTouchPos(0) );
+			Vector3 delta = lastWorldTouchPos -  worldTouchPos;
+
+			Debug.Log("delta: " +delta);
+			if (InputManager.Instance.HasFingerStoppedMoving())
+				_velocity = Vector3.zero;
+			else
+				UpdateVelocity(delta,worldTouchPos,lastWorldTouchPos);
 
 
-			// no movement with finger
-			if (delta.magnitude == 0)
-			{
-				_currentStopFrame++;
-				if (_currentStopFrame >= _stopFrames)
-				{
-					Debug.Log("stopping");
-					_velocity = Vector3.zero;
-				}
-
-			}
-			else // some movement
-			{
-				_currentStopFrame = 0;
-
-				UpdateVelocity(delta);
-			}
-
-		}
-
-//		foreach(Touch touch in Input.touches)
-//		{
-//			Debug.Log("touch pos: " + touch.position + " phase: " + touch.phase + " delta: " + touch.deltaPosition);
-//		}
-
-		// two finger swipe?
-		if (UpdateTwoFingerSwipe())
-		{
-			_velocity = Vector3.zero;
 		}
 
 
@@ -129,37 +172,32 @@ public class CameraManager : MonoBehaviour {
 		if (magnitude > 0)
 		{
 
+
 			// do helix movement if we are in the helix
-			if (SceneManager.Instance.GetScene() == Scene.Helix)
+			if (_currentScene == Scene.Helix)
 			{
 				HelixUpdate();
 			}
 			else
 				transform.position += _velocity;
 				
-			// apply friction
+			ApplyFriction(magnitude);
+		}
+
+	}
+
+	void ApplyFriction(float magnitude)
+	{
+					// apply friction
 			magnitude -= Friction ;
 			magnitude = Mathf.Max(0,magnitude);
 			_velocity = _velocity.normalized * magnitude;
-		}
-
-		// if they were moving through depth and let go.. stop
-		if (  Mathf.Abs( Vector3.Dot(_velocity,_forward) ) > .01f && GetTouchCount() == 0 && SceneManager.Instance.GetScene() == Scene.Browse)
-		{
-			_velocity = Vector3.zero;
-		}
-
-
-		if (GetTouchCount() == 1)
-			_lastTouchPos =  GetTouchPos(0) ;
-
-		_lastTouchCount = GetTouchCount();
 	}
 
 	float LimitVelocity()
 	{		
 		float magnitude =_velocity.magnitude;
-		float maxSpeed = (SceneManager.Instance.GetScene() == Scene.Helix) ? MaxAngularSpeed : MaxSpeed;
+		float maxSpeed = (_currentScene == Scene.Helix) ? MaxAngularSpeed : MaxSpeed;
 
 
 		if (magnitude > maxSpeed)
@@ -172,16 +210,16 @@ public class CameraManager : MonoBehaviour {
 
 	}
 
-	void UpdateVelocity(Vector3 delta)
+	void UpdateVelocity(Vector3 delta, Vector3 worldTouchPos, Vector3 lastWorldTouchPos)
 	{
-		if (SceneManager.Instance.GetScene() == Scene.Browse)
+		if (_currentScene == Scene.Browse)
 			_velocity = delta;
-		else if (SceneManager.Instance.GetScene() == Scene.Helix)
+		else if (_currentScene == Scene.Helix)
 		{
-			if (ScreenToWorldPos( GetTouchPos(0)) != Vector3.zero)
+			if (worldTouchPos != Vector3.zero)
 			{
-				Vector3 lastPos = ScreenToWorldPos(_lastTouchPos) - _helixObj.position;
-				Vector3 currentPos = ScreenToWorldPos( GetTouchPos(0)) - _helixObj.position;
+				Vector3 lastPos = lastWorldTouchPos - _helixObj.position;
+				Vector3 currentPos = worldTouchPos - _helixObj.position;
 				lastPos.y = 0;
 				currentPos.y = 0;
 				float dir = (Vector3.Cross(lastPos,currentPos).y > 0) ? 1 : -1;
@@ -209,48 +247,16 @@ public class CameraManager : MonoBehaviour {
 		else if (transform.position.y < GridManager.Instance.GetHelixMinY())
 			transform.position = new Vector3(transform.position.x, GridManager.Instance.GetHelixMinY(), transform.position.z);
 	}
+
+#endregion
 	
+
+	
+#region Helper Functions
+
 	public Vector3 GetForward()
 	{
 		return _forward;
-	}
-	
-
-	int GetTouchCount()
-	{
-		if (Input.touchCount > 0)
-			return Input.touchCount;
-		else if (Application.isEditor)
-		{
-			int count = 0;
-			count += (Input.GetMouseButton(0)) ? 1 : 0;
-			count += (Input.GetMouseButton(1)) ? 1 : 0;
-			return count;
-		}
-
-		return 0;
-	}
-
-	Vector2 GetTouchPos(int fingerIndex)
-	{
-		if (Application.isEditor)
-		{
-			if (fingerIndex == 0)
-			{
-
-				return Input.mousePosition;
-			}
-			else if (fingerIndex == 1)
-			{
-				return _simulatedFinger2Pos;
-			}
-		}
-		else 
-		{
-			return  Input.GetTouch(fingerIndex).position;
-		}
-
-		return Vector2.zero;
 	}
 
 	Vector3 ScreenToWorldPos(Vector3 screenPos)
@@ -261,70 +267,42 @@ public class CameraManager : MonoBehaviour {
 
 		foreach (RaycastHit hit in hits)
 		{
-			Scene scene = SceneManager.Instance.GetScene();
-			if (( scene == Scene.Browse && hit.transform.name == "HitPlane" ) || 
-			    ( scene == Scene.Helix && hit.transform.name == "HelixHitCylinder" ))
+			if (( _currentScene == Scene.Browse && hit.transform.name == "HitPlane" ) || 
+			    ( _currentScene == Scene.Helix && hit.transform.name == "HelixHitCylinder" ))
 				return hit.point;
 		}
 
 		return Vector3.zero;
 	}
 	
-	bool UpdateTwoFingerSwipe()
+	public Vector3 GetMoveDir()
 	{
-
-		if (GetTouchCount() < 2)
-		{
-			return false;
-		}
-
-
-		float fingerDist = (GetTouchPos(1) - GetTouchPos(0)).magnitude;
-
-
-		// did they just put down two fingers?
-		if (_lastTouchCount < 2)
-		{
-			_hasLiftedFingersSinceLastSwipe = true;
-			_lastFingerDist = fingerDist;
-			return true;
-		}
-		else if (LeanTween.isTweening(gameObject) == false && _hasLiftedFingersSinceLastSwipe) // they may be moving their fingers
-		{
-	//		Debug.Log("finger dist: " + (_lastFingerDist - fingerDist));
-
-			if (fingerDist > (_lastFingerDist + MinTwoFingerSwipeDist) )
-			{
-				_tweenDir = Vector3.forward;
-
-				LeanTween.move(gameObject,transform.position + _forward * GridManager.Instance.GetZPadding(),1).setEase(LeanTweenType.easeOutQuint).setOnComplete( () =>
-				                                                                                                                                                  {
-					_tweenDir = Vector3.zero;
-					
-				});
-			}
-			else if (fingerDist < (_lastFingerDist - MinTwoFingerSwipeDist))
-			{
-				_tweenDir = Vector3.back;
-				LeanTween.move(gameObject,transform.position - _forward * GridManager.Instance.GetZPadding(),1).setEase(LeanTweenType.easeOutQuint).setOnComplete( () =>
-				                                                                                                                                                  {
-					_tweenDir = Vector3.zero;
-			
-				});
-
-			}
-
-
-
-		}
-		_lastFingerDist = fingerDist;
-		return true;
+		
+		
+		Vector3 movDir = Quaternion.AngleAxis(-transform.rotation.y,Vector3.up) *_velocity;
+		
+		
+		movDir += _tweenDir;
+		return movDir;
 	}
-
+	
+	public Vector3 MoveDirToWorldDir(Vector2 moveDir)
+	{
+		Vector3 worldDir = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * new Vector3( moveDir.x, moveDir.y, 0);
+		
+		return worldDir;
+	}
+	
+	bool IsInHelixOrBrowse()
+	{
+		return (_currentScene == Scene.Helix || _currentScene == Scene.Browse);
+	}
 
 	Vector3 GetWorldPos(Vector2 touchPos)
 	{
 		return Camera.main.ScreenToWorldPoint(new Vector3(touchPos.x,touchPos.y,10));
 
 	}
+
+#endregion
 }

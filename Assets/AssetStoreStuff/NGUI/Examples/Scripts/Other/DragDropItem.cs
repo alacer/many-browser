@@ -101,10 +101,9 @@ public class DragDropItem : MonoBehaviour
 //			}
 //			else
 //			{
-			Debug.Log("moving delta: " + delta);
 			mTrans.localPosition += (Vector3)delta * (768.0f / Screen.height);
 
-//			}
+
 		}
 	}
 

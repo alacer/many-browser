@@ -6,6 +6,7 @@ public enum Scene
 	Default,
 	Browse,
 	Helix,
+	Selected,
 	InTransition
 
 }
@@ -16,6 +17,8 @@ public class SceneManager : MonoBehaviour {
 
 	public static SceneManager Instance;
 	Scene _currentScene = Scene.Default;
+	Scene _lastScene  = Scene.Default;
+	bool _isTransitioning;
 
 	// Use this for initialization
 	void Start () {
@@ -25,12 +28,25 @@ public class SceneManager : MonoBehaviour {
 
 	public Scene GetScene()
 	{
-		return _currentScene;
+		if (_isTransitioning)
+			return Scene.InTransition;
+		else
+			return _currentScene;
 	}
 
-	public void SetScene(Scene scene)
+	public void PushScene(Scene scene)
 	{
+		_isTransitioning = false;
+
+		_lastScene = _currentScene;
+
 		_currentScene = scene;
+	}
+
+	public void PopScene()
+	{
+		_isTransitioning = false;
+		_currentScene = _lastScene;
 	}
 
 	public void TransitionToBrowseView()
@@ -44,7 +60,7 @@ public class SceneManager : MonoBehaviour {
 		Vector3 startRotation = camera.transform.rotation.eulerAngles;
 
 		camera.transform.rotation = Quaternion.Euler(Vector3.zero);
-		camera.transform.position +=  CameraManager.Instance.GetForward() * GridManager.Instance.GetZPadding()/2.0f;
+		camera.transform.position +=  CameraManager.Instance.GetForward() * 10;//GridManager.Instance.GetZPadding()/2.0f;
 
 		LeanTween.scale(CenterPanel,Vector3.zero,1).setOnComplete(() => 
 		{ 
@@ -52,7 +68,7 @@ public class SceneManager : MonoBehaviour {
 			{ 
 				LeanTween.rotate(camera,startRotation,1).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => 
 				                                                                                            { 
-					_currentScene = Scene.Browse;
+					PushScene(Scene.Browse);
 				});
 			});
 			LeanTween.move(camera,startPos,2).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => 
@@ -61,8 +77,13 @@ public class SceneManager : MonoBehaviour {
 			});;
 		});
 
-		_currentScene = Scene.InTransition;
+		OnSceneTransition();
 
+	}
+
+	public void OnSceneTransition()
+	{
+		_isTransitioning = true;
 	}
 
 	public void TransitionToDefaultView()
@@ -83,12 +104,12 @@ public class SceneManager : MonoBehaviour {
 				GridManager.Instance.SetAllVisible(false);
 				camera.transform.position = startPos;
 				camera.transform.rotation = Quaternion.Euler(startRotation);
-				_currentScene = Scene.Default;
+				PushScene(Scene.Default);
 			});
 
 		});
-		
-		_currentScene = Scene.InTransition;
+
+		OnSceneTransition();
 		
 	}
 }
