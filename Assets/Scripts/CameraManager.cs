@@ -23,7 +23,7 @@ public class CameraManager : MonoBehaviour {
 	Vector2 _simulatedFinger2Pos;
 	float _lastTwoFingerSwipeSpeed;
 	float _lastFingerDist;
-	int _stopFrames = 10;
+	int _stopFrames = 20;
 
 	Transform _helixObj;
 	int _currentStopFrame;
@@ -43,9 +43,10 @@ public class CameraManager : MonoBehaviour {
 		_right = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * Vector3.right;
 
 		float screenFactor = Screen.width / 1024.0f;
-		OneFingerSwipeSpeed *= screenFactor;
-		TwoFingerSwipeSpeed *= screenFactor;
-		MaxSpeed *= screenFactor;
+//		OneFingerSwipeSpeed *= screenFactor;
+//		TwoFingerSwipeSpeed *= screenFactor;
+//		MaxSpeed *= screenFactor;
+//		MaxAngularSpeed *= screenFactor;
 	}
 
 	public Vector3 GetMoveDir()
@@ -115,9 +116,7 @@ public class CameraManager : MonoBehaviour {
 
 
 		// apply velocity and friction
-		float magnitude = _velocity.magnitude;
-
-		bool isTooFast = (magnitude > MaxSpeed && GetTouchCount() == 0);
+		float magnitude = LimitVelocity();
 
 
 		if (magnitude > 0)
@@ -132,7 +131,7 @@ public class CameraManager : MonoBehaviour {
 				transform.position += _velocity;
 				
 			// apply friction
-			magnitude -= Friction * ((isTooFast) ? 5 : 1);
+			magnitude -= Friction ;
 			magnitude = Mathf.Max(0,magnitude);
 			_velocity = _velocity.normalized * magnitude;
 		}
@@ -148,6 +147,22 @@ public class CameraManager : MonoBehaviour {
 			_lastTouchPos =  GetTouchPos(0) ;
 
 		_lastTouchCount = GetTouchCount();
+	}
+
+	float LimitVelocity()
+	{		
+		float magnitude =_velocity.magnitude;
+		float maxSpeed = (SceneManager.Instance.GetScene() == Scene.Helix) ? MaxAngularSpeed : MaxSpeed;
+
+
+		if (magnitude > maxSpeed)
+		{
+			_velocity = _velocity.normalized * maxSpeed;
+			magnitude = maxSpeed;
+		}
+
+		return magnitude;
+
 	}
 
 	void UpdateVelocity(Vector3 delta)
@@ -269,7 +284,7 @@ public class CameraManager : MonoBehaviour {
 		}
 		else if (LeanTween.isTweening(gameObject) == false && _hasLiftedFingersSinceLastSwipe) // they may be moving their fingers
 		{
-			Debug.Log("finger dist: " + (_lastFingerDist - fingerDist));
+	//		Debug.Log("finger dist: " + (_lastFingerDist - fingerDist));
 
 			if (fingerDist > (_lastFingerDist + MinTwoFingerSwipeDist) )
 			{

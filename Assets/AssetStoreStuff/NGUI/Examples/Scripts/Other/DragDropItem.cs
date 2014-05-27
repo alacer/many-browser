@@ -13,7 +13,7 @@ public class DragDropItem : MonoBehaviour
 	/// </summary>
 
 	public GameObject prefab;
-
+	UIRoot mRoot;
 	Transform mTrans;
 	bool mIsDragging = false;
 	Transform mParent;
@@ -23,6 +23,8 @@ public class DragDropItem : MonoBehaviour
 	/// <summary>
 	/// Update the table, if there is one.
 	/// </summary>
+
+
 
 	void UpdateTable ()
 	{
@@ -68,6 +70,7 @@ public class DragDropItem : MonoBehaviour
 
 	void Awake () 
 	{
+		mRoot = NGUITools.FindInParents<UIRoot>(gameObject);
 		mTrans = transform; 
 		if (transform.position.z < _minZ)
 			_minZ = transform.position.z;
@@ -99,7 +102,7 @@ public class DragDropItem : MonoBehaviour
 //			else
 //			{
 			Debug.Log("moving delta: " + delta);
-			mTrans.localPosition += (Vector3)delta;
+			mTrans.localPosition += (Vector3)delta * (768.0f / Screen.height);
 
 //			}
 		}

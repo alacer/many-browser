@@ -168,7 +168,7 @@ public class GridManager : MonoBehaviour {
 				LeanTween.move(obj,newPos,3).setEase(LeanTweenType.easeOutExpo);
 				LeanTween.rotate(obj,newRotation,3).setEase(LeanTweenType.easeOutExpo);
 
-				yield return new WaitForSeconds(.03f);
+//				yield return new WaitForSeconds(.03f);
 
 			}
 			else 
@@ -178,6 +178,7 @@ public class GridManager : MonoBehaviour {
 			}
 		}
 
+		yield return new WaitForSeconds (3);
 		SceneManager.Instance.SetScene(Scene.Helix);
 		yield return null;
 	}

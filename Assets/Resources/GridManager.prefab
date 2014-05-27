@@ -48,6 +48,7 @@ MonoBehaviour:
   RandomMoveMaxTime: .0500000007
   RandomMoveMinTime: .00999999978
   MaxRandomZMovement: 3
+  HelixRadius: 2.5
   MaxZ: 0
   MinZ: 0
 --- !u!1001 &100100000
