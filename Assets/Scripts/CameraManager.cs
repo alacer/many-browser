@@ -73,6 +73,7 @@ public class CameraManager : MonoBehaviour {
 
 		obj.parent = transform;
 
+		Debug.Log("selected obj stop");
 		_velocity = Vector3.zero;
 		LeanTween.cancel(gameObject);
 		float animTime = .3f;
@@ -118,6 +119,7 @@ public class CameraManager : MonoBehaviour {
 	
 	void HandleBrowseTwoFingerSwipe(Vector3 dir)
 	{
+		Debug.Log("two finger swipe stop");
 		_velocity = Vector3.zero;
 		
 		_tweenDir = dir;
@@ -155,7 +157,6 @@ public class CameraManager : MonoBehaviour {
 
 			Vector3 delta = lastWorldTouchPos -  worldTouchPos;
 
-			Debug.Log("delta: " +delta);
 			if (InputManager.Instance.HasFingerStoppedMoving())
 				_velocity = Vector3.zero;
 			else
@@ -171,7 +172,6 @@ public class CameraManager : MonoBehaviour {
 
 		if (magnitude > 0)
 		{
-
 
 			// do helix movement if we are in the helix
 			if (_currentScene == Scene.Helix)

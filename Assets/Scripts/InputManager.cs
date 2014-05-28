@@ -48,8 +48,8 @@ public class InputManager : MonoBehaviour {
 	void Update()
 	{
 
-		if (Application.isEditor)
-		{
+//		if (Application.isEditor)
+//		{
 			if (Input.GetMouseButtonDown(0))
 				_timeSinceMouseDown = 0;
 
@@ -63,20 +63,24 @@ public class InputManager : MonoBehaviour {
 					SendMessageToAll("OnSingleTap",Input.mousePosition);
 
 			}
-		}
+//		}
 
-		foreach(Touch touch in Input.touches)
-		{
-			if (touch.tapCount == 1)
-			{
-				SendMessageToAll("OnSingleTap",touch.position);
-				break;
-			}
-		}
+
+//		foreach(Touch touch in Input.touches)
+//		{
+//
+//			if (touch.phase == TouchPhase.Ended && touch.tapCount == 1)
+//			{
+//				Debug.Log("got tap");
+//				SendMessageToAll("OnSingleTap",new Vector3(touch.position.x,touch.position.y,0));
+//				break;
+//			}
+//		}
 
 		// if they just touch the screen and stuff is moving.. stop everything
 		if (_lastTouchCount == 0 && GetTouchCount() > 0)
 		{
+			Debug.Log("just touched screen so stopping");
 			_currentStopFrame = _stopFrames;
 		}
 
@@ -187,6 +191,8 @@ public class InputManager : MonoBehaviour {
 
 	public Vector2 GetTouchPos(int fingerIndex)
 	{
+
+
 		if (Application.isEditor)
 		{
 			if (fingerIndex == 0)
@@ -201,7 +207,10 @@ public class InputManager : MonoBehaviour {
 		}
 		else 
 		{
-			return  Input.GetTouch(fingerIndex).position;
+			if (fingerIndex >= Input.touchCount)
+				return Vector2.zero;
+			else
+				return  Input.GetTouch(fingerIndex).position;
 		}
 		
 		return Vector2.zero;

@@ -37,36 +37,54 @@ public class ImageSearch : MonoBehaviour {
 		Debug.Log("game obj: " + gameObject.name);
 		GetComponent<UIInput>().label.text = search;
 
+		string returnStr = null;
 
 		Debug.Log("searching for: " + search);
 
 		string query = "http://75.103.15.46:8080/context";
 
 		WWWForm form = new WWWForm();
+		WWW www = null;
 
 		form.AddField("keywords",search);
-		form.AddField("limit",10);
+		form.AddField("limit",50);
 
-		WWW www = new WWW (query,form);
-		 
-		string returnStr = null;
+		bool gotError = false;
 
-		float time = 0;
-		float timeOut = 6;
-		while (timeOut < timeOut && www.isDone == false)
+		if (PlayerPrefs.HasKey(search))
 		{
-			yield return new WaitForSeconds(.1f);
-			time += .1f;
+			returnStr = PlayerPrefs.GetString(search);	
+			Debug.Log("got search from cache");
 		}
+		else
+		{
+			www = new WWW (query,form);
+			 
+			float time = 0;
+			float timeOut = 6;
+			while (timeOut < timeOut && www.isDone == false)
+			{
+				yield return new WaitForSeconds(.1f);
+				time += .1f;
+			}
 
-		yield return www;
+			yield return www;
+
+			gotError = !(www.isDone == true && (www.error == null || www.error == string.Empty));
+
+			Debug.Log("got server string: " + www.text);
+		}
 
 		Debug.Log("search complete");
 
-		if (www.isDone == true && (www.error == null || www.error == string.Empty))
+		if (!gotError)
 		{
-			Debug.Log("got server string: " + www.text);
-			returnStr = www.text;
+	
+			if (returnStr == null)
+			{
+				returnStr = www.text;
+				PlayerPrefs.SetString(search,returnStr);
+			}
 
 			var data = JsonConvert.DeserializeObject<List< Dictionary<string, object>>>(returnStr);
 
@@ -96,6 +114,8 @@ public class ImageSearch : MonoBehaviour {
 				_urls.Add(url);
 			}
 		}
+
+		Debug.Log("got url count: " + _urls.Count);
 
 		Loader.Instance.Hide();
 

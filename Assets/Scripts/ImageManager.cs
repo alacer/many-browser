@@ -8,7 +8,10 @@ public class ImageManager : MonoBehaviour {
 
 	List<ImageObj> _objsToLoad = new List<ImageObj>();
 	List<ImageObj> _objsInQueue = new List<ImageObj>();
+	Dictionary<ImageObj,string> _imageObjToUrl = new Dictionary<ImageObj, string>();
+	Dictionary<string,List<ImageObj>> _urlToImageObj = new Dictionary<string, List<ImageObj>>();
 
+	ImageObj[] _imageObjs;
 	List<string> _urls = new List<string>();
 	float _frameRate;
 	float _frames;
@@ -69,47 +72,100 @@ public class ImageManager : MonoBehaviour {
 
 	public void Initialize(List<string> urls)
 	{
-		Debug.Log("got urls");
 		_urls = urls;
+		_imageObjs = FindObjectsOfType<ImageObj>();
+		CreateDictionaries();
+
+		GetAllImages();
+
+		Debug.Log("got urls");
+
 	}
 
-	void Update()
+	void CreateDictionaries()
 	{
-		if (_urls.Count == 0)
-			return;
-
-		CalculateFramerate();
-
-		if (_frameRate > 50)
+		for (int i=0; i < _imageObjs.Length; i++)
 		{
-			if (_objsToLoad.Count > 0 && _urls != null)
-			{
-
-				for (int i = _objsToLoad.Count-1; i >= 0; i--)
-				{
-					ImageObj obj = _objsToLoad[i];
-					StartCoroutine(obj.LoadTexture(_urls[_imageIndex]));
-					_imageIndex = (_imageIndex + 1) % _urls.Count;
-					_objsToLoad.Remove(obj);
-				}
-
-			}
-			else 
-			{
-				// if all visible objs are loaded take a few invisible ones at a time and load them
-				for (int i=_objsInQueue.Count - 1; i >= Mathf.Max(0, _objsInQueue.Count - 5); i--)
-				{
-					ImageObj obj = _objsInQueue[i];
-					_objsToLoad.Add(obj);
-					_objsInQueue.Remove(obj);
-
-				}
-
-
-			}
+			_imageObjToUrl.Add(_imageObjs[i], _urls[i % _urls.Count]);
 		}
 
+		foreach (string url in _urls)
+		{
+			foreach (ImageObj obj in _imageObjs)
+			{
+				if (url == _imageObjToUrl[obj])
+				{
+					if (_urlToImageObj.ContainsKey(url) == false)
+						_urlToImageObj[url] = new List<ImageObj>();
+
+					_urlToImageObj[url].Add(obj);
+
+				}
+				
+			}
+		}
 	}
+
+	void GetAllImages()
+	{
+		
+		var textureCache = WebTextureCache.InstantiateGlobal ();
+
+
+		foreach (string url in _urls)
+		{
+			StartCoroutine (textureCache.GetTexture (url, OnGotTexture));
+
+		}
+	}
+
+	void OnGotTexture(string url, Texture2D tex)
+	{
+		foreach (ImageObj obj in _urlToImageObj[url])
+		{
+
+			obj.SetTexture(tex);
+
+		}
+	}
+
+//	void Update()
+//	{
+//		if (_urls.Count == 0)
+//			return;
+//
+//		CalculateFramerate();
+//
+////		if (_frameRate > 50)
+////		{
+//			if (_objsToLoad.Count > 0 && _urls != null)
+//			{
+//
+//				for (int i = _objsToLoad.Count-1; i >= 0; i--)
+//				{
+//					ImageObj obj = _objsToLoad[i];
+//					obj.GetImage(_urls[_imageIndex]);
+//					_imageIndex = (_imageIndex + 1) % _urls.Count;
+//					_objsToLoad.Remove(obj);
+//				}
+//
+//			}
+//			else 
+//			{
+//				// if all visible objs are loaded take a few invisible ones at a time and load them
+//				for (int i=_objsInQueue.Count - 1; i >= Mathf.Max(0, _objsInQueue.Count - 5); i--)
+//				{
+//					ImageObj obj = _objsInQueue[i];
+//					_objsToLoad.Add(obj);
+//					_objsInQueue.Remove(obj);
+//
+//				}
+//
+//
+//			}
+////		}
+//
+//	}
 
 
 
