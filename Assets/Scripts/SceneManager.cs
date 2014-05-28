@@ -26,6 +26,11 @@ public class SceneManager : MonoBehaviour {
 			
 	}
 
+	public static bool IsInHelixOrBrowse()
+	{
+		return (Instance.GetScene() == Scene.Helix || Instance.GetScene() == Scene.Browse);
+	}
+
 	public Scene GetScene()
 	{
 		if (_isTransitioning)

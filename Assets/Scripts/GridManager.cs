@@ -96,11 +96,6 @@ public class GridManager : MonoBehaviour {
 		List<Vector3> positions = new List<Vector3>();
 		List<Vector3> rotations = new List<Vector3>();
 
-//		List<ImageObj> _visibleObjs = ImageObj.GetVisibleObjs();
-
-//		for (int i=0; i < _allObjs.Count; i++
-
-//		Debug.Log("visible obj count: " + _visibleObjs.Count);
 
 		Transform helixObj = Camera.main.transform.FindChild("HelixBottom");
 		Vector3 center = helixObj.position;
@@ -112,19 +107,10 @@ public class GridManager : MonoBehaviour {
 		float animTime = 2;
 		float startHeight = 10;
 		float animateUpTime = .5f;
+		float animateToHelixTime = 1;
 		Vector3 rotation = Vector3.zero;
 
-	//	Vector3 pos = center + (radius * dir);
 
-//		for (int i=0; i < _allObjs.Count; i++)
-//		{
-//
-//			LeanTween.move(_allObjs[i].gameObject,center + startHeight*Vector3.up,animateUpTime);
-//
-//		}
-//
-//		yield return new WaitForSeconds(animateUpTime);
-			
 		// Create lists of new positions and rotations
 		for (int i=0; i < _allObjs.Count; i++)
 		{
@@ -165,8 +151,8 @@ public class GridManager : MonoBehaviour {
 			bool newPosIsVisible = (viewportPos.x >= 0 && viewportPos.x <= 1 && viewportPos.y >= 0 && viewportPos.y <= 1);
 			if (obj.GetComponent<ImageObj>().IsVisible() || newPosIsVisible)
 			{
-				LeanTween.move(obj,newPos,3).setEase(LeanTweenType.easeOutExpo);
-				LeanTween.rotate(obj,newRotation,3).setEase(LeanTweenType.easeOutExpo);
+				LeanTween.move(obj,newPos,animateToHelixTime).setEase(LeanTweenType.easeOutExpo);
+				LeanTween.rotate(obj,newRotation,animateToHelixTime).setEase(LeanTweenType.easeOutExpo);
 
 //				yield return new WaitForSeconds(.03f);
 
@@ -178,7 +164,7 @@ public class GridManager : MonoBehaviour {
 			}
 		}
 
-		yield return new WaitForSeconds (3);
+		yield return new WaitForSeconds (animateToHelixTime);
 		SceneManager.Instance.PushScene(Scene.Helix);
 		yield return null;
 	}

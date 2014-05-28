@@ -94,13 +94,37 @@ public class ImageSearch : MonoBehaviour {
 			
 			foreach(Dictionary<string,object> obj in data)
 			{
-		// 		Debug.Log("type: " + obj.GetType().ToString());
+		 		Debug.Log("type: " + obj.GetType().ToString());
+
+				Dictionary<string,object> objDict = (Dictionary<string,object>)obj;
+
+				foreach (string key in objDict.Keys)
+				{
+					Debug.Log("key: " + key);
+					if (objDict[key] != null)
+						Debug.Log(" value: " + objDict[key].GetType().ToString());
+				}
+
+				object o = objDict["image"];
+
+				if (objDict["image"] == null)
+					continue;
+
+				Debug.Log("obj is null: " + (objDict["image"] == null));
+
+				Debug.Log("obj type: " + o.GetType().ToString());
+
 				Newtonsoft.Json.Linq.JObject imageObj = (Newtonsoft.Json.Linq.JObject)obj["image"];
 
-		//		Debug.Log("type obj: " + imageObj.GetType().ToString());
+
 
 				Newtonsoft.Json.Linq.JToken token;
+
 				imageObj.TryGetValue("url", out token);
+
+				Debug.Log("has values: " + token.HasValues);
+
+
 
 
 				_urls.Add(  token.ToObject<string>());
