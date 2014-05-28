@@ -26,10 +26,10 @@ public class ImageObj : MonoBehaviour {
 	static List<ImageObj> _visibleObjs = new List<ImageObj>();
 	
 
-	void Start()
+	void Awake()
 	{
 //		transform.localScale = Vector3.one * .3f;
-		_imagePlane = transform.Find("plane");
+		_imagePlane = transform.FindChild("plane");
 //		_startRotation = _imagePlane.rotation.eulerAngles;
 		_imagePlane.localPosition += Random.onUnitSphere * 100;
 	
@@ -181,7 +181,6 @@ public class ImageObj : MonoBehaviour {
 		Vector3 scale = transform.localScale;
 		scale.x *= aspectRatio;
 
-		Debug.Log("setting local pos");
 //		_imagePlane.localPosition = Vector3.zero;
 		LeanTween.moveLocal(_imagePlane.gameObject,Vector3.zero,1);
 	//	transform.localScale = scale;

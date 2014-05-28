@@ -65,6 +65,9 @@ public class ImageManager : MonoBehaviour {
 
 	public void Clear()
 	{
+		_urlToImageObj.Clear();
+		_imageObjToUrl.Clear();
+
 		_objsToLoad.Clear();
 		_objsInQueue.Clear();
 		_urls.Clear();

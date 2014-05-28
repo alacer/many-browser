@@ -54,7 +54,7 @@ public class ImageSearch : MonoBehaviour {
 		if (PlayerPrefs.HasKey(search))
 		{
 			returnStr = PlayerPrefs.GetString(search);	
-			Debug.Log("got search from cache");
+			Debug.Log("got search from cache " + returnStr);
 		}
 		else
 		{
@@ -88,11 +88,22 @@ public class ImageSearch : MonoBehaviour {
 
 			var data = JsonConvert.DeserializeObject<List< Dictionary<string, object>>>(returnStr);
 
+			Debug.Log ("data type: " + data.GetType().ToString());
+
 			//	Debug.Log("picture: " + data[0]["picture"].ToString());
 			
 			foreach(Dictionary<string,object> obj in data)
 			{
-				_urls.Add(obj["picture"].ToString());
+		// 		Debug.Log("type: " + obj.GetType().ToString());
+				Newtonsoft.Json.Linq.JObject imageObj = (Newtonsoft.Json.Linq.JObject)obj["image"];
+
+		//		Debug.Log("type obj: " + imageObj.GetType().ToString());
+
+				Newtonsoft.Json.Linq.JToken token;
+				imageObj.TryGetValue("url", out token);
+
+
+				_urls.Add(  token.ToObject<string>());
 			}
 		}
 		else // use Bing if there is an issue with the server
