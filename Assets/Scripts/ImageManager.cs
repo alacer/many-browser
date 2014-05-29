@@ -5,11 +5,11 @@ using System.Collections.Generic;
 public class ImageManager : MonoBehaviour {
 
 	public static ImageManager Instance;
-
-	List<ImageObj> _objsToLoad = new List<ImageObj>();
-	List<ImageObj> _objsInQueue = new List<ImageObj>();
+	
 	Dictionary<ImageObj,string> _imageObjToUrl = new Dictionary<ImageObj, string>();
 	Dictionary<string,List<ImageObj>> _urlToImageObj = new Dictionary<string, List<ImageObj>>();
+
+	Dictionary<string,string> _largeImageDict = new Dictionary<string, string>();
 
 	ImageObj[] _imageObjs;
 	List<string> _urls = new List<string>();
@@ -33,6 +33,8 @@ public class ImageManager : MonoBehaviour {
 		}
 	}
 
+
+
 	public float GetFPS()
 	{
 		return _frameRate;
@@ -43,38 +45,50 @@ public class ImageManager : MonoBehaviour {
 		Instance = this;
 	}
 
-	public void AddObjToLoad(ImageObj obj)
+//	public void AddObjToLoad(ImageObj obj)
+//	{
+//		if (_objsInQueue.Contains(obj))
+//			_objsInQueue.Remove(obj);
+//
+//		if (!_objsToLoad.Contains(obj))
+//			_objsToLoad.Add(obj);
+//
+//	}
+//
+//	public void AddObjToQueue(ImageObj obj)
+//	{
+//		if (_objsToLoad.Contains(obj))
+//			_objsToLoad.Remove(obj);
+//		
+//		if (!_objsInQueue.Contains(obj))
+//			_objsInQueue.Add(obj);
+//		
+//	}
+
+	public bool GetLargeImageUrl(string smallUrl, out string largeUrl)
 	{
-		if (_objsInQueue.Contains(obj))
-			_objsInQueue.Remove(obj);
+		if (smallUrl != null && _largeImageDict.ContainsKey(smallUrl))
+		{
+			largeUrl = _largeImageDict[smallUrl];
+			return true;
+		}
 
-		if (!_objsToLoad.Contains(obj))
-			_objsToLoad.Add(obj);
-
-	}
-
-	public void AddObjToQueue(ImageObj obj)
-	{
-		if (_objsToLoad.Contains(obj))
-			_objsToLoad.Remove(obj);
-		
-		if (!_objsInQueue.Contains(obj))
-			_objsInQueue.Add(obj);
-		
+		largeUrl = null;
+		return false;
 	}
 
 	public void Clear()
 	{
 		_urlToImageObj.Clear();
 		_imageObjToUrl.Clear();
+		_largeImageDict.Clear();
 
-		_objsToLoad.Clear();
-		_objsInQueue.Clear();
 		_urls.Clear();
 	}
 
-	public void Initialize(List<string> urls)
+	public void Initialize(List<string> urls, Dictionary<string,string> largeImageDict)
 	{
+		_largeImageDict = largeImageDict;
 		_urls = urls;
 		_imageObjs = FindObjectsOfType<ImageObj>();
 		CreateDictionaries();
@@ -127,48 +141,12 @@ public class ImageManager : MonoBehaviour {
 		foreach (ImageObj obj in _urlToImageObj[url])
 		{
 
-			obj.SetTexture(tex);
+			obj.SetTexture(tex,url);
 
 		}
 	}
 
-//	void Update()
-//	{
-//		if (_urls.Count == 0)
-//			return;
-//
-//		CalculateFramerate();
-//
-////		if (_frameRate > 50)
-////		{
-//			if (_objsToLoad.Count > 0 && _urls != null)
-//			{
-//
-//				for (int i = _objsToLoad.Count-1; i >= 0; i--)
-//				{
-//					ImageObj obj = _objsToLoad[i];
-//					obj.GetImage(_urls[_imageIndex]);
-//					_imageIndex = (_imageIndex + 1) % _urls.Count;
-//					_objsToLoad.Remove(obj);
-//				}
-//
-//			}
-//			else 
-//			{
-//				// if all visible objs are loaded take a few invisible ones at a time and load them
-//				for (int i=_objsInQueue.Count - 1; i >= Mathf.Max(0, _objsInQueue.Count - 5); i--)
-//				{
-//					ImageObj obj = _objsInQueue[i];
-//					_objsToLoad.Add(obj);
-//					_objsInQueue.Remove(obj);
-//
-//				}
-//
-//
-//			}
-////		}
-//
-//	}
+
 
 
 

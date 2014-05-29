@@ -60,7 +60,7 @@ public class InputManager : MonoBehaviour {
 			{
 				Debug.Log("time since mouse down: " + _timeSinceMouseDown);
 				if (_timeSinceMouseDown <= _clickTime)
-					SendMessageToAll("OnSingleTap",Input.mousePosition);
+					Utils.SendMessageToAll("OnSingleTap",Input.mousePosition);
 
 			}
 //		}
@@ -140,11 +140,11 @@ public class InputManager : MonoBehaviour {
 
 			if (fingerDist > (_lastFingerDist + MinTwoFingerSwipeDist) )
 			{
-				SendMessageToAll("OnTwoFingerSwipe",Vector3.forward);
+				Utils.SendMessageToAll("OnTwoFingerSwipe",Vector3.forward);
 			}
 			else if (fingerDist < (_lastFingerDist - MinTwoFingerSwipeDist))
 			{
-				SendMessageToAll("OnTwoFingerSwipe",Vector3.back);
+				Utils.SendMessageToAll("OnTwoFingerSwipe",Vector3.back);
 				
 			}
 			
@@ -154,30 +154,7 @@ public class InputManager : MonoBehaviour {
 		_lastFingerDist = fingerDist;
 		return true;
 	}
-
-	void SendMessageToAll(string message, object param)
-	{
-		GameObject[] allObjs = GameObject.FindObjectsOfType<GameObject>();
-
-		foreach (GameObject obj in allObjs)
-		{
-			obj.SendMessage(message,param, SendMessageOptions.DontRequireReceiver);
-
-		}
-
-	}
-
-	void SendMessageToAll(string message)
-	{
-		GameObject[] allObjs = GameObject.FindObjectsOfType<GameObject>();
-		
-		foreach (GameObject obj in allObjs)
-		{
-			obj.SendMessage(message, SendMessageOptions.DontRequireReceiver);
-			
-		}
-		
-	}
+	
 
 	public Vector3 GetLastTouchPos()
 	{

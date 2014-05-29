@@ -41,24 +41,24 @@ public class ImageObj : MonoBehaviour {
 		return _visibleObjs;
 	}
 
-	void OnBecameVisible()
-	{
-		if (!_loaded)
-		{
-			ImageManager.Instance.AddObjToLoad(this);
-		}
-
-		_visibleObjs.Add(this);
-	}
-
-	void OnBecameInvisible()
-	{
-		if (!_loaded)
-			ImageManager.Instance.AddObjToQueue(this);
-
-		if (_visibleObjs.Contains(this))
-			_visibleObjs.Remove(this);
-	}
+//	void OnBecameVisible()
+//	{
+//		if (!_loaded)
+//		{
+//			ImageManager.Instance.AddObjToLoad(this);
+//		}
+//
+//		_visibleObjs.Add(this);
+//	}
+//
+//	void OnBecameInvisible()
+//	{
+//		if (!_loaded)
+//			ImageManager.Instance.AddObjToQueue(this);
+//
+//		if (_visibleObjs.Contains(this))
+//			_visibleObjs.Remove(this);
+//	}
 
 	public void SetVisible(bool visible)
 	{
@@ -115,65 +115,32 @@ public class ImageObj : MonoBehaviour {
 		_moveDelta = moveDelta;
 	}
 
-//	public void GetImage(string url)
-//	{
-//		
-//		var textureCache = WebTextureCache.InstantiateGlobal ();
-//		StartCoroutine (textureCache.GetTexture (url, SetTexture));
-//	}
-	
+	void OnSelected()
+	{
+		string largeUrl;
+		if (ImageManager.Instance.GetLargeImageUrl(_url,out largeUrl))
+		{
+			
+			var textureCache = WebTextureCache.InstantiateGlobal ();
 
-//	public IEnumerator LoadTexture(string url)
-//	{
-//
-//
-//		while (ImageManager.Instance.GetFPS() < 40)
-//		{
-//			// don't load if the framerate is too low
-//			yield return new WaitForSeconds(Random.Range(.1f,.3f));
-//		}
-//
-//
-//
-//		// do we already have this image downloaded? if so Just set it. 
-//		if (_imageCache.ContainsKey(url))
-//		{
-//			SetTexture(_imageCache[url]);
-//
-//		}
-//		else // otherwise, download it and set it
-//		{
-//			WWW imageWWW = new WWW (url);
-//
-//		
-//			yield return imageWWW;
-//			
-//			if (string.IsNullOrEmpty(imageWWW.error))
-//			{
-//				_imageCache[url] = imageWWW.texture;
-//				SetTexture(imageWWW.texture);
-//				
-//			}
-//			else
-//			{
-//				if (_imageCache.Count > 0)
-//				{
-//					List<string> keyList = new List<string>(_imageCache.Keys);
-//					SetTexture(_imageCache[keyList[Random.Range(0,keyList.Count)]]);
-//				}
-//				else
-//					Debug.Log("didnt get image");
-//			}
-//		}
-//
-//		_loaded = true;
-//
-//	}
+			StartCoroutine (textureCache.GetTexture (largeUrl, OnGotLargeTexture));
+				
 
-	public void SetTexture(Texture2D tex)
+
+		}
+	}
+
+	void OnGotLargeTexture(string url , Texture2D largeTex )
+	{
+		ImageRenderer.material.mainTexture = largeTex;
+	}
+
+	public void SetTexture(Texture2D tex, string url)
 	{
 		if (this == null)
 			return;
+
+		_url = url;
 
 		ImageRenderer.material.mainTexture = tex;
 		

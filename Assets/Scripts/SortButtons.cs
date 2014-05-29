@@ -3,13 +3,10 @@ using System.Collections;
 
 public class SortButtons : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	void OnSceneChange(Scene scene)
+	{
+		bool active = (scene != Scene.Default);
+		Utils.ActiveChildren(transform,active);
 	}
 }

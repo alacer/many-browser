@@ -64,7 +64,7 @@ public class GridManager : MonoBehaviour {
 	{
 		_urls = urls;
 		CreateGrid();
-		ImageManager.Instance.Initialize(urls);
+
 	}
 
 	public float GetHelixMaxY()
@@ -348,6 +348,7 @@ public class GridManager : MonoBehaviour {
 
 	void CreateGrid()
 	{
+
 		Vector3 center = GetCenterPos();
 
 		// create the image grid with random images from the urls

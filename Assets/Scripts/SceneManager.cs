@@ -16,7 +16,7 @@ public class SceneManager : MonoBehaviour {
 	public GameObject CenterPanel;
 
 	public static SceneManager Instance;
-	Scene _currentScene = Scene.Default;
+	Scene _currentScene;
 	Scene _lastScene  = Scene.Default;
 	bool _isTransitioning;
 
@@ -24,6 +24,7 @@ public class SceneManager : MonoBehaviour {
 	void Start () {
 		Instance = this;
 			
+		PushScene(Scene.Default);
 	}
 
 	public static bool IsInHelixOrBrowse()
@@ -46,12 +47,14 @@ public class SceneManager : MonoBehaviour {
 		_lastScene = _currentScene;
 
 		_currentScene = scene;
+		Utils.SendMessageToAll("OnSceneChange",_currentScene);
 	}
 
 	public void PopScene()
 	{
 		_isTransitioning = false;
 		_currentScene = _lastScene;
+		Utils.SendMessageToAll("OnSceneChange",_currentScene);
 	}
 
 	public void TransitionToBrowseView()

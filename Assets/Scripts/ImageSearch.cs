@@ -10,7 +10,7 @@ public class ImageSearch : MonoBehaviour {
 	public static ImageSearch Instance;
 	MatchCollection _matchCollection;
 	List<string> _urls = new List<string>();
-	
+	bool _searching;
 
 	void Awake()
 	{
@@ -25,12 +25,18 @@ public class ImageSearch : MonoBehaviour {
 
 	public void Search (string search)
 	{
-		StartCoroutine(SearchRoutine(search));
+		if (!_searching)
+		{
+			_searching = true;
+			StartCoroutine(SearchRoutine(search));
+		}
 	}
 	
 
 	// Use this for initialization
 	IEnumerator SearchRoutine (string search) {
+
+
 		ImageManager.Instance.Clear();
 		_urls.Clear();
 		Loader.Instance.Show();
@@ -48,6 +54,8 @@ public class ImageSearch : MonoBehaviour {
 
 		form.AddField("keywords",search);
 		form.AddField("limit",50);
+
+		Dictionary<string,string> largeImageDict = new Dictionary<string, string>();
 
 		bool gotError = false;
 
@@ -85,34 +93,27 @@ public class ImageSearch : MonoBehaviour {
 				returnStr = www.text;
 				PlayerPrefs.SetString(search,returnStr);
 			}
-
+		
+			//var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Arrays };
 			var data = JsonConvert.DeserializeObject<List< Dictionary<string, object>>>(returnStr);
 
-			Debug.Log ("data type: " + data.GetType().ToString());
 
-			//	Debug.Log("picture: " + data[0]["picture"].ToString());
-			
 			foreach(Dictionary<string,object> obj in data)
 			{
-		 		Debug.Log("type: " + obj.GetType().ToString());
-
+			
 				Dictionary<string,object> objDict = (Dictionary<string,object>)obj;
 
-				foreach (string key in objDict.Keys)
-				{
-					Debug.Log("key: " + key);
-					if (objDict[key] != null)
-						Debug.Log(" value: " + objDict[key].GetType().ToString());
-				}
+//				foreach (string key in objDict.Keys)
+//				{
+//					Debug.Log("key: " + key);
+//					if (objDict[key] != null)
+//						Debug.Log(" value: " + objDict[key].GetType().ToString());
+//				}
 
-				object o = objDict["image"];
+	
 
 				if (objDict["image"] == null)
 					continue;
-
-				Debug.Log("obj is null: " + (objDict["image"] == null));
-
-				Debug.Log("obj type: " + o.GetType().ToString());
 
 				Newtonsoft.Json.Linq.JObject imageObj = (Newtonsoft.Json.Linq.JObject)obj["image"];
 
@@ -120,14 +121,22 @@ public class ImageSearch : MonoBehaviour {
 
 				Newtonsoft.Json.Linq.JToken token;
 
-				imageObj.TryGetValue("url", out token);
 
-				Debug.Log("has values: " + token.HasValues);
+				if (imageObj.TryGetValue("url", out token))
+				{
+					string url = token.ToObject<string>();
+					_urls.Add( url );
 
+					Newtonsoft.Json.Linq.JArray largeImageArray = (Newtonsoft.Json.Linq.JArray)objDict["images"];
+					if (largeImageArray != null && largeImageArray.Count > 0)
+					{
+						string largeUrl = largeImageArray[0]["url"].ToString();
 
+						if (largeUrl != string.Empty && largeUrl != null)
+							largeImageDict[url] = largeUrl;
 
-
-				_urls.Add(  token.ToObject<string>());
+					}
+				}
 			}
 		}
 		else // use Bing if there is an issue with the server
@@ -156,8 +165,13 @@ public class ImageSearch : MonoBehaviour {
 
 		GridManager.Initialize(_urls);
 
+		ImageManager.Instance.Initialize(_urls,largeImageDict);
+
 		if (SceneManager.Instance.GetScene() == Scene.Default)
 			SceneManager.Instance.TransitionToBrowseView();
+		else
+			SceneManager.Instance.PushScene(Scene.Browse);
+		_searching = false;
 	}
 
 

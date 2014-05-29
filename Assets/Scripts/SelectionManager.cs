@@ -45,7 +45,9 @@ public class SelectionManager : MonoBehaviour {
 		_previousParent = obj.parent;
 		
 		obj.parent = Camera.main.transform;
-		
+
+		obj.SendMessage("OnSelected",SendMessageOptions.DontRequireReceiver);
+
 		Debug.Log("selected obj stop");
 	//	_velocity = Vector3.zero;
 		LeanTween.cancel(gameObject);
