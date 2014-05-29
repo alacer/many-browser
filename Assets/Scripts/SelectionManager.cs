@@ -63,7 +63,9 @@ public class SelectionManager : MonoBehaviour {
 	void LeaveSelectedObj()
 	{
 		SceneManager.Instance.OnSceneTransition();
-		
+
+		_selectedObj.SendMessage("OnUnselected",SendMessageOptions.DontRequireReceiver);
+
 		_selectedObj.parent = _previousParent;
 		float animTime = .3f;
 		LeanTween.move(_selectedObj.gameObject,_previousPos,animTime);

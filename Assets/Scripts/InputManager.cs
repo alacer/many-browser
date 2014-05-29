@@ -166,9 +166,17 @@ public class InputManager : MonoBehaviour {
 		return (_lastTouchCount == 1 && GetTouchCount() == 1 && Input.GetMouseButton(1) == false);
 	}
 
+	public Vector3 GetOneFingerTouchDelta()
+	{
+		if (IsTouchingWithOneFinger())
+			return (GetTouchPos(0) - _lastTouchPos);
+		else
+			return Vector3.zero;
+
+	}
+
 	public Vector2 GetTouchPos(int fingerIndex)
 	{
-
 
 		if (Application.isEditor)
 		{

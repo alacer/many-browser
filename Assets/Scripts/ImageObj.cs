@@ -9,6 +9,7 @@ public class ImageObj : MonoBehaviour {
 	public float MoveSpeed = 1;
 	public float RotateDistance = 3;
 	public float MinDistToCamera = 1;
+	public float CubeXScale = 1344;
 
 	static float MaxZOffset = .1f;
 	bool _isFacingCamera;
@@ -21,6 +22,7 @@ public class ImageObj : MonoBehaviour {
 
 	Vector3 _startScale;
 	Transform _imagePlane;
+	float _startXScale;
 
 	static Dictionary<string,Texture2D>  _imageCache = new Dictionary<string, Texture2D>();
 	static List<ImageObj> _visibleObjs = new List<ImageObj>();
@@ -30,6 +32,7 @@ public class ImageObj : MonoBehaviour {
 	{
 //		transform.localScale = Vector3.one * .3f;
 		_imagePlane = transform.FindChild("plane");
+		_startXScale = _imagePlane.localScale.x;
 //		_startRotation = _imagePlane.rotation.eulerAngles;
 		_imagePlane.localPosition += Random.onUnitSphere * 100;
 	
@@ -41,24 +44,17 @@ public class ImageObj : MonoBehaviour {
 		return _visibleObjs;
 	}
 
-//	void OnBecameVisible()
-//	{
-//		if (!_loaded)
-//		{
-//			ImageManager.Instance.AddObjToLoad(this);
-//		}
-//
-//		_visibleObjs.Add(this);
-//	}
-//
-//	void OnBecameInvisible()
-//	{
-//		if (!_loaded)
-//			ImageManager.Instance.AddObjToQueue(this);
-//
-//		if (_visibleObjs.Contains(this))
-//			_visibleObjs.Remove(this);
-//	}
+	public void ScaleToCube()
+	{
+		LeanTween.scaleX(_imagePlane.gameObject,CubeXScale,.3f);
+	}
+
+	public void ScaleToPlane()
+	{
+		LeanTween.scaleX(_imagePlane.gameObject,_startXScale,.3f);
+
+	}
+
 
 	public void SetVisible(bool visible)
 	{
@@ -117,6 +113,8 @@ public class ImageObj : MonoBehaviour {
 
 	void OnSelected()
 	{
+		ScaleToCube();
+
 		string largeUrl;
 		if (ImageManager.Instance.GetLargeImageUrl(_url,out largeUrl))
 		{
@@ -128,6 +126,12 @@ public class ImageObj : MonoBehaviour {
 
 
 		}
+	}
+
+	void OnUnselected()
+	{
+		ScaleToPlane();
+
 	}
 
 	void OnGotLargeTexture(string url , Texture2D largeTex )
