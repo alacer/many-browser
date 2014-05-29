@@ -4,11 +4,20 @@ ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
     100000: //RootNode
+    100002: border
+    100004: plane
     400000: //RootNode
+    400002: border
+    400004: plane
     2300000: //RootNode
+    2300002: border
+    2300004: plane
     3300000: //RootNode
+    3300002: border
+    3300004: plane
     4300000: pPlane1
     4300002: plane
+    4300004: border
     9500000: //RootNode
   materials:
     importMaterials: 1
