@@ -14,6 +14,7 @@ using System.IO;
 
 static public class NGUITools
 {
+	#pragma warning disable
 	static AudioListener mListener;
 
 	static bool mLoaded = false;
