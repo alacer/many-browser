@@ -13,6 +13,7 @@ public class ImageObj : MonoBehaviour {
 	public float CubeXScale = 1344;
 	public GameObject CubeRotator;
 	public float MaxWidthScale = 1.2f;
+	public float Price;
 
 	Dictionary<string,object> _data;
 	static float MaxZOffset = .1f;
@@ -41,6 +42,11 @@ public class ImageObj : MonoBehaviour {
 		_imageBox.localPosition += Random.onUnitSphere * 100;
 	
 		_startScale = _imageBox.localScale;
+	}
+
+	public float GetData(string key)
+	{
+		return (float)_data[key];
 	}
 
 	public static List<ImageObj> GetVisibleObjs()
@@ -72,7 +78,7 @@ public class ImageObj : MonoBehaviour {
 
 	void UpdateRoation()
 	{
-		if (SceneManager.Instance.GetScene() != Scene.Browse)
+		if (gameObject == null || SceneManager.Instance.GetScene() != Scene.Browse)
 			return;
 
 
@@ -168,6 +174,7 @@ public class ImageObj : MonoBehaviour {
 
 		_data = data;
 
+		Price = GetData("Price");
 		ImageRenderer.material.mainTexture = tex;
 
 

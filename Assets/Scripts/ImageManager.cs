@@ -49,12 +49,27 @@ public class ImageManager : MonoBehaviour {
 
 	}
 
+	public List<ImageObj> GetUniqueImageObjList()
+	{
+		List<ImageObj> uniqueList = new List<ImageObj>();
+
+		foreach (List<ImageObj> list in _urlToImageObj.Values)
+		{
+			uniqueList.Add(list[0]);
+
+		}
+
+		return uniqueList;
+	}
+
 
 	void CreateDictionaries()
 	{
 		for (int i=0; i < _imageObjs.Length; i++)
 		{
-			_imageObjToUrl.Add(_imageObjs[i], (string)_objData[i % _objData.Count]["Url"]);
+			string url = (string)_objData[i % _objData.Count]["Url"];
+		
+			_imageObjToUrl.Add(_imageObjs[i], url);
 		}
 
 		foreach (Dictionary<string,object> data in _objData)

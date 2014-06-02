@@ -82,7 +82,7 @@ public class InputManager : MonoBehaviour {
 		// if they just touch the screen and stuff is moving.. stop everything
 		if (_lastTouchCount == 0 && GetTouchCount() > 0)
 		{
-			Debug.Log("just touched screen so stopping");
+//			Debug.Log("just touched screen so stopping");
 			_currentStopFrame = _stopFrames;
 		}
 

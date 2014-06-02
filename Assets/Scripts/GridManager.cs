@@ -2,6 +2,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+public enum SortOrder
+{
+	Asending,
+	Desending
+}
+
 public class GridManager : MonoBehaviour {
 
 	public GameObject imageObjPrefab;
@@ -28,14 +34,16 @@ public class GridManager : MonoBehaviour {
 	List<List<Transform>> _yLayers = new List<List<Transform>>();
 	List<List<Transform>> _zLayers = new List<List<Transform>>();
 
-	List<Transform> _allObjs = new List<Transform>();
-
+	List<ImageObj> _allObjs = new List<ImageObj>();
+	List<ImageObj> _uniqueObjs = new List<ImageObj>();
 
 
 	public static GridManager Instance;
 
 	void Awake()
 	{
+
+
 		LeanTween.init(2000);
 		Application.targetFrameRate = 60;
 
@@ -50,8 +58,12 @@ public class GridManager : MonoBehaviour {
 	public static void Initialize()
 	{
 		if (Instance != null)
+		{
+			ImageObj[] allObjs = FindObjectsOfType<ImageObj>();
+			for (int i = allObjs.Length-1; i >= 0; i--)
+				DestroyImmediate(allObjs[i].gameObject);
 			DestroyImmediate(Instance.gameObject);
-
+		}
 
 		Instance =  ((GameObject)Instantiate(Resources.Load("GridManager"))).GetComponent<GridManager>();
 
@@ -71,15 +83,60 @@ public class GridManager : MonoBehaviour {
 		return _minHelixY;
 	}
 
+	public void SortByPrice()
+	{
+		SortObjsBy("Price",SortOrder.Desending);
+		FormHelix();
+	}
+
+
+	void SortObjsBy(string sort, SortOrder order)
+	{
+		Debug.Log("sorting by: " + sort);
+		_uniqueObjs = ImageManager.Instance.GetUniqueImageObjList();
+
+		for (int i=0; i < _uniqueObjs.Count; i++)
+		{
+			for (int j=0; j <_uniqueObjs.Count-1; j++)
+			{
+				if (order == SortOrder.Desending)
+				{
+					if (_uniqueObjs[j].GetData(sort) > _uniqueObjs[j+1].GetData(sort))
+					{
+						SwapObjs(j,j+1);
+					}
+				}
+				else
+				{
+					if (_uniqueObjs[j].GetData(sort) < _uniqueObjs[j+1].GetData(sort))
+					{
+						SwapObjs(j,j+1);
+					}
+				}
+				
+			}
+			
+		}
+	}
+	
+	void SwapObjs(int firstIndex, int secondIndex)
+	{
+		ImageObj temp = _uniqueObjs[secondIndex];
+		
+		_uniqueObjs[secondIndex] = _uniqueObjs[firstIndex];
+		_uniqueObjs[firstIndex] = temp;
+		
+	}
+
 
 	public void FormHelix()
 	{
 		Debug.Log("forming helix");
-		if (SceneManager.Instance.GetScene() != Scene.Helix && SceneManager.Instance.GetScene() != Scene.InTransition)
+		if (SceneManager.Instance.GetScene() != Scene.InTransition)
 			StartCoroutine(FormHelixRoutine());
 	}
 
-
+	
 	IEnumerator FormHelixRoutine()
 	{
 
@@ -105,10 +162,8 @@ public class GridManager : MonoBehaviour {
 
 
 		// Create lists of new positions and rotations
-		for (int i=0; i < _allObjs.Count; i++)
+		for (int i=0; i < _uniqueObjs.Count; i++)
 		{
-
-//			Debug.Log("rotation: " + rotation);
 
 			center += heightDelta * Vector3.up;
 			angle += angleDelta;
@@ -122,7 +177,7 @@ public class GridManager : MonoBehaviour {
 			if (i == 0)
 				_minHelixY = pos.y;
 
-			if (i == _allObjs.Count-1)
+			if (i == _uniqueObjs.Count-1)
 				_maxHelixY = pos.y;
 
 			positions.Add(pos);
@@ -130,11 +185,10 @@ public class GridManager : MonoBehaviour {
 		}
 
 		// now animate all to new positions and rotations
-		for (int i=0; i < _allObjs.Count; i++)
+		for (int i=0; i < _uniqueObjs.Count; i++)
 		{
 
-	//		yield return new WaitForSeconds(.01f);
-			GameObject obj = _allObjs[i].gameObject;
+			GameObject obj = _uniqueObjs[i].gameObject;
 			LeanTween.cancel(obj);
 
 			Vector3 newPos = positions[i];
@@ -146,15 +200,19 @@ public class GridManager : MonoBehaviour {
 			{
 				LeanTween.move(obj,newPos,animateToHelixTime).setEase(LeanTweenType.easeOutExpo);
 				LeanTween.rotate(obj,newRotation,animateToHelixTime).setEase(LeanTweenType.easeOutExpo);
-
-//				yield return new WaitForSeconds(.03f);
-
 			}
 			else 
 			{
 				obj.transform.position = positions[i];
 				obj.transform.rotation = Quaternion.Euler(rotations[i]);
 			}
+		}
+
+		foreach(ImageObj obj in _allObjs)
+		{
+			if (_uniqueObjs.Contains(obj) == false)
+				obj.SetVisible(false);
+
 		}
 
 		yield return new WaitForSeconds (animateToHelixTime);
@@ -374,7 +432,7 @@ public class GridManager : MonoBehaviour {
 					_xLayers[xIndex].Add(imageObj.transform);
 					_yLayers[yIndex].Add(imageObj.transform);
 					_zLayers[zIndex].Add(imageObj.transform);
-					_allObjs.Add(imageObj.transform);
+					_allObjs.Add(imageObj.GetComponent<ImageObj>());
 
 					yIndex++;
 				}

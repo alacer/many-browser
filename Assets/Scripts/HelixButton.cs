@@ -9,4 +9,9 @@ public class HelixButton : MonoBehaviour {
 		GridManager.Instance.FormHelix();
 
 	}
+
+	void SortByPrice()
+	{
+		GridManager.Instance.SortByPrice();
+	}
 }

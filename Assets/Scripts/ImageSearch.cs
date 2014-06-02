@@ -11,7 +11,7 @@ public class ImageSearch : MonoBehaviour {
 
 
 	public static ImageSearch Instance;
-	MatchCollection _matchCollection;
+	public TextAsset CachedResponse;
 	List<Dictionary<string,object>> _dataList = new List<Dictionary<string, object>>();
 	bool _searching;
 
@@ -43,19 +43,19 @@ public class ImageSearch : MonoBehaviour {
 	// Use this for initialization
 	IEnumerator SearchRoutine (string search) {
 
-		if (search.Contains(" "))
-		{
-			string[] words = search.Split(new char[] {' '});
-			search = string.Empty;
-
-			for (int i=0; i < words.Length; i++)
-			{
-				string word = words[i];
-
-				search += (i==0) ? word : word + ",";
-
-			}
-		}
+//		if (search.Contains(" "))
+//		{
+//			string[] words = search.Split(new char[] {' '});
+//			search = string.Empty;
+//
+//			for (int i=0; i < words.Length; i++)
+//			{
+//				string word = words[i];
+//
+//				search += (i==0) ? word : word + ",";
+//
+//			}
+//		}
 
 
 		// clear out previous searches & show loader
@@ -75,7 +75,7 @@ public class ImageSearch : MonoBehaviour {
 		WWW www = null;
 
 		form.AddField("keywords",search);
-		form.AddField("limit",50);
+	//	form.AddField("limit",50);
 
 
 		bool gotError = false;
@@ -107,54 +107,67 @@ public class ImageSearch : MonoBehaviour {
 
 		Debug.Log("search complete");
 
-		if (!gotError) // no error so parse the request
+		if (gotError)
 		{
+			returnStr = CachedResponse.text;
+		}
+
 	
-			if (returnStr == null)
-			{
-				returnStr = www.text;
-				PlayerPrefs.SetString(search,returnStr);
-			}
-
-			JArray jArray = (JArray)JsonConvert.DeserializeObject(returnStr);
-
-
-			for (int i=0; i < jArray.Count; i++)
-			{
-				Dictionary<string,object> data = new Dictionary<string, object>();
-
-			
-				try {
-					string str = (string)jArray[i]["data"]["AWSECommerceService"]["ItemAttributes"][0]["ListPrice"][0]["Amount"][0];
-					Debug.Log("found price: " + str);
-					float price = float.Parse(str) / 100.0f;
-					data["Price"] = price;
-
-				} catch (System.Exception ex) {
-					Debug.LogWarning("could not parse price error: " + ex.Message);
-					data["Price"] = Random.Range(5,20);
-				}
-
-				try {
-				
-					data["Url"] = (string)jArray[i]["image"]["url"];
-
-					data["LargeUrl"] = (string)jArray[i]["images"][0]["url"];
-
-				} catch (System.Exception ex) {
-					Debug.LogWarning("could not parse image error: " + ex.Message);
-				}
-
-
-				_dataList.Add(data);
-			}
-		}
-		else //  issue with the server
+		if (returnStr == null)
 		{
-			Debug.Log("issue with server.. trying bing search");
-			TweenAlpha.Begin(GameObject.Find("ErrorLabel"),.3f,1);
-
+			returnStr = www.text;
+			PlayerPrefs.SetString(search,returnStr);
 		}
+
+		JArray jArray = (JArray)JsonConvert.DeserializeObject(returnStr);
+
+
+		for (int i=0; i < jArray.Count; i++)
+		{
+
+			Dictionary<string,object> data = new Dictionary<string, object>();
+
+			try {
+				
+				data["Url"] = (string)jArray[i]["body"]["image"]["url"];
+				
+				
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse image error: " + ex.Message);
+				continue;
+			}
+
+		
+			try {
+				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["ListPrice"][0]["Amount"][0];
+			
+				float price = float.Parse(str) / 100.0f;
+				data["Price"] = price;
+
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse price error: " + ex.Message);
+				data["Price"] = Random.Range(5.0f,20.0f);
+			}
+
+
+			try {
+
+				
+				data["LargeUrl"] = (string)jArray[i]["images"][0]["url"];
+				
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse large image error: " + ex.Message);
+			}
+
+			_dataList.Add(data);
+		}
+
+//		else //  issue with the server
+//		{
+//			Debug.Log("issue with server.. trying bing search");
+//			TweenAlpha.Begin(GameObject.Find("ErrorLabel"),.3f,1);
+//
+//		}
 
 
 		Loader.Instance.Hide();
