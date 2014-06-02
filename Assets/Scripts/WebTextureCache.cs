@@ -26,8 +26,9 @@ public class WebTextureCache : MonoBehaviour
 		return instance;
 	}
 	
-	public IEnumerator GetTexture (string url, Action<string,Texture2D> callback)
+	public IEnumerator GetTexture (string url, Dictionary<string,object> data, Action<string, Dictionary<string,object>,Texture2D> callback)
 	{
+
 		if (!this.imageCache.ContainsKey (url)) {
 			int retryTimes = 3; // Number of time to retry if we get a web error
 			WWW request;
@@ -60,7 +61,7 @@ public class WebTextureCache : MonoBehaviour
 			// or we were not able to get the requested image.
 			Texture2D texture = null;
 			this.imageCache.TryGetValue (url, out texture);
-			callback (url,texture);
+			callback (url, data,texture);
 		}
 	}
 }

@@ -31,7 +31,6 @@ public class GridManager : MonoBehaviour {
 	List<Transform> _allObjs = new List<Transform>();
 
 
-	List<string> _urls = new List<string>();
 
 	public static GridManager Instance;
 
@@ -48,7 +47,7 @@ public class GridManager : MonoBehaviour {
 		GameObject.Find("HelixHitCylinder").transform.localScale = new Vector3(HelixRadius*2,5000,HelixRadius*2);
 	}
 
-	public static void Initialize(List<string> urls)
+	public static void Initialize()
 	{
 		if (Instance != null)
 			DestroyImmediate(Instance.gameObject);
@@ -57,16 +56,9 @@ public class GridManager : MonoBehaviour {
 		Instance =  ((GameObject)Instantiate(Resources.Load("GridManager"))).GetComponent<GridManager>();
 
 		Instance.transform.parent = GameObject.Find("UIRoot").transform;
-		Instance.SetUrls(urls);
+		Instance.CreateGrid();
 
 	//	SetAllVisible(false);
-	}
-
-	public void SetUrls(List<string> urls)
-	{
-		_urls = urls;
-		CreateGrid();
-
 	}
 
 	public float GetHelixMaxY()
@@ -106,9 +98,8 @@ public class GridManager : MonoBehaviour {
 		float angleDelta = 25;
 		float angle = 0;
 		float heightDelta = .15f;
-		float animTime = 2;
-		float startHeight = 10;
-		float animateUpTime = .5f;
+	
+
 		float animateToHelixTime = 1;
 		Vector3 rotation = Vector3.zero;
 
@@ -208,7 +199,7 @@ public class GridManager : MonoBehaviour {
 		if (moveDir.magnitude == 0 && LeanTween.isTweening(Camera.main.gameObject) == false)
 			return;
 		
-		Vector3 cameraPos = Camera.main.transform.position;
+	//	Vector3 cameraPos = Camera.main.transform.position;
 		Vector3 center = GetCenterPos();// cameraPos + Vector3.forward * _zRadius - Vector3.right * _xRadius/2.0f + Vector3.up * _yRadius/2.0f;
 		
 		// is the camera moving right and do we need to shift the cube right? use .01 to account for float point error
@@ -353,54 +344,49 @@ public class GridManager : MonoBehaviour {
 
 		Vector3 center = GetCenterPos();
 
-		// create the image grid with random images from the urls
-		if (_urls.Count > 0)
+		int zIndex=0;
+		for (float z = -_zRadius; z <= _zRadius; z += zPadding)
 		{
-			int zIndex=0;
-			for (float z = -_zRadius; z <= _zRadius; z += zPadding)
+
+			int xIndex=0;
+			for (float x = -_xRadius; x <= _xRadius; x += xPadding)
 			{
-				List<Transform> zLayer = new List<Transform>();
 
-				int xIndex=0;
-				for (float x = -_xRadius; x <= _xRadius; x += xPadding)
+
+				int yIndex=0;
+				for (float y = -_yRadius; y <= _yRadius; y += yPadding)
 				{
-					List<Transform> xLayer = new List<Transform>();
+					float zOffset = Random.Range(MinZ,MaxZ);
+					float zPos = z + zOffset;
 
-					int yIndex=0;
-					for (float y = -_yRadius; y <= _yRadius; y += yPadding)
-					{
-						float zOffset = Random.Range(MinZ,MaxZ);
-						float zPos = z + zOffset;
-
-						GameObject imageObj = (GameObject) Instantiate (imageObjPrefab,new Vector3(x + center.x,y + center.y,zPos + center.z),Quaternion.Euler(0,0,0));
-						imageObj.transform.parent = transform;
-						
-				//		imageObj.SendMessage("Initialize",_urls[Random.Range(0,_urls.Count)]);
-
-						if (xIndex > _xLayers.Count-1)
-							_xLayers.Add (new List<Transform>());
-						if (yIndex > _yLayers.Count-1)
-							_yLayers.Add (new List<Transform>());
-						if (zIndex > _zLayers.Count-1)
-							_zLayers.Add (new List<Transform>());
+					GameObject imageObj = (GameObject) Instantiate (imageObjPrefab,new Vector3(x + center.x,y + center.y,zPos + center.z),Quaternion.Euler(0,0,0));
+					imageObj.transform.parent = transform;
 
 
-						_xLayers[xIndex].Add(imageObj.transform);
-						_yLayers[yIndex].Add(imageObj.transform);
-						_zLayers[zIndex].Add(imageObj.transform);
-						_allObjs.Add(imageObj.transform);
+					if (xIndex > _xLayers.Count-1)
+						_xLayers.Add (new List<Transform>());
+					if (yIndex > _yLayers.Count-1)
+						_yLayers.Add (new List<Transform>());
+					if (zIndex > _zLayers.Count-1)
+						_zLayers.Add (new List<Transform>());
 
-						yIndex++;
-					}
 
+					_xLayers[xIndex].Add(imageObj.transform);
+					_yLayers[yIndex].Add(imageObj.transform);
+					_zLayers[zIndex].Add(imageObj.transform);
+					_allObjs.Add(imageObj.transform);
 
-					xIndex++;
+					yIndex++;
 				}
 
-				zIndex++;
+
+				xIndex++;
 			}
 
+			zIndex++;
 		}
+
+
 	}
 
 	public float GetZPadding()

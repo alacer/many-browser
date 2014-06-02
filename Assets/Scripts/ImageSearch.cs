@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -6,12 +6,13 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 
+
 public class ImageSearch : MonoBehaviour {
 
 
 	public static ImageSearch Instance;
 	MatchCollection _matchCollection;
-	List<string> _urls = new List<string>();
+	List<Dictionary<string,object>> _dataList = new List<Dictionary<string, object>>();
 	bool _searching;
 
 	void Awake()
@@ -19,7 +20,11 @@ public class ImageSearch : MonoBehaviour {
 		Instance = this;
 	}
 
-	
+	void Start()
+	{
+
+	}
+
 	void OnPress(bool pressed)
 	{
 		GetComponent<UIInput>().label.text = "";
@@ -55,7 +60,7 @@ public class ImageSearch : MonoBehaviour {
 
 		// clear out previous searches & show loader
 		ImageManager.Instance.Clear();
-		_urls.Clear();
+		_dataList.Clear();
 		Loader.Instance.Show();
 		Debug.Log("game obj: " + gameObject.name);
 		GetComponent<UIInput>().label.text = search;
@@ -72,7 +77,6 @@ public class ImageSearch : MonoBehaviour {
 		form.AddField("keywords",search);
 		form.AddField("limit",50);
 
-		Dictionary<string,string> largeImageDict = new Dictionary<string, string>();
 
 		bool gotError = false;
 
@@ -88,7 +92,7 @@ public class ImageSearch : MonoBehaviour {
 			 
 			float time = 0;
 			float timeOut = 6;
-			while (timeOut < timeOut && www.isDone == false)
+			while (time < timeOut && www.isDone == false)
 			{
 				yield return new WaitForSeconds(.1f);
 				time += .1f;
@@ -112,90 +116,55 @@ public class ImageSearch : MonoBehaviour {
 				PlayerPrefs.SetString(search,returnStr);
 			}
 
-			//var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Arrays };
-			var data = JsonConvert.DeserializeObject<List< Dictionary<string, object>>>(returnStr);
+			JArray jArray = (JArray)JsonConvert.DeserializeObject(returnStr);
 
-	//		dynamic dyn = JsonConvert.DeserializeObject(returnStr);
 
-//			Debug.Log("label: " + dyn[0].label);
-
-			foreach(Dictionary<string,object> obj in data)
+			for (int i=0; i < jArray.Count; i++)
 			{
+				Dictionary<string,object> data = new Dictionary<string, object>();
+
 			
-				Dictionary<string,object> objDict = (Dictionary<string,object>)obj;
+				try {
+					string str = (string)jArray[i]["data"]["AWSECommerceService"]["ItemAttributes"][0]["ListPrice"][0]["Amount"][0];
+					Debug.Log("found price: " + str);
+					float price = float.Parse(str) / 100.0f;
+					data["Price"] = price;
 
-//				foreach (string key in objDict.Keys)
-//				{
-//					Debug.Log("key: " + key);
-//					if (objDict[key] != null)
-//						Debug.Log(" value: " + objDict[key].GetType().ToString());
-//				}
-
-//				Dictionary<string,object> dataObj = (Dictionary<string,object>)obj["data"];
-
-//				Dictionary<string,object> AWSObj = (Dictionary<string,object>)obj["AWSECommerceService"];
-
-
-		//		Debug.Log("price: " + objDict["data"]["ListPrice"]["Amount"]);
-
-				if (objDict["image"] == null)
-					continue;
-
-				Newtonsoft.Json.Linq.JObject imageObj = (Newtonsoft.Json.Linq.JObject)obj["image"];
-
-
-
-				Newtonsoft.Json.Linq.JToken token;
-
-
-				if (imageObj.TryGetValue("url", out token))
-				{
-					string url = token.ToObject<string>();
-					_urls.Add( url );
-
-					Newtonsoft.Json.Linq.JArray largeImageArray = (Newtonsoft.Json.Linq.JArray)objDict["images"];
-					if (largeImageArray != null && largeImageArray.Count > 0)
-					{
-						string largeUrl = largeImageArray[0]["url"].ToString();
-
-						if (largeUrl != string.Empty && largeUrl != null)
-							largeImageDict[url] = largeUrl;
-
-					}
+				} catch (System.Exception ex) {
+					Debug.LogWarning("could not parse price error: " + ex.Message);
+					data["Price"] = Random.Range(5,20);
 				}
+
+				try {
+				
+					data["Url"] = (string)jArray[i]["image"]["url"];
+
+					data["LargeUrl"] = (string)jArray[i]["images"][0]["url"];
+
+				} catch (System.Exception ex) {
+					Debug.LogWarning("could not parse image error: " + ex.Message);
+				}
+
+
+				_dataList.Add(data);
 			}
 		}
-		else // use Bing if there is an issue with the server
+		else //  issue with the server
 		{
 			Debug.Log("issue with server.. trying bing search");
 			TweenAlpha.Begin(GameObject.Find("ErrorLabel"),.3f,1);
 
-//			string backupQuery =  "http://www.bing.com/images/search?&q=" + search + "&qft=+filterui:imagesize-small&FORM=R5IR1#a";
-//			WWW backupWWW = new WWW (backupQuery);
-//
-//			yield return backupWWW;
-//			returnStr = backupWWW.text;
-//
-//			_matchCollection = Regex.Matches(returnStr, @"imgurl(.*?).jpg");// @"http(.*?).jpg",
-//			
-//			// get the urls from our search
-//			foreach (Match m in _matchCollection)
-//			{
-//				string url  = m.Value.Split(new string[] {"quot;"} , System.StringSplitOptions.None)[1];
-//				
-//				_urls.Add(url);
-//			}
 		}
 
-		Debug.Log("got url count: " + _urls.Count);
 
 		Loader.Instance.Hide();
 
-		if (_urls.Count > 0)
+		if (_dataList.Count > 0)
 		{
-			GridManager.Initialize(_urls);
+			GridManager.Initialize();
 			TweenAlpha.Begin(GameObject.Find("ErrorLabel"),0,0);
-			ImageManager.Instance.Initialize(_urls,largeImageDict);
+		
+			ImageManager.Instance.Initialize(_dataList);
 
 			if (SceneManager.Instance.GetScene() == Scene.Default)
 				SceneManager.Instance.TransitionToBrowseView();

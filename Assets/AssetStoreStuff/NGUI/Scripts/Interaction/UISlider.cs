@@ -13,6 +13,7 @@ using UnityEngine;
 [AddComponentMenu("NGUI/Interaction/Slider")]
 public class UISlider : IgnoreTimeScale
 {
+	#pragma warning disable
 	public enum Direction
 	{
 		Horizontal,

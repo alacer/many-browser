@@ -11,7 +11,7 @@ public class DragDropItem : MonoBehaviour
 	/// <summary>
 	/// Prefab object that will be instantiated on the DragDropSurface if it receives the OnDrop event.
 	/// </summary>
-
+	#pragma warning disable
 	public GameObject prefab;
 	UIRoot mRoot;
 	Transform mTrans;

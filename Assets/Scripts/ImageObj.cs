@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class ImageObj : MonoBehaviour {
 
+
 	public Renderer ImageRenderer;
 	public float MoveSpeed = 1;
 	public float RotateDistance = 3;
@@ -13,10 +14,10 @@ public class ImageObj : MonoBehaviour {
 	public GameObject CubeRotator;
 	public float MaxWidthScale = 1.2f;
 
+	Dictionary<string,object> _data;
 	static float MaxZOffset = .1f;
 	bool _isFacingCamera;
-
-	string _url;
+	
 	bool _loaded;
 	
 	Vector3 _totalZMovement;
@@ -119,7 +120,6 @@ public class ImageObj : MonoBehaviour {
 
 		Debug.Log("scale x: " + transform.localScale.x);
 		float animTime = .3f;
-		Vector3 right = -Vector3.Cross(Vector3.up,CameraManager.Instance.GetForward());
 		Vector3 newPos = Camera.main.ViewportToWorldPoint(new Vector3(.5f,.5f,2));
 		LeanTween.move(gameObject,newPos ,animTime).setEase(LeanTweenType.easeOutQuad);
 		LeanTween.rotateLocal(gameObject,Vector3.zero, animTime).setEase(LeanTweenType.easeOutQuad).setOnComplete ( () =>
@@ -133,13 +133,12 @@ public class ImageObj : MonoBehaviour {
 		CubeRotator.SendMessage("OnSelect");
 		ScaleToCube();
 
-		string largeUrl;
-		if (ImageManager.Instance.GetLargeImageUrl(_url,out largeUrl))
+
+		if (_data.ContainsKey("LargeUrl"))
 		{
-			
 			var textureCache = WebTextureCache.InstantiateGlobal ();
 
-			StartCoroutine (textureCache.GetTexture (largeUrl, OnGotLargeTexture));
+			StartCoroutine (textureCache.GetTexture ((string)_data["LargeUrl"], _data, OnGotLargeTexture));
 				
 
 
@@ -154,20 +153,20 @@ public class ImageObj : MonoBehaviour {
 
 	}
 
-	void OnGotLargeTexture(string url , Texture2D largeTex )
+	void OnGotLargeTexture(string url, Dictionary<string,object> data , Texture2D largeTex )
 	{
 		ImageRenderer.material.mainTexture = largeTex;
 	}
 
-	public void SetTexture(Texture2D tex, string url)
+	public void Initialize(Texture2D tex, Dictionary<string,object> data)
 	{
 		if (this == null)
 			return;
 
-		if (tex == null)
-			Debug.LogError("texture is null for url " + url);
+//		if (tex == null)
+//			Debug.LogError("texture is null for url " + url);
 
-		_url = url;
+		_data = data;
 
 		ImageRenderer.material.mainTexture = tex;
 

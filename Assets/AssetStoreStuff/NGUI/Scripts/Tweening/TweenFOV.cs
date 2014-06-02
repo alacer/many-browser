@@ -13,6 +13,7 @@ using UnityEngine;
 [AddComponentMenu("NGUI/Tween/Field of View")]
 public class TweenFOV : UITweener
 {
+	#pragma warning disable
 	public float from;
 	public float to;
 
