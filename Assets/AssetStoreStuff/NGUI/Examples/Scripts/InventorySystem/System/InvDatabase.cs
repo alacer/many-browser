@@ -20,7 +20,7 @@ public class InvDatabase : MonoBehaviour
 			if (mIsDirty)
 			{
 				mIsDirty = false;
-				mList = GameObject.FindSceneObjectsOfType(typeof(InvDatabase)) as InvDatabase[];
+				mList = FindObjectsOfType<InvDatabase>();// GameObject.FindSceneObjectsOfType(typeof(InvDatabase)) as InvDatabase[];
 
 				// Alternative method, considers prefabs:
 				//mList = Resources.FindObjectsOfTypeAll(typeof(InvDatabase)) as InvDatabase[];

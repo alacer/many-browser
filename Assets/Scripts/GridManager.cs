@@ -14,7 +14,7 @@ public class GridManager : MonoBehaviour {
 	public float RandomMoveMaxTime = 1;
 	public float RandomMoveMinTime = .5f;
 	public float MaxRandomZMovement = 3;
-	public float HelixRadius = 2.5f;
+	public float HelixRadius = 3f;
 
 	public float MaxZ;
 	public float MinZ;
@@ -55,6 +55,8 @@ public class GridManager : MonoBehaviour {
 
 
 		Instance =  ((GameObject)Instantiate(Resources.Load("GridManager"))).GetComponent<GridManager>();
+
+		Instance.transform.parent = GameObject.Find("UIRoot").transform;
 		Instance.SetUrls(urls);
 
 	//	SetAllVisible(false);
@@ -101,9 +103,9 @@ public class GridManager : MonoBehaviour {
 		Vector3 center = helixObj.position;
 		Vector3 dir = Vector3.right;
 
-		float angleDelta = 35;
+		float angleDelta = 25;
 		float angle = 0;
-		float heightDelta = .2f;
+		float heightDelta = .15f;
 		float animTime = 2;
 		float startHeight = 10;
 		float animateUpTime = .5f;

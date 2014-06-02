@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour {
 
 	Vector2 _twoFingerTouchStartPos;
 	Vector2 _simulatedFinger2Pos;
+	Vector3 _touchDelta;
 	float _lastTwoFingerSwipeSpeed;
 	float _lastFingerDist;
 
@@ -18,6 +19,7 @@ public class InputManager : MonoBehaviour {
 	int _currentStopFrame;
 	float _timeSinceMouseDown;
 	float _clickTime = .1f;
+
 
 	bool _hasLiftedFingersSinceLastSwipe = true;
 
@@ -58,8 +60,8 @@ public class InputManager : MonoBehaviour {
 
 			if (Input.GetMouseButtonUp(0))
 			{
-				Debug.Log("time since mouse down: " + _timeSinceMouseDown);
-				if (_timeSinceMouseDown <= _clickTime)
+//				Debug.Log("time since mouse down: " + _timeSinceMouseDown);
+				if (_timeSinceMouseDown <= _clickTime && _touchDelta.magnitude < 5)
 					Utils.SendMessageToAll("OnSingleTap",Input.mousePosition);
 
 			}
@@ -105,7 +107,14 @@ public class InputManager : MonoBehaviour {
 		UpdateTwoFingerSwipe();
 
 		if (GetTouchCount() == 1)
+		{
+			if (_lastTouchCount == 1)
+				_touchDelta = GetTouchPos(0) - _lastTouchPos;
+
 			_lastTouchPos =  GetTouchPos(0) ;
+		}
+		else
+			_touchDelta = Vector3.zero;
 		
 		_lastTouchCount = GetTouchCount();
 	}
@@ -168,8 +177,12 @@ public class InputManager : MonoBehaviour {
 
 	public Vector3 GetOneFingerTouchDelta()
 	{
+
 		if (IsTouchingWithOneFinger())
-			return (GetTouchPos(0) - _lastTouchPos);
+		{
+
+			return _touchDelta;
+		}
 		else
 			return Vector3.zero;
 

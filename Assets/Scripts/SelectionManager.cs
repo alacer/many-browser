@@ -51,13 +51,6 @@ public class SelectionManager : MonoBehaviour {
 		Debug.Log("selected obj stop");
 	//	_velocity = Vector3.zero;
 		LeanTween.cancel(gameObject);
-		float animTime = .3f;
-		Vector3 left = -Vector3.Cross(Vector3.up,CameraManager.Instance.GetForward());
-		LeanTween.move(obj.gameObject,CameraManager.Instance.transform.position + CameraManager.Instance.GetForward()*.9f + left*.5f ,animTime).setEase(LeanTweenType.easeOutQuad);
-		LeanTween.rotateLocal(obj.gameObject,Vector3.zero, animTime).setEase(LeanTweenType.easeOutQuad).setOnComplete ( () =>
-		                                                                                                               {
-			SceneManager.Instance.PushScene(Scene.Selected);
-		});
 	}
 	
 	void LeaveSelectedObj()

@@ -39,8 +39,8 @@ public class DragDropItem : MonoBehaviour
 	public void Drop ()
 	{
 		// Is there a droppable container?
-		Collider col = UICamera.lastHit.collider;
-		DragDropContainer container = (col != null) ? col.gameObject.GetComponent<DragDropContainer>() : null;
+//		Collider col = UICamera.lastHit.collider;
+//		DragDropContainer container = (col != null) ? col.gameObject.GetComponent<DragDropContainer>() : null;
 
 //		if (container != null)
 //		{

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 
 public class ImageSearch : MonoBehaviour {
 
@@ -36,7 +38,22 @@ public class ImageSearch : MonoBehaviour {
 	// Use this for initialization
 	IEnumerator SearchRoutine (string search) {
 
+		if (search.Contains(" "))
+		{
+			string[] words = search.Split(new char[] {' '});
+			search = string.Empty;
 
+			for (int i=0; i < words.Length; i++)
+			{
+				string word = words[i];
+
+				search += (i==0) ? word : word + ",";
+
+			}
+		}
+
+
+		// clear out previous searches & show loader
 		ImageManager.Instance.Clear();
 		_urls.Clear();
 		Loader.Instance.Show();
@@ -59,12 +76,13 @@ public class ImageSearch : MonoBehaviour {
 
 		bool gotError = false;
 
+		// if it's in the cache just use the cache
 		if (PlayerPrefs.HasKey(search))
 		{
 			returnStr = PlayerPrefs.GetString(search);	
 			Debug.Log("got search from cache " + returnStr);
 		}
-		else
+		else // otherwise perform the request
 		{
 			www = new WWW (query,form);
 			 
@@ -85,7 +103,7 @@ public class ImageSearch : MonoBehaviour {
 
 		Debug.Log("search complete");
 
-		if (!gotError)
+		if (!gotError) // no error so parse the request
 		{
 	
 			if (returnStr == null)
@@ -93,10 +111,13 @@ public class ImageSearch : MonoBehaviour {
 				returnStr = www.text;
 				PlayerPrefs.SetString(search,returnStr);
 			}
-		
+
 			//var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Arrays };
 			var data = JsonConvert.DeserializeObject<List< Dictionary<string, object>>>(returnStr);
 
+	//		dynamic dyn = JsonConvert.DeserializeObject(returnStr);
+
+//			Debug.Log("label: " + dyn[0].label);
 
 			foreach(Dictionary<string,object> obj in data)
 			{
@@ -110,7 +131,12 @@ public class ImageSearch : MonoBehaviour {
 //						Debug.Log(" value: " + objDict[key].GetType().ToString());
 //				}
 
-	
+//				Dictionary<string,object> dataObj = (Dictionary<string,object>)obj["data"];
+
+//				Dictionary<string,object> AWSObj = (Dictionary<string,object>)obj["AWSECommerceService"];
+
+
+		//		Debug.Log("price: " + objDict["data"]["ListPrice"]["Amount"]);
 
 				if (objDict["image"] == null)
 					continue;
@@ -142,36 +168,41 @@ public class ImageSearch : MonoBehaviour {
 		else // use Bing if there is an issue with the server
 		{
 			Debug.Log("issue with server.. trying bing search");
-			string backupQuery =  "http://www.bing.com/images/search?&q=" + search + "&qft=+filterui:imagesize-small&FORM=R5IR1#a";
-			WWW backupWWW = new WWW (backupQuery);
+			TweenAlpha.Begin(GameObject.Find("ErrorLabel"),.3f,1);
 
-			yield return backupWWW;
-			returnStr = backupWWW.text;
-
-			_matchCollection = Regex.Matches(returnStr, @"imgurl(.*?).jpg");// @"http(.*?).jpg",
-			
-			// get the urls from our search
-			foreach (Match m in _matchCollection)
-			{
-				string url  = m.Value.Split(new string[] {"quot;"} , System.StringSplitOptions.None)[1];
-				
-				_urls.Add(url);
-			}
+//			string backupQuery =  "http://www.bing.com/images/search?&q=" + search + "&qft=+filterui:imagesize-small&FORM=R5IR1#a";
+//			WWW backupWWW = new WWW (backupQuery);
+//
+//			yield return backupWWW;
+//			returnStr = backupWWW.text;
+//
+//			_matchCollection = Regex.Matches(returnStr, @"imgurl(.*?).jpg");// @"http(.*?).jpg",
+//			
+//			// get the urls from our search
+//			foreach (Match m in _matchCollection)
+//			{
+//				string url  = m.Value.Split(new string[] {"quot;"} , System.StringSplitOptions.None)[1];
+//				
+//				_urls.Add(url);
+//			}
 		}
 
 		Debug.Log("got url count: " + _urls.Count);
 
 		Loader.Instance.Hide();
 
-		GridManager.Initialize(_urls);
+		if (_urls.Count > 0)
+		{
+			GridManager.Initialize(_urls);
+			TweenAlpha.Begin(GameObject.Find("ErrorLabel"),0,0);
+			ImageManager.Instance.Initialize(_urls,largeImageDict);
 
-		ImageManager.Instance.Initialize(_urls,largeImageDict);
-
-		if (SceneManager.Instance.GetScene() == Scene.Default)
-			SceneManager.Instance.TransitionToBrowseView();
-		else
-			SceneManager.Instance.PushScene(Scene.Browse);
-		_searching = false;
+			if (SceneManager.Instance.GetScene() == Scene.Default)
+				SceneManager.Instance.TransitionToBrowseView();
+			else
+				SceneManager.Instance.PushScene(Scene.Browse);
+			_searching = false;
+		}
 	}
 
 

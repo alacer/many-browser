@@ -10,6 +10,8 @@ public class ImageObj : MonoBehaviour {
 	public float RotateDistance = 3;
 	public float MinDistToCamera = 1;
 	public float CubeXScale = 1344;
+	public GameObject CubeRotator;
+	public float MaxWidthScale = 1.2f;
 
 	static float MaxZOffset = .1f;
 	bool _isFacingCamera;
@@ -21,7 +23,7 @@ public class ImageObj : MonoBehaviour {
 	Vector3 _moveDelta;
 
 	Vector3 _startScale;
-	Transform _imagePlane;
+	Transform _imageBox;
 	float _startXScale;
 
 	static Dictionary<string,Texture2D>  _imageCache = new Dictionary<string, Texture2D>();
@@ -30,13 +32,14 @@ public class ImageObj : MonoBehaviour {
 
 	void Awake()
 	{
+		CubeRotator.SetActive(false);
 //		transform.localScale = Vector3.one * .3f;
-		_imagePlane = transform.FindChild("plane");
-		_startXScale = _imagePlane.localScale.x;
+		_imageBox = transform.FindChild("box");
+		_startXScale = _imageBox.localScale.x;
 //		_startRotation = _imagePlane.rotation.eulerAngles;
-		_imagePlane.localPosition += Random.onUnitSphere * 100;
+		_imageBox.localPosition += Random.onUnitSphere * 100;
 	
-		_startScale = _imagePlane.localScale;
+		_startScale = _imageBox.localScale;
 	}
 
 	public static List<ImageObj> GetVisibleObjs()
@@ -46,12 +49,12 @@ public class ImageObj : MonoBehaviour {
 
 	public void ScaleToCube()
 	{
-		LeanTween.scaleX(_imagePlane.gameObject,CubeXScale,.3f);
+		LeanTween.scaleX(_imageBox.gameObject,CubeXScale,.3f);
 	}
 
 	public void ScaleToPlane()
 	{
-		LeanTween.scaleX(_imagePlane.gameObject,_startXScale,.3f);
+		LeanTween.scaleX(_imageBox.gameObject,_startXScale,.3f);
 
 	}
 
@@ -113,6 +116,21 @@ public class ImageObj : MonoBehaviour {
 
 	void OnSelected()
 	{
+
+		Debug.Log("scale x: " + transform.localScale.x);
+		float animTime = .3f;
+		Vector3 right = -Vector3.Cross(Vector3.up,CameraManager.Instance.GetForward());
+		Vector3 newPos = Camera.main.ViewportToWorldPoint(new Vector3(.5f,.5f,2));
+		LeanTween.move(gameObject,newPos ,animTime).setEase(LeanTweenType.easeOutQuad);
+		LeanTween.rotateLocal(gameObject,Vector3.zero, animTime).setEase(LeanTweenType.easeOutQuad).setOnComplete ( () =>
+		                                                                                                               {
+			SceneManager.Instance.PushScene(Scene.Selected);
+		});
+
+		LeanTween.rotateLocal(ImageRenderer.gameObject,new Vector3(0,270,0), animTime).setEase(LeanTweenType.easeOutQuad);
+
+		CubeRotator.SetActive(true);
+		CubeRotator.SendMessage("OnSelect");
 		ScaleToCube();
 
 		string largeUrl;
@@ -130,6 +148,8 @@ public class ImageObj : MonoBehaviour {
 
 	void OnUnselected()
 	{
+		CubeRotator.SendMessage("OnUnselect");
+		CubeRotator.SetActive(false);
 		ScaleToPlane();
 
 	}
@@ -144,17 +164,25 @@ public class ImageObj : MonoBehaviour {
 		if (this == null)
 			return;
 
+		if (tex == null)
+			Debug.LogError("texture is null for url " + url);
+
 		_url = url;
 
 		ImageRenderer.material.mainTexture = tex;
-		
-		float aspectRatio = tex.width / tex.height;
+
+
+		float aspectRatio = (float)tex.width / (float)tex.height;
 		Vector3 scale = transform.localScale;
 		scale.x *= aspectRatio;
 
+		if (scale.x > MaxWidthScale)
+		{
+			scale *= MaxWidthScale / scale.x;
+		}
 //		_imagePlane.localPosition = Vector3.zero;
-		LeanTween.moveLocal(_imagePlane.gameObject,Vector3.zero,1);
-	//	transform.localScale = scale;
+		LeanTween.moveLocal(_imageBox.gameObject,Vector3.zero,1);
+		transform.localScale = scale;
 	//	renderer.enabled = true;
 	//	LeanTween.rotateX(gameObject,0,1).setEase(LeanTweenType.easeOutElastic);
 
