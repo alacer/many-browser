@@ -61,6 +61,7 @@ GameObject:
   - 4: {fileID: 400008}
   - 23: {fileID: 2300004}
   - 102: {fileID: 10200000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: Sort Text
   m_TagString: Untagged
@@ -259,6 +260,17 @@ MonoBehaviour:
   CubeXScale: 87
   CubeRotator: {fileID: 100004}
   MaxWidthScale: 1.20000005
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5118affa66f4d42dab97ee84a4326a44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

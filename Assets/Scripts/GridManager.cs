@@ -30,6 +30,10 @@ public class GridManager : MonoBehaviour {
 	float _zRadius;
 	float _maxHelixY;
 	float _minHelixY;
+
+	Quaternion _savedRotation;
+	Vector3 _savedPosition;
+
 	List<List<Transform>> _xLayers = new List<List<Transform>>();
 	List<List<Transform>> _yLayers = new List<List<Transform>>();
 	List<List<Transform>> _zLayers = new List<List<Transform>>();
@@ -43,8 +47,8 @@ public class GridManager : MonoBehaviour {
 	void Awake()
 	{
 
-
-		LeanTween.init(2000);
+		_savedRotation = transform.rotation;
+	
 		Application.targetFrameRate = 60;
 
 		Instance = this;
@@ -139,9 +143,11 @@ public class GridManager : MonoBehaviour {
 	IEnumerator FormHelixRoutine(string sort)
 	{
 
-
 		SceneManager.Instance.OnSceneTransition();
+		CameraManager.Instance.SavePlace();
 
+		_savedRotation = transform.rotation;
+		_savedPosition = transform.position;
 
 		List<Vector3> positions = new List<Vector3>();
 		List<Vector3> rotations = new List<Vector3>();
@@ -183,6 +189,11 @@ public class GridManager : MonoBehaviour {
 			rotations.Add(rotation);
 		}
 
+		foreach(ImageObj obj in _allObjs)
+		{
+			obj.SavePlace();
+		}
+
 		// now animate all to new positions and rotations
 		for (int i=0; i < _uniqueObjs.Count; i++)
 		{
@@ -211,6 +222,8 @@ public class GridManager : MonoBehaviour {
 		// now hide the non unique objects
 		foreach(ImageObj obj in _allObjs)
 		{
+
+
 			if (_uniqueObjs.Contains(obj) == false)
 				obj.gameObject.SetActive(false);
 
@@ -219,6 +232,67 @@ public class GridManager : MonoBehaviour {
 		yield return new WaitForSeconds (animateToHelixTime);
 		SceneManager.Instance.PushScene(Scene.Helix);
 		yield return null;
+	}
+
+	IEnumerator UnformHelix()
+	{
+		SceneManager.Instance.OnSceneTransition();
+		float animTime = 1;
+
+
+		transform.rotation = _savedRotation;
+		transform.position = _savedPosition;
+
+		CameraManager.Instance.MoveToSavedPlace(animTime);
+
+		foreach (ImageObj obj in _allObjs)
+		{
+			obj.HideText();
+
+			if (_uniqueObjs.Contains(obj))
+			{
+				obj.MoveToSavedPlace(animTime);
+			}
+			else
+			{
+				Vector3 pos = obj.transform.position;
+
+				Vector3 viewportPos = Camera.main.WorldToViewportPoint(pos);
+				bool posIsVisible = (viewportPos.x >= 0 && viewportPos.x <= 1 && viewportPos.y >= 0 && viewportPos.y <= 1);
+
+				if (posIsVisible)
+				{
+					obj.transform.position += Random.onUnitSphere * 10;
+					LeanTween.move(obj.gameObject,pos,animTime);
+				}
+
+				obj.gameObject.SetActive(true);
+
+
+			}
+
+			
+		}
+
+
+		yield return new WaitForSeconds(animTime);
+
+		
+
+
+
+
+
+		SceneManager.Instance.PushScene(Scene.Browse);
+	}
+
+	void OnTwoFingerSwipe(Vector3 dir)
+	{
+				
+		if (SceneManager.Instance.GetScene() == Scene.Helix && dir == Vector3.back)
+			StartCoroutine(UnformHelix());
+
+
 	}
 	
 

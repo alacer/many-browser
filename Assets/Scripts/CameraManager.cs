@@ -17,6 +17,9 @@ public class CameraManager : MonoBehaviour {
 	Vector3 _right;
 	Vector3 _moveDir;
 	Vector3 _velocity;
+	Vector3 _savedPos;
+	Vector3 _savedRotation;
+
 	Transform _helixObj;
 	Scene _currentScene;
 
@@ -27,7 +30,7 @@ public class CameraManager : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		Instance = this;
-		
+		LeanTween.init(3000);
 		_helixObj = transform.Find("HelixBottom");
 		
 		_forward = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * Vector3.forward;
@@ -188,6 +191,11 @@ public class CameraManager : MonoBehaviour {
 	
 #region Helper Functions
 
+	void OnSceneChange(Scene newScene)
+	{
+		_velocity = Vector3.zero;
+	}
+
 	public Vector3 GetForward()
 	{
 		return _forward;
@@ -233,6 +241,23 @@ public class CameraManager : MonoBehaviour {
 	{
 		return Camera.main.ScreenToWorldPoint(new Vector3(touchPos.x,touchPos.y,10));
 
+	}
+
+	public void MoveToSavedPlace(float animTime)
+	{
+		transform.position = _savedPos;
+		transform.rotation = Quaternion.Euler(_savedRotation);
+
+//		LeanTween.move(gameObject,_savedPos,animTime).setEase(LeanTweenType.easeOutExpo);
+//		LeanTween.rotate(gameObject,_savedRotation,animTime).setEase(LeanTweenType.easeOutExpo);
+
+
+	}
+	
+	public void SavePlace()
+	{
+		_savedPos = transform.position;
+		_savedRotation = transform.rotation.eulerAngles;
 	}
 
 #endregion

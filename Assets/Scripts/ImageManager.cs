@@ -110,9 +110,15 @@ public class ImageManager : MonoBehaviour {
 		{
 
 			obj.Initialize(tex,data);
-
+			_objData.Remove(data);
+			if (_objData.Count == 0)
+				OnLoadedAllImages();
 		}
 	}
-	
+
+	void OnLoadedAllImages()
+	{
+		GameObject.Find("SortButtons").SendMessage("Show");
+	}
 
 }

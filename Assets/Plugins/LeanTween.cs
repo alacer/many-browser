@@ -1354,6 +1354,7 @@ private static AnimationCurve punch = new AnimationCurve( new Keyframe(0.0f, 0.0
 private static AnimationCurve shake = new AnimationCurve( new Keyframe(0f, 0f), new Keyframe(0.25f, 1f), new Keyframe(0.75f, -1f), new Keyframe(1f, 0f) ) ;
 
 public static void init(){
+//		Debug.Log ("init max tweens: " + maxTweens);
 	init(maxTweens);
 }
 

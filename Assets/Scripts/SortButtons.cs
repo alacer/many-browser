@@ -3,10 +3,19 @@ using System.Collections;
 
 public class SortButtons : MonoBehaviour {
 
-
-	void OnSceneChange(Scene scene)
+	void Start()
 	{
-		bool active = (scene != Scene.Default);
-		Utils.ActiveChildren(transform,active);
+		Utils.ActiveChildren(transform,false);
 	}
+
+	void Show()
+	{
+		Utils.ActiveChildren(transform,true);
+	}
+
+//	void OnSceneChange(Scene scene)
+//	{
+//		bool active = (scene != Scene.Default);
+//		Utils.ActiveChildren(transform,active);
+//	}
 }

@@ -26,6 +26,9 @@ public class ImageObj : MonoBehaviour {
 	Vector3 _moveDelta;
 
 	Vector3 _startScale;
+	Vector3 _savedPos;
+	Vector3 _savedRotation;
+
 	Transform _imageBox;
 	float _startXScale;
 
@@ -45,82 +48,10 @@ public class ImageObj : MonoBehaviour {
 		_startScale = _imageBox.localScale;
 
 		Text.gameObject.SetActive(false);
-	}
 
-	public void SetText(string key)
-	{
-//		Debug.Log("setting key: " + key);
-
-		Text.gameObject.SetActive(true);
-
-		if (key == "Price")
-		{
-			decimal d = new decimal((float)_data[key]);
-			Text.text = "" +  decimal.Round(d,2).ToString ();
-		}
-		else if (key == "Popularity")
-		{
-			float val = (float)_data[key];
-			string text = ((int)(1.0f/val)).ToString();
-			Text.text = text;
-		}
-		else if (key == "ExpertRating" || key == "CustomerRating")
-		{
-			float val = (float)_data[key];
-
-			string stars = "";
-
-			for (int i=0; i < (int)val; i++)
-				stars = stars + "";
-
-			float last = val - Mathf.Floor(val);
-	//		Debug.Log("last: " + last);
-			if (last > .33f)
-				stars = stars + "";
-
-			Text.text = stars;
-		}
-		else if (key == "Availability")
-		{
-			Text.text = ((int)(float)_data[key]).ToString();
-		}
-	}
-
-	public float GetData(string key)
-	{
-		if (_data.ContainsKey(key) == false)
-		{
-			Debug.Log("key: " + key + " has null value");
-		}
-		return (float)_data[key];
-	}
-
-	public static List<ImageObj> GetVisibleObjs()
-	{
-		return _visibleObjs;
-	}
-
-	public void ScaleToCube()
-	{
-		LeanTween.scaleX(_imageBox.gameObject,CubeXScale,.3f);
-	}
-
-	public void ScaleToPlane()
-	{
-		LeanTween.scaleX(_imageBox.gameObject,_startXScale,.3f);
 
 	}
 
-
-	public void SetVisible(bool visible)
-	{
-		ImageRenderer.enabled = visible;
-	}
-
-	public bool IsVisible()
-	{
-		return ImageRenderer.isVisible;
-	}
 
 	void UpdateRoation()
 	{
@@ -239,6 +170,116 @@ public class ImageObj : MonoBehaviour {
 	//	LeanTween.rotateX(gameObject,0,1).setEase(LeanTweenType.easeOutElastic);
 
 //		LeanTween.scale(gameObject,Vector3.one,1).setEase(LeanTweenType.easeInOutElastic);
+	}
+
+	public void MoveToSavedPlace(float animTime)
+	{
+		Vector3 viewportPos = Camera.main.WorldToViewportPoint(_savedPos);
+		bool startPosIsVisible = (viewportPos.x >= 0 && viewportPos.x <= 1 && viewportPos.y >= 0 && viewportPos.y <= 1);
+
+		if (IsVisible() || startPosIsVisible)
+		{
+			if (_savedPos != transform.position)
+			{
+			//	transform.position = transform.position + Random.onUnitSphere * 100;
+				LeanTween.moveLocal(gameObject,_savedPos,animTime).setEase(LeanTweenType.easeOutExpo);
+				LeanTween.rotateLocal(gameObject,_savedRotation,animTime).setEase(LeanTweenType.easeOutExpo);
+
+			}
+			else
+				Debug.Log("obj pos didn't change");
+		}
+		else
+		{
+			transform.localPosition = _savedPos;
+			transform.localRotation = Quaternion.Euler(_savedRotation);
+		}
+	}
+
+	public void SavePlace()
+	{
+		_savedPos = transform.localPosition;
+		_savedRotation = transform.localRotation.eulerAngles;
+	}
+	
+	public void HideText()
+	{
+		Text.gameObject.SetActive(false);
+	}
+	
+	public void SetText(string key)
+	{
+		//		Debug.Log("setting key: " + key);
+		
+		Text.gameObject.SetActive(true);
+		
+		if (key == "Price")
+		{
+			decimal d = new decimal((float)_data[key]);
+			Text.text = "" +  decimal.Round(d,2).ToString ();
+		}
+		else if (key == "Popularity")
+		{
+			//			float val = (float)_data[key];
+			//			string text = ((int)(1.0f/val)).ToString();
+			Text.text = "";
+		}
+		else if (key == "ExpertRating" || key == "CustomerRating")
+		{
+			float val = (float)_data[key];
+			
+			string stars = "";
+			
+			for (int i=0; i < (int)val; i++)
+				stars = stars + "";
+			
+			float last = val - Mathf.Floor(val);
+			//		Debug.Log("last: " + last);
+			if (last > .33f)
+				stars = stars + "";
+			
+			Text.text = stars;
+		}
+		else if (key == "Availability")
+		{
+			Text.text = "";//((int)(float)_data[key]).ToString();
+		}
+	}
+	
+	public float GetData(string key)
+	{
+		if (_data.ContainsKey(key) == false)
+		{
+			Debug.Log("key: " + key + " has null value");
+		}
+		return (float)_data[key];
+	}
+	
+	public static List<ImageObj> GetVisibleObjs()
+	{
+		return _visibleObjs;
+	}
+	
+	public void ScaleToCube()
+	{
+		LeanTween.scaleX(_imageBox.gameObject,CubeXScale,.3f);
+	}
+	
+	public void ScaleToPlane()
+	{
+		LeanTween.scaleX(_imageBox.gameObject,_startXScale,.3f);
+		
+	}
+	
+	
+	public void SetVisible(bool visible)
+	{
+		ImageRenderer.enabled = visible;
+	}
+	
+	public bool IsVisible()
+	{
+		return ImageRenderer.isVisible;
 	}
 
 	
