@@ -107,17 +107,20 @@ public class ImageSearch : MonoBehaviour {
 
 		Debug.Log("search complete");
 
-		if (gotError)
+		if (gotError || (returnStr == null && www.text == string.Empty))
 		{
-			returnStr = CachedResponse.text;
-		}
 
-	
-		if (returnStr == null)
+			returnStr = CachedResponse.text;
+
+			Debug.Log("got server error. Using cached search: " + returnStr);
+		}
+		else if (returnStr == null)
 		{
 			returnStr = www.text;
-			PlayerPrefs.SetString(search,returnStr);
+
 		}
+
+		PlayerPrefs.SetString(search,returnStr);
 
 		JArray jArray = (JArray)JsonConvert.DeserializeObject(returnStr);
 
@@ -149,11 +152,57 @@ public class ImageSearch : MonoBehaviour {
 				data["Price"] = Random.Range(5.0f,20.0f);
 			}
 
+			try {
+				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["Offers"][0]["OfferListing"][0]["AvailabilityAttributes"][0]["MinimumHours"][0];
+				
+				float availability = float.Parse(str) ;
+				data["Availability"] = availability;
+				
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse availability error: " + ex.Message);
+				data["Availability"] = 24.0f;
+			}
 
 			try {
-
 				
-				data["LargeUrl"] = (string)jArray[i]["images"][0]["url"];
+				float popularity = 1 / float.Parse( (string)jArray[i]["body"]["data"]["AWSECommerceService"]["SalesRank"][0] );
+				data["Popularity"] = popularity;
+				
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse popularity  error: " + ex.Message);
+				data["Popularity"] = Random.Range(.001f,1.0f);
+			}
+
+			try {
+				
+				float expertReview = (float)jArray[i]["body"]["data"]["vpi"]["expertReview"];
+				data["ExpertRating"] = expertReview;
+				
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse expert review error: " + ex.Message);
+				data["ExpertRating"] = Random.Range(1.0f,5.0f);
+			}
+
+			try {
+				
+				float customerReview = (float)jArray[i]["body"]["data"]["vpi"]["customerReview"];
+				data["CustomerRating"] = customerReview;
+				
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse customer review error: " + ex.Message);
+				data["CustomerRating"] = Random.Range(1.0f,5.0f);
+			}
+
+
+			try {
+				data["Description"] = (string)jArray[i]["body"]["description"];
+				
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse description error: " + ex.Message);
+			}
+
+			try {
+				data["LargeUrl"] = jArray[i]["body"]["images"]["primary"]["LargeImage"]["url"].ToString();
 				
 			} catch (System.Exception ex) {
 				Debug.LogWarning("could not parse large image error: " + ex.Message);

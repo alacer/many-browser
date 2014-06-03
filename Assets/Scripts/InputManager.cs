@@ -28,6 +28,8 @@ public class InputManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
+
+		PlayerPrefs.DeleteAll();
 		Instance = this;
 	}
 	

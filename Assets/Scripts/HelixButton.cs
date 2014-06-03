@@ -3,15 +3,19 @@ using System.Collections;
 
 public class HelixButton : MonoBehaviour {
 
-	// Use this for initialization
-	void OnTap()
-	{
-		GridManager.Instance.FormHelix();
 
+
+	void SortBy(string sort)
+	{
+
+		GridManager.Instance.FormHelix(sort,SortOrder.Desending);
 	}
 
-	void SortByPrice()
+	void SortAsending(string sort)
 	{
-		GridManager.Instance.SortByPrice();
+		GridManager.Instance.FormHelix(sort,SortOrder.Asending);
+;
 	}
+
 }
+

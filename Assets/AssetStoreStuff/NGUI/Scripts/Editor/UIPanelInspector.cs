@@ -10,6 +10,7 @@ using System.Collections.Generic;
 [CustomEditor(typeof(UIPanel))]
 public class UIPanelInspector : Editor
 {
+
 	/// <summary>
 	/// Draw the inspector widget.
 	/// </summary>

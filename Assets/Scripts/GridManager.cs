@@ -83,20 +83,15 @@ public class GridManager : MonoBehaviour {
 		return _minHelixY;
 	}
 
-	public void SortByPrice()
-	{
-		SortObjsBy("Price",SortOrder.Desending);
-		FormHelix();
-	}
 
-
-	void SortObjsBy(string sort, SortOrder order)
+	public void SortObjsBy(string sort, SortOrder order)
 	{
 		Debug.Log("sorting by: " + sort);
 		_uniqueObjs = ImageManager.Instance.GetUniqueImageObjList();
 
 		for (int i=0; i < _uniqueObjs.Count; i++)
 		{
+
 			for (int j=0; j <_uniqueObjs.Count-1; j++)
 			{
 				if (order == SortOrder.Desending)
@@ -117,6 +112,7 @@ public class GridManager : MonoBehaviour {
 			}
 			
 		}
+
 	}
 	
 	void SwapObjs(int firstIndex, int secondIndex)
@@ -129,15 +125,18 @@ public class GridManager : MonoBehaviour {
 	}
 
 
-	public void FormHelix()
+	public void FormHelix(string sort, SortOrder order)
 	{
+
+		SortObjsBy(sort,order);
+
 		Debug.Log("forming helix");
 		if (SceneManager.Instance.GetScene() != Scene.InTransition)
-			StartCoroutine(FormHelixRoutine());
+			StartCoroutine(FormHelixRoutine(sort));
 	}
 
 	
-	IEnumerator FormHelixRoutine()
+	IEnumerator FormHelixRoutine(string sort)
 	{
 
 
@@ -188,6 +187,7 @@ public class GridManager : MonoBehaviour {
 		for (int i=0; i < _uniqueObjs.Count; i++)
 		{
 
+			_uniqueObjs[i].SetText(sort);
 			GameObject obj = _uniqueObjs[i].gameObject;
 			LeanTween.cancel(obj);
 
@@ -208,10 +208,11 @@ public class GridManager : MonoBehaviour {
 			}
 		}
 
+		// now hide the non unique objects
 		foreach(ImageObj obj in _allObjs)
 		{
 			if (_uniqueObjs.Contains(obj) == false)
-				obj.SetVisible(false);
+				obj.gameObject.SetActive(false);
 
 		}
 

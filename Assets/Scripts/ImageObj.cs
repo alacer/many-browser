@@ -7,13 +7,14 @@ public class ImageObj : MonoBehaviour {
 
 
 	public Renderer ImageRenderer;
+	public TextMesh Text;
 	public float MoveSpeed = 1;
 	public float RotateDistance = 3;
 	public float MinDistToCamera = 1;
 	public float CubeXScale = 1344;
 	public GameObject CubeRotator;
 	public float MaxWidthScale = 1.2f;
-	public float Price;
+
 
 	Dictionary<string,object> _data;
 	static float MaxZOffset = .1f;
@@ -42,10 +43,55 @@ public class ImageObj : MonoBehaviour {
 		_imageBox.localPosition += Random.onUnitSphere * 100;
 	
 		_startScale = _imageBox.localScale;
+
+		Text.gameObject.SetActive(false);
+	}
+
+	public void SetText(string key)
+	{
+//		Debug.Log("setting key: " + key);
+
+		Text.gameObject.SetActive(true);
+
+		if (key == "Price")
+		{
+			decimal d = new decimal((float)_data[key]);
+			Text.text = "" +  decimal.Round(d,2).ToString ();
+		}
+		else if (key == "Popularity")
+		{
+			float val = (float)_data[key];
+			string text = ((int)(1.0f/val)).ToString();
+			Text.text = text;
+		}
+		else if (key == "ExpertRating" || key == "CustomerRating")
+		{
+			float val = (float)_data[key];
+
+			string stars = "";
+
+			for (int i=0; i < (int)val; i++)
+				stars = stars + "";
+
+			float last = val - Mathf.Floor(val);
+	//		Debug.Log("last: " + last);
+			if (last > .33f)
+				stars = stars + "";
+
+			Text.text = stars;
+		}
+		else if (key == "Availability")
+		{
+			Text.text = ((int)(float)_data[key]).ToString();
+		}
 	}
 
 	public float GetData(string key)
 	{
+		if (_data.ContainsKey(key) == false)
+		{
+			Debug.Log("key: " + key + " has null value");
+		}
 		return (float)_data[key];
 	}
 
@@ -144,6 +190,7 @@ public class ImageObj : MonoBehaviour {
 		{
 			var textureCache = WebTextureCache.InstantiateGlobal ();
 
+			Debug.Log ("loading large url: " + (string)_data["LargeUrl"]);
 			StartCoroutine (textureCache.GetTexture ((string)_data["LargeUrl"], _data, OnGotLargeTexture));
 				
 
@@ -174,7 +221,6 @@ public class ImageObj : MonoBehaviour {
 
 		_data = data;
 
-		Price = GetData("Price");
 		ImageRenderer.material.mainTexture = tex;
 
 
