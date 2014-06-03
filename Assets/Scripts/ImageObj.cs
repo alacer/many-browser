@@ -247,15 +247,16 @@ public class ImageObj : MonoBehaviour {
 		}
 	}
 	
-	public float GetData(string key)
+	public T GetData<T>(string key)
 	{
 		if (_data.ContainsKey(key) == false)
 		{
 			Debug.Log("key: " + key + " has null value");
 		}
-		return (float)_data[key];
+		return (T)_data[key];
 	}
 	
+
 	public static List<ImageObj> GetVisibleObjs()
 	{
 		return _visibleObjs;

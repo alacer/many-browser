@@ -100,14 +100,14 @@ public class GridManager : MonoBehaviour {
 			{
 				if (order == SortOrder.Desending)
 				{
-					if (_uniqueObjs[j].GetData(sort) > _uniqueObjs[j+1].GetData(sort))
+					if (_uniqueObjs[j].GetData<float>(sort) > _uniqueObjs[j+1].GetData<float>(sort))
 					{
 						SwapObjs(j,j+1);
 					}
 				}
 				else
 				{
-					if (_uniqueObjs[j].GetData(sort) < _uniqueObjs[j+1].GetData(sort))
+					if (_uniqueObjs[j].GetData<float>(sort) < _uniqueObjs[j+1].GetData<float>(sort))
 					{
 						SwapObjs(j,j+1);
 					}

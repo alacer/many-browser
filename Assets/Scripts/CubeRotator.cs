@@ -22,6 +22,8 @@ public class CubeRotator : MonoBehaviour {
 
 		_description = GameObject.Find("ObjectDescriptionLabel");
 		_buttonPanel = GameObject.Find("ActionButtonPanel");
+
+		_description.GetComponent<UILabel>().text = transform.parent.GetComponent<ImageObj>().GetData<string>("Description");
 	}
 	
 	// Update is called once per frame
