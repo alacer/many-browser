@@ -80,6 +80,7 @@ public class ImageSearch : MonoBehaviour {
 
 		bool gotError = false;
 
+		Debug.Log("searching for: " + search);
 		// if it's in the cache just use the cache
 		if (PlayerPrefs.HasKey(search))
 		{
@@ -116,10 +117,11 @@ public class ImageSearch : MonoBehaviour {
 		}
 		else if (returnStr == null)
 		{
+		
 			returnStr = www.text;
 
 		}
-
+		Debug.Log("adding to cache: " + search);
 		PlayerPrefs.SetString(search,returnStr);
 
 		JArray jArray = (JArray)JsonConvert.DeserializeObject(returnStr);
