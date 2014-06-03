@@ -15,6 +15,7 @@ public class CubeRotator : MonoBehaviour {
 	GameObject _description;
 	GameObject _buttonPanel;
 	bool _fingerLiftedAfterSwipe = true;
+	bool _selected;
 
 	void Start()
 	{
@@ -43,7 +44,7 @@ public class CubeRotator : MonoBehaviour {
 	
 			_totalAngleChange += touchDelta.x;
 
-			Debug.Log("total angle: " + _totalAngleChange + " Min angle: " + MinAngleToRotate + "fingerlifted " + _fingerLiftedAfterSwipe);
+//			Debug.Log("total angle: " + _totalAngleChange + " Min angle: " + MinAngleToRotate + "fingerlifted " + _fingerLiftedAfterSwipe);
 		}
 
 		if (Mathf.Abs(_totalAngleChange) > MinAngleToRotate && _fingerLiftedAfterSwipe)
@@ -90,18 +91,24 @@ public class CubeRotator : MonoBehaviour {
 
 	void OnSelect()
 	{	
-
+		_selected = true;
 	//	LeanTween.rotate(CubeTransform.gameObject,_startRotation,.3f);
 	}
 
+	
 	void OnUnselect()
 	{
+
+		Debug.Log("cube rototor unselect");
 		FadeButtonPanel(0,0);
 		TweenAlpha.Begin(_description,0,0);
+		TweenAlpha.Begin(_buttonPanel,0,0);
 
 		LeanTween.cancel(CubeTransform.gameObject);
 
 		LeanTween.rotateLocal(CubeTransform.gameObject,_startRotation,.3f);
 		forward = Vector3.back;
+
+		_selected = false;
 	}
 }

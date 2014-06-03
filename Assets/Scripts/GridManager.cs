@@ -142,12 +142,22 @@ public class GridManager : MonoBehaviour {
 	
 	IEnumerator FormHelixRoutine(string sort)
 	{
+		if (SelectionManager.Instance.IsSelected())
+		{
+			float time = SelectionManager.Instance.LeaveSelectedObj();
+			yield return new WaitForSeconds(time);
+			
+		}
 
+		bool savePositions = (SceneManager.Instance.GetScene() == Scene.Browse);
 		SceneManager.Instance.OnSceneTransition();
 		CameraManager.Instance.SavePlace();
 
-		_savedRotation = transform.rotation;
-		_savedPosition = transform.position;
+		if (savePositions)
+		{
+			_savedRotation = transform.rotation;
+			_savedPosition = transform.position;
+		}
 
 		List<Vector3> positions = new List<Vector3>();
 		List<Vector3> rotations = new List<Vector3>();
@@ -189,10 +199,11 @@ public class GridManager : MonoBehaviour {
 			rotations.Add(rotation);
 		}
 
-		foreach(ImageObj obj in _allObjs)
-		{
-			obj.SavePlace();
-		}
+		if (savePositions)
+			foreach(ImageObj obj in _allObjs)
+			{
+				obj.SavePlace();
+			}
 
 		// now animate all to new positions and rotations
 		for (int i=0; i < _uniqueObjs.Count; i++)
@@ -236,6 +247,7 @@ public class GridManager : MonoBehaviour {
 
 	IEnumerator UnformHelix()
 	{
+
 		SceneManager.Instance.OnSceneTransition();
 		float animTime = 1;
 
@@ -276,12 +288,6 @@ public class GridManager : MonoBehaviour {
 
 
 		yield return new WaitForSeconds(animTime);
-
-		
-
-
-
-
 
 		SceneManager.Instance.PushScene(Scene.Browse);
 	}

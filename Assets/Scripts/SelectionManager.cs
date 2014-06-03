@@ -10,11 +10,24 @@ public class SelectionManager : MonoBehaviour {
 	Vector3 _previousPos;
 	Vector3 _previousRot;
 
+	public static SelectionManager Instance;
+
+	void Awake()
+	{
+		Instance = this;
+	}
+
+	public bool IsSelected()
+	{
+		return _selectedObj != null;
+	}
+
 	void OnSingleTap(Vector3 screenPos)
 	{
 
 		if (_selectedObj != null)
 		{
+	
 			LeaveSelectedObj();
 			return;
 		}
@@ -53,8 +66,12 @@ public class SelectionManager : MonoBehaviour {
 		LeanTween.cancel(gameObject);
 	}
 	
-	void LeaveSelectedObj()
+	public float LeaveSelectedObj()
 	{
+		if (_selectedObj == null)
+			return 0;
+
+		Debug.Log("leaving selected");
 		SceneManager.Instance.OnSceneTransition();
 
 		_selectedObj.SendMessage("OnUnselected",SendMessageOptions.DontRequireReceiver);
@@ -68,6 +85,17 @@ public class SelectionManager : MonoBehaviour {
 		});
 
 		_selectedObj = null;
+		return animTime;
+	}
+
+	void OnSceneChange(Scene scene)
+	{
+		Debug.Log("in new scene: " + scene.ToString());
+		if (scene != Scene.Selected && _selectedObj != null)
+		{
+			LeaveSelectedObj();
+		}
+
 	}
 	
 	#endregion

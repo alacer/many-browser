@@ -131,12 +131,13 @@ public class ImageObj : MonoBehaviour {
 
 	void OnUnselected()
 	{
+		Debug.Log("imageobj unselect");
 		CubeRotator.SendMessage("OnUnselect");
 		CubeRotator.SetActive(false);
 		ScaleToPlane();
 
 	}
-
+	
 	void OnGotLargeTexture(string url, Dictionary<string,object> data , Texture2D largeTex )
 	{
 		ImageRenderer.material.mainTexture = largeTex;

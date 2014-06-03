@@ -97,8 +97,10 @@ public class ImageManager : MonoBehaviour {
 		var textureCache = WebTextureCache.InstantiateGlobal ();
 
 
-		foreach (Dictionary<string,object> data in _objData)
+
+		for (int i= _objData.Count-1; i >= 0; i--)
 		{
+			Dictionary<string,object> data = _objData[i];
 			StartCoroutine (textureCache.GetTexture ((string)data["Url"], data, OnGotTexture));
 
 		}
