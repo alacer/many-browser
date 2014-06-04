@@ -42,33 +42,33 @@ public class HelixButton : MonoBehaviour {
 			}
 		}
 
-		GridManager.Instance.FormHelix(sort,SortOrder.Desending);
+		GridManager.Instance.FormHelix(sort,order);
 	}
 
 
 	public void OnTapPopularity()
 	{
-		SortBy("Popularity",SortOrder.Desending);
+		SortBy("Popularity",SortOrder.Asending);
 	}
 
 	public void OnTapPrice()
 	{
-		SortBy("Price",SortOrder.Asending);
+		SortBy("Price",SortOrder.Desending);
 	}
 
 	public void OnTapExpertRating()
 	{
-		SortBy("ExpertRating",SortOrder.Desending);
+		SortBy("ExpertRating",SortOrder.Asending);
 	}
 
 	public void OnTapBuyerRating()
 	{
-		SortBy("BuyerRating",SortOrder.Desending);
+		SortBy("BuyerRating",SortOrder.Asending);
 	}
 
 	public void OnTapAvailability()
 	{
-		SortBy("Availability",SortOrder.Desending);
+		SortBy("Availability",SortOrder.Asending);
 	}
 
 	IEnumerator UpdateColors()

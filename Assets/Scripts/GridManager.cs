@@ -186,7 +186,7 @@ public class GridManager : MonoBehaviour {
 		for (int i=0; i < _uniqueObjs.Count; i++)
 		{
 
-			center += heightDelta * Vector3.up;
+			center += heightDelta * Vector3.down;
 			angle += angleDelta;
 
 			dir = Quaternion.AngleAxis(angle,Vector3.up) * Vector3.right;
@@ -196,10 +196,10 @@ public class GridManager : MonoBehaviour {
 			rotation = Quaternion.LookRotation(-dir.normalized).eulerAngles;
 
 			if (i == 0)
-				_minHelixY = pos.y;
+				_maxHelixY = pos.y + 1;
 
 			if (i == _uniqueObjs.Count-1)
-				_maxHelixY = pos.y;
+				_minHelixY = pos.y;
 
 			positions.Add(pos);
 			rotations.Add(rotation);
