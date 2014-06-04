@@ -225,7 +225,7 @@ public class ImageObj : MonoBehaviour {
 			//			string text = ((int)(1.0f/val)).ToString();
 			Text.text = "";
 		}
-		else if (key == "ExpertRating" || key == "CustomerRating")
+		else if (key == "ExpertRating" || key == "BuyerRating")
 		{
 			float val = (float)_data[key];
 			

@@ -53,7 +53,7 @@ public class CenterObj : MonoBehaviour {
 
 	void OnTap()
 	{
-		gameObject.GetComponent<DragDropItem>().Drop();
+//		gameObject.GetComponent<DragDropItem>().Drop();
 
 		LeanTween.cancel(gameObject);
 		ImageSearch.Instance.Search(SearchTerm);

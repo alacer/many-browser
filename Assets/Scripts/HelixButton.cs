@@ -5,33 +5,77 @@ using System.Collections.Generic;
 public class HelixButton : MonoBehaviour {
 
 
-	UIImageButton _button;
-	static List<UIImageButton> _allButtons = new List<UIImageButton>();
+	UIButton _button;
+	static List<UIButton> _allButtons = new List<UIButton>();
 
 	void Awake()
 	{
 		Debug.Log("adding button from: " + gameObject.name);
-		_button = GetComponent<UIImageButton>();
+		_button = GetComponent<UIButton>();
 		_allButtons.Add(_button);
 	}
 
-	void SortBy(string sort)
+	public static void UnselectAll()
 	{
+		foreach(UIButton button in _allButtons)
+		{
+
+			button.normalSprite = button.hoverSprite;
+
+		}
+
+	}
+
+	void SortBy(string sort, SortOrder order)
+	{
+
+		_button.normalSprite = _button.pressedSprite;
+		
+		foreach(UIButton button in _allButtons)
+		{
+			if (button != _button)
+			{
+				button.normalSprite = button.hoverSprite;
+			
+//				button.target.spriteName = button.normalSprite;
+				
+			}
+		}
 
 		GridManager.Instance.FormHelix(sort,SortOrder.Desending);
 	}
 
-	void SortAsending(string sort)
-	{
-		GridManager.Instance.FormHelix(sort,SortOrder.Asending);
 
+	public void OnTapPopularity()
+	{
+		SortBy("Popularity",SortOrder.Desending);
+	}
+
+	public void OnTapPrice()
+	{
+		SortBy("Price",SortOrder.Asending);
+	}
+
+	public void OnTapExpertRating()
+	{
+		SortBy("ExpertRating",SortOrder.Desending);
+	}
+
+	public void OnTapBuyerRating()
+	{
+		SortBy("BuyerRating",SortOrder.Desending);
+	}
+
+	public void OnTapAvailability()
+	{
+		SortBy("Availability",SortOrder.Desending);
 	}
 
 	IEnumerator UpdateColors()
 	{
 		yield return new WaitForSeconds(.5f);
 
-		foreach (UIImageButton button in _allButtons)
+		foreach (UIButton button in _allButtons)
 		{
 			if (_button == button)
 			{
@@ -49,25 +93,7 @@ public class HelixButton : MonoBehaviour {
 		}
 	}
 
-	void OnPress(bool pressed)
-	{
 
-		_button.normalSprite = _button.pressedSprite;
-	
-		foreach(UIImageButton button in _allButtons)
-		{
-			if (button != _button)
-			{
-				button.normalSprite = button.hoverSprite;
-				button.target.spriteName = button.normalSprite;
-
-			}
-		}
-
-
-	
-
-	}
 
 }
 

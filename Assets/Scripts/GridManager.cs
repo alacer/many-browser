@@ -135,13 +135,19 @@ public class GridManager : MonoBehaviour {
 		SortObjsBy(sort,order);
 
 		Debug.Log("forming helix");
-		if (SceneManager.Instance.GetScene() != Scene.InTransition)
-			StartCoroutine(FormHelixRoutine(sort));
+	
+		StartCoroutine(FormHelixRoutine(sort));
 	}
 
 	
 	IEnumerator FormHelixRoutine(string sort)
 	{
+		while (SceneManager.Instance.GetScene() == Scene.InTransition)
+		{
+
+			yield return new WaitForSeconds(.1f);
+		}
+
 		if (SelectionManager.Instance.IsSelected())
 		{
 			float time = SelectionManager.Instance.LeaveSelectedObj();
@@ -247,7 +253,7 @@ public class GridManager : MonoBehaviour {
 
 	IEnumerator UnformHelix()
 	{
-
+		HelixButton.UnselectAll();
 		SceneManager.Instance.OnSceneTransition();
 		float animTime = 1;
 

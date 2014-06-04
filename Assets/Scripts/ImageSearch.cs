@@ -25,9 +25,15 @@ public class ImageSearch : MonoBehaviour {
 
 	}
 
-	void OnPress(bool pressed)
+//	void OnPress(bool pressed)
+//	{
+//		GetComponent<UIInput>().label.text = "";
+//	}
+
+	public void OnSubmit()
 	{
-		GetComponent<UIInput>().label.text = "";
+		string text = NGUIText.StripSymbols(GetComponent<UIInput>().value);
+		Search(text);
 	}
 
 	public void Search (string search)
@@ -188,11 +194,11 @@ public class ImageSearch : MonoBehaviour {
 			try {
 				
 				float customerReview = (float)jArray[i]["body"]["data"]["vpi"]["customerReview"];
-				data["CustomerRating"] = customerReview;
+				data["BuyerRating"] = customerReview;
 				
 			} catch (System.Exception ex) {
 				Debug.LogWarning("could not parse customer review error: " + ex.Message);
-				data["CustomerRating"] = Random.Range(1.0f,5.0f);
+				data["BuyerRating"] = Random.Range(1.0f,5.0f);
 			}
 
 

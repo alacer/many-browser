@@ -39,27 +39,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 3ad0c2e619fa74748bbe8765d535e2e6, type: 2}
-  sprites:
+  mSprites:
   - name: searchSprite
-    outer:
-      serializedVersion: 2
-      x: 0
-      y: 85
-      width: 64
-      height: 43
-    inner:
-      serializedVersion: 2
-      x: 20
-      y: 105
-      width: 24
-      height: 3
+    x: 0
+    y: 85
+    width: 64
+    height: 43
+    borderLeft: 20
+    borderRight: 20
+    borderTop: 20
+    borderBottom: 20
     paddingLeft: 0
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  mCoordinates: 0
   mPixelSize: 1
   mReplacement: {fileID: 0}
+  mCoordinates: 0
+  sprites: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
