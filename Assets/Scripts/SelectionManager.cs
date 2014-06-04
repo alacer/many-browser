@@ -10,10 +10,13 @@ public class SelectionManager : MonoBehaviour {
 	Vector3 _previousPos;
 	Vector3 _previousRot;
 
+	GameObject _overlay;
 	public static SelectionManager Instance;
 
 	void Awake()
 	{
+		_overlay = GameObject.Find("Overlay");
+
 		Instance = this;
 	}
 
@@ -50,6 +53,7 @@ public class SelectionManager : MonoBehaviour {
 	
 	void OnSelectObj(Transform obj)
 	{
+		LeanTween.alpha(_overlay,1,.3f);
 		SceneManager.Instance.OnSceneTransition();
 		_selectedObj = obj;
 		
@@ -71,6 +75,7 @@ public class SelectionManager : MonoBehaviour {
 		if (_selectedObj == null)
 			return 0;
 
+		LeanTween.alpha(_overlay,0,.3f);
 		Debug.Log("leaving selected");
 		SceneManager.Instance.OnSceneTransition();
 
