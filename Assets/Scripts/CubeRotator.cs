@@ -63,10 +63,10 @@ public class CubeRotator : MonoBehaviour {
 				forward = Quaternion.AngleAxis(-dir * 90,Vector3.up) * forward;
 				Debug.Log("forward: " + forward);
 
-				if (forward == Vector3.right)
-					TweenAlpha.Begin(_description,.3f,1);
-				else if (forward == Vector3.left)
-					FadeButtonPanel(1,.3f);
+//				if (forward == Vector3.forward)
+//					TweenAlpha.Begin(_description,.3f,1);
+//				else if (forward == Vector3.left)
+//					FadeButtonPanel(1,.3f);
 
 				_fingerLiftedAfterSwipe = false;
 				_totalAngleChange = 0;

@@ -54,7 +54,7 @@ public class SelectionManager : MonoBehaviour {
 	void OnSelectObj(Transform obj)
 	{
 		LeanTween.alpha(_overlay,1,.3f);
-		SceneManager.Instance.OnSceneTransition();
+		SceneManager.Instance.OnSceneTransition(Scene.Selected);
 		_selectedObj = obj;
 		
 		_previousPos = obj.position;
@@ -77,7 +77,7 @@ public class SelectionManager : MonoBehaviour {
 
 		LeanTween.alpha(_overlay,0,.3f);
 		Debug.Log("leaving selected");
-		SceneManager.Instance.OnSceneTransition();
+		SceneManager.Instance.OnSceneTransition(SceneManager.Instance.GetLastScene());
 
 		_selectedObj.SendMessage("OnUnselected",SendMessageOptions.DontRequireReceiver);
 

@@ -19,6 +19,7 @@ public class SceneManager : MonoBehaviour {
 	Scene _currentScene;
 	Scene _lastScene  = Scene.Default;
 	bool _isTransitioning;
+	Scene _transitioningToScene;
 
 	// Use this for initialization
 	void Start () {
@@ -39,6 +40,17 @@ public class SceneManager : MonoBehaviour {
 		else
 			return _currentScene;
 	}
+
+	public Scene GetLastScene()
+	{
+		return _lastScene;
+	}
+
+	public Scene GetTransitioningToScene()
+	{
+		return _transitioningToScene;
+	}
+
 
 	public void PushScene(Scene scene)
 	{
@@ -85,13 +97,14 @@ public class SceneManager : MonoBehaviour {
 			});;
 		});
 
-		OnSceneTransition();
+		OnSceneTransition(Scene.Browse);
 
 	}
 
-	public void OnSceneTransition()
+	public void OnSceneTransition(Scene toScene)
 	{
 		_isTransitioning = true;
+		_transitioningToScene = toScene;
 	}
 
 	public void TransitionToDefaultView()
@@ -117,7 +130,7 @@ public class SceneManager : MonoBehaviour {
 
 		});
 
-		OnSceneTransition();
+		OnSceneTransition(Scene.Default);
 		
 	}
 }

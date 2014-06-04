@@ -158,7 +158,7 @@ Renderer:
   - {fileID: 2100000, guid: 2a32dc8eaa6834893bf9fdca73e4748b, type: 2}
   - {fileID: 2100000, guid: 5d3cbf4442710486486110880195f0bd, type: 2}
   - {fileID: 2100000, guid: 5275356f93d424c6db5d149fe88534b2, type: 2}
-  - {fileID: 2100000, guid: f6e424b60d5674879a6412c78dddf7e0, type: 2}
+  - {fileID: 0}
   - {fileID: 2100000, guid: 191a9b3ad3779493b863e644a59a4475, type: 2}
   - {fileID: 2100000, guid: 14cf1bdbed8554008ba7dbb76f4a87a8, type: 2}
   m_SubsetIndices: 

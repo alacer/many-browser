@@ -1,0 +1,25 @@
+﻿------------------------------
+         PSD 2 NGUI
+ Copyright © 2013 Magic n Real
+------------------------------
+
+Thank you for purchase.
+
+If you have any questions or suggestions,
+please let me know.
+
+e-mail: contact@magicnreal.com
+
+-------------------------
+ Documents and tutorials
+-------------------------
+
+www.magicnreal.com/psd2ngui
+
+-------------------------
+Which version of the package should you import?
+-------------------------
+
+1. If you are using NGUI 2.2.7 ~ 2.7.0, import the "PSD2NGUI 1.2.5" unity package.
+
+2. If you are using NGUI 3.0.7f ~ over, you don't have to unpack any pacakge.

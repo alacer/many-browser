@@ -100,7 +100,7 @@ public class ImageObj : MonoBehaviour {
 
 	void OnSelected()
 	{
-
+		Text.gameObject.SetActive(false);
 		Debug.Log("scale x: " + transform.localScale.x);
 		float animTime = .3f;
 		Vector3 newPos = Camera.main.ViewportToWorldPoint(new Vector3(.5f,.5f,2));
@@ -131,6 +131,8 @@ public class ImageObj : MonoBehaviour {
 
 	void OnUnselected()
 	{
+		if (SceneManager.Instance.GetTransitioningToScene() == Scene.Helix)
+			Text.gameObject.SetActive(true);
 		Debug.Log("imageobj unselect");
 		CubeRotator.SendMessage("OnUnselect");
 		CubeRotator.SetActive(false);

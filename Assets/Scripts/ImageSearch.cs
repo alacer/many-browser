@@ -62,8 +62,9 @@ public class ImageSearch : MonoBehaviour {
 //
 //			}
 //		}
+		HelixButton.UnselectAll();
 
-
+		LeanTween.alpha(GameObject.Find("Overlay"),0,.3f);
 		// clear out previous searches & show loader
 		ImageManager.Instance.Clear();
 		_dataList.Clear();

@@ -156,7 +156,7 @@ public class GridManager : MonoBehaviour {
 		}
 
 		bool savePositions = (SceneManager.Instance.GetScene() == Scene.Browse);
-		SceneManager.Instance.OnSceneTransition();
+		SceneManager.Instance.OnSceneTransition(Scene.Helix);
 		CameraManager.Instance.SavePlace();
 
 		if (savePositions)
@@ -254,7 +254,7 @@ public class GridManager : MonoBehaviour {
 	IEnumerator UnformHelix()
 	{
 		HelixButton.UnselectAll();
-		SceneManager.Instance.OnSceneTransition();
+		SceneManager.Instance.OnSceneTransition(Scene.Browse);
 		float animTime = 1;
 
 
