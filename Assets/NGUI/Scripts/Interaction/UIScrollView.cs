@@ -838,6 +838,8 @@ public class UIScrollView : MonoBehaviour
 		if (!Application.isPlaying) return;
 		float delta = RealTime.deltaTime;
 
+
+
 		// Fade the scroll bars if needed
 		if (showScrollBars != ShowCondition.Always && (verticalScrollBar || horizontalScrollBar))
 		{

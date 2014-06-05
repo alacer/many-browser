@@ -106,7 +106,7 @@ Transform:
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: -.707106829, z: 0, w: .707106709}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9.99999975e-05, y: 141.720001, z: 219.800003}
+  m_LocalScale: {x: 87, y: 141.720001, z: 219.800003}
   m_Children: []
   m_Father: {fileID: 400000}
 --- !u!4 &400004
@@ -262,7 +262,7 @@ MonoBehaviour:
   MinDistToCamera: 1
   CubeXScale: 87
   CubeRotator: {fileID: 100004}
-  MaxWidthScale: 1.20000005
+  MaxWidthScale: 100
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

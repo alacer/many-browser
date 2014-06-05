@@ -8,11 +8,10 @@ public class CubeRotator : MonoBehaviour {
 	public float MinAngleToRotate = 5;
 	Vector3 forward = Vector3.back;
 
-	float _totalAngleChange;
+	Vector3 _totalAngleChange;
 	Vector3 _startRotation = new Vector3(0,270,0);
 	float _lastSpeed;
-
-	GameObject _description;
+	GameObject _backPanel;
 	GameObject _buttonPanel;
 	bool _fingerLiftedAfterSwipe = true;
 	bool _selected;
@@ -20,10 +19,10 @@ public class CubeRotator : MonoBehaviour {
 	void Start()
 	{
 
-		_description = GameObject.Find("ObjectDescriptionLabel");
+		_backPanel = GameObject.Find("BackPanel");
 		_buttonPanel = GameObject.Find("ActionButtonPanel");
-
-		_description.GetComponent<UILabel>().text = transform.parent.GetComponent<ImageObj>().GetData<string>("Description");
+		GameObject.Find("DraggableDescriptionPanel").SendMessage("ResetPosition");
+		GameObject.Find("ObjectDescriptionLabel").GetComponent<UILabel>().text = transform.parent.GetComponent<ImageObj>().GetData<string>("Description");
 	}
 	
 	// Update is called once per frame
@@ -37,44 +36,54 @@ public class CubeRotator : MonoBehaviour {
 		if (InputManager.Instance.GetTouchCount() == 0)
 		{
 	//		Debug.Log("touch count 0");
-			_totalAngleChange = 0;
+			_totalAngleChange = Vector3.zero;
 			_fingerLiftedAfterSwipe = true;
 		}
 
 		if (touchDelta.x != 0 && LeanTween.isTweening(CubeTransform.gameObject) == false)
 		{
 	
-			_totalAngleChange += touchDelta.x;
+			_totalAngleChange += touchDelta;
 
 //			Debug.Log("total angle: " + _totalAngleChange + " Min angle: " + MinAngleToRotate + "fingerlifted " + _fingerLiftedAfterSwipe);
 		}
 
-		if (Mathf.Abs(_totalAngleChange) > MinAngleToRotate && _fingerLiftedAfterSwipe)
+		if ( Mathf.Abs(_totalAngleChange.x) >  Mathf.Abs(_totalAngleChange.y) &&  Mathf.Abs(_totalAngleChange.x) > MinAngleToRotate && _fingerLiftedAfterSwipe)
 		{
-			TweenAlpha.Begin(_description,0,0);
+			TweenAlpha.Begin(_backPanel,0,0);
 			FadeButtonPanel(0,0);
 
-			float dir = (_totalAngleChange > 0) ? -1 : 1;
+			float dir = (_totalAngleChange.x > 0) ? -1 : 1;
 
 			Debug.Log("rotating");
+			float animTime = .3f;
 
-			LeanTween.rotateY(CubeTransform.gameObject,CubeTransform.rotation.eulerAngles.y + (dir * 90),.3f).setOnComplete( () => 
+			forward = Quaternion.AngleAxis(-dir * 90,Vector3.up) * forward;
+
+
+			LeanTween.rotateY(CubeTransform.gameObject,CubeTransform.rotation.eulerAngles.y + (dir * 90),animTime).setOnComplete( () => 
 			{
-				forward = Quaternion.AngleAxis(-dir * 90,Vector3.up) * forward;
+
 				Debug.Log("forward: " + forward);
 
-//				if (forward == Vector3.forward)
-//					TweenAlpha.Begin(_description,.3f,1);
+//				if (forward == Vector3.back)
+//					transform.parent.SendMessage("ScaleToAspect",animTime);
+//				else // if (forward == Vector3.forward)
+//					transform.parent.SendMessage("ScaleToBox",animTime);
+//
+
+				if (forward == Vector3.forward)
+					TweenAlpha.Begin(_backPanel,.3f,1);
 //				else if (forward == Vector3.left)
 //					FadeButtonPanel(1,.3f);
 
 				_fingerLiftedAfterSwipe = false;
-				_totalAngleChange = 0;
+				_totalAngleChange = Vector3.zero;
 			});
 
 
 			_fingerLiftedAfterSwipe = false;
-			_totalAngleChange = 0;
+			_totalAngleChange = Vector3.zero;
 		}
 	
 	}
@@ -103,7 +112,7 @@ public class CubeRotator : MonoBehaviour {
 
 		Debug.Log("cube rototor unselect");
 		FadeButtonPanel(0,0);
-		TweenAlpha.Begin(_description,0,0);
+		TweenAlpha.Begin(_backPanel,0,0);
 		TweenAlpha.Begin(_buttonPanel,0,0);
 
 		LeanTween.cancel(CubeTransform.gameObject);

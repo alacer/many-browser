@@ -25,7 +25,9 @@ public class ImageObj : MonoBehaviour {
 	Vector3 _totalZMovement;
 	Vector3 _moveDelta;
 
-	Vector3 _startScale;
+	Vector3 _aspectScale;
+
+	Vector3 _cubeScale;
 	Vector3 _savedPos;
 	Vector3 _savedRotation;
 
@@ -41,14 +43,15 @@ public class ImageObj : MonoBehaviour {
 		CubeRotator.SetActive(false);
 //		transform.localScale = Vector3.one * .3f;
 		_imageBox = transform.FindChild("box");
+
+		_imageBox.localScale = new Vector3(.001f,_imageBox.localScale.y,_imageBox.localScale.z);
 		_startXScale = _imageBox.localScale.x;
 //		_startRotation = _imagePlane.rotation.eulerAngles;
 		_imageBox.localPosition += Random.onUnitSphere * 100;
 	
-		_startScale = _imageBox.localScale;
+
 
 		Text.gameObject.SetActive(false);
-
 
 	}
 
@@ -108,13 +111,16 @@ public class ImageObj : MonoBehaviour {
 		LeanTween.rotateLocal(gameObject,Vector3.zero, animTime).setEase(LeanTweenType.easeOutQuad).setOnComplete ( () =>
 		                                                                                                               {
 			SceneManager.Instance.PushScene(Scene.Selected);
+		
+			Debug.Log("cubescale: " + _cubeScale);
 		});
 
 		LeanTween.rotateLocal(ImageRenderer.gameObject,new Vector3(0,270,0), animTime).setEase(LeanTweenType.easeOutQuad);
+		ScaleToCube();
 
 		CubeRotator.SetActive(true);
 		CubeRotator.SendMessage("OnSelect");
-		ScaleToCube();
+
 
 
 		if (_data.ContainsKey("LargeUrl"))
@@ -131,6 +137,7 @@ public class ImageObj : MonoBehaviour {
 
 	void OnUnselected()
 	{
+		ScaleToAspect(.3f);
 		if (SceneManager.Instance.GetTransitioningToScene() == Scene.Helix)
 			Text.gameObject.SetActive(true);
 		Debug.Log("imageobj unselect");
@@ -160,19 +167,46 @@ public class ImageObj : MonoBehaviour {
 
 		float aspectRatio = (float)tex.width / (float)tex.height;
 		Vector3 scale = transform.localScale;
+
+		_cubeScale = scale;
+
 		scale.x *= aspectRatio;
 
 		if (scale.x > MaxWidthScale)
 		{
 			scale *= MaxWidthScale / scale.x;
 		}
-//		_imagePlane.localPosition = Vector3.zero;
+
 		LeanTween.moveLocal(_imageBox.gameObject,Vector3.zero,1);
 		transform.localScale = scale;
-	//	renderer.enabled = true;
-	//	LeanTween.rotateX(gameObject,0,1).setEase(LeanTweenType.easeOutElastic);
+	
+		_aspectScale = scale;
+	}
 
-//		LeanTween.scale(gameObject,Vector3.one,1).setEase(LeanTweenType.easeInOutElastic);
+	public void ScaleToCube()
+	{
+		LeanTween.scaleX(_imageBox.gameObject,CubeXScale,.3f);
+	}
+	
+	public void ScaleToPlane()
+	{
+		LeanTween.scaleX(_imageBox.gameObject,_startXScale,.3f);
+		
+	}
+	
+	void ScaleToBox(float animTime)
+	{
+		Debug.Log("scaling to Box " + _cubeScale);
+	//	transform.localScale = _cubeScale;
+		LeanTween.scale(gameObject,_cubeScale,.1f);
+	}
+
+	void ScaleToAspect(float animTime)
+	{
+		Debug.Log("scaling to Aspect " + _aspectScale);
+//		transform.localScale = _aspectScale;
+		LeanTween.scale(gameObject,_aspectScale,.1f);
+
 	}
 
 	public void MoveToSavedPlace(float animTime)
@@ -264,16 +298,7 @@ public class ImageObj : MonoBehaviour {
 		return _visibleObjs;
 	}
 	
-	public void ScaleToCube()
-	{
-		LeanTween.scaleX(_imageBox.gameObject,CubeXScale,.3f);
-	}
-	
-	public void ScaleToPlane()
-	{
-		LeanTween.scaleX(_imageBox.gameObject,_startXScale,.3f);
-		
-	}
+
 	
 	
 	public void SetVisible(bool visible)
