@@ -139,6 +139,7 @@ public class ImageSearch : MonoBehaviour {
 
 			Dictionary<string,object> data = new Dictionary<string, object>();
 
+			// image url
 			try {
 				
 				data["Url"] = (string)jArray[i]["body"]["image"]["url"];
@@ -149,7 +150,7 @@ public class ImageSearch : MonoBehaviour {
 				continue;
 			}
 
-		
+			// price
 			try {
 				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["ListPrice"][0]["Amount"][0];
 			
@@ -161,6 +162,66 @@ public class ImageSearch : MonoBehaviour {
 				data["Price"] = Random.Range(5.0f,20.0f);
 			}
 
+			// Title
+			try {
+				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["Title"][0];
+				
+
+				data["Title"] = str;
+				
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse Title error: " + ex.Message);
+				data["Title"] = "";
+			}
+
+			// Format
+			try {
+				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["Format"][0];
+				
+				
+				data["Format"] = str;
+				
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse Format error: " + ex.Message);
+				data["Format"] = "";
+			}
+
+			// Author
+			try {
+				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["Author"][0];
+				
+				
+				data["Author"] = str;
+				
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse Author error: " + ex.Message);
+				data["Author"] = "";
+			}
+
+			// Release Data
+			try {
+				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["ReleaseDate"][0];
+				
+				
+				data["ReleaseDate"] = str;
+				
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse ReleaseDate error: " + ex.Message);
+				data["ReleaseDate"] = "";
+			}
+
+			try {
+				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["PublicationDate"][0];
+				
+				
+				data["PublicationDate"] = str;
+				
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse PublicationDate error: " + ex.Message);
+				data["PublicationDate"] = "";
+			}
+
+			// availablitity
 			try {
 				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["Offers"][0]["OfferListing"][0]["AvailabilityAttributes"][0]["MinimumHours"][0];
 				
@@ -172,6 +233,7 @@ public class ImageSearch : MonoBehaviour {
 				data["Availability"] = 24.0f;
 			}
 
+			// Popularity
 			try {
 				
 				float popularity = 1 / float.Parse( (string)jArray[i]["body"]["data"]["AWSECommerceService"]["SalesRank"][0] );
@@ -182,6 +244,7 @@ public class ImageSearch : MonoBehaviour {
 				data["Popularity"] = Random.Range(.001f,1.0f);
 			}
 
+			// Expert Rating
 			try {
 				
 				float expertReview = (float)jArray[i]["body"]["data"]["vpi"]["expertReview"];
@@ -192,6 +255,7 @@ public class ImageSearch : MonoBehaviour {
 				data["ExpertRating"] = Random.Range(1.0f,5.0f);
 			}
 
+			// Buyer Rating
 			try {
 				
 				float customerReview = (float)jArray[i]["body"]["data"]["vpi"]["customerReview"];
@@ -202,7 +266,7 @@ public class ImageSearch : MonoBehaviour {
 				data["BuyerRating"] = Random.Range(1.0f,5.0f);
 			}
 
-
+			// Description
 			try {
 				data["Description"] = (string)jArray[i]["body"]["description"];
 				
@@ -210,6 +274,7 @@ public class ImageSearch : MonoBehaviour {
 				Debug.LogWarning("could not parse description error: " + ex.Message);
 			}
 
+			// Large image url
 			try {
 				data["LargeUrl"] = jArray[i]["body"]["images"]["primary"]["LargeImage"]["url"].ToString();
 				

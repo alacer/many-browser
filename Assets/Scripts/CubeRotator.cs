@@ -12,7 +12,8 @@ public class CubeRotator : MonoBehaviour {
 	Vector3 _startRotation = new Vector3(0,270,0);
 	float _lastSpeed;
 	GameObject _backPanel;
-	GameObject _buttonPanel;
+	GameObject _leftPanel;
+	GameObject _rightPanel;
 	bool _fingerLiftedAfterSwipe = true;
 	bool _selected;
 
@@ -20,8 +21,9 @@ public class CubeRotator : MonoBehaviour {
 	{
 
 		_backPanel = GameObject.Find("BackPanel");
-		_buttonPanel = GameObject.Find("ActionButtonPanel");
-		GameObject.Find("DraggableDescriptionPanel").SendMessage("ResetPosition");
+		_leftPanel = GameObject.Find("ActionButtonPanel");
+		_rightPanel = GameObject.Find("RightPanel");
+
 		GameObject.Find("ObjectDescriptionLabel").GetComponent<UILabel>().text = transform.parent.GetComponent<ImageObj>().GetData<string>("Description");
 	}
 	
@@ -90,10 +92,10 @@ public class CubeRotator : MonoBehaviour {
 
 	void FadeButtonPanel(float alpha, float time)
 	{
-		for (int i=0; i < _buttonPanel.transform.childCount; i++)
+		for (int i=0; i < _leftPanel.transform.childCount; i++)
 		{
 		//	Debug.Log("child name: " + 
-			TweenAlpha.Begin(_buttonPanel.transform.GetChild(i).gameObject,time,alpha);
+			TweenAlpha.Begin(_leftPanel.transform.GetChild(i).gameObject,time,alpha);
 
 		}
 
@@ -102,6 +104,7 @@ public class CubeRotator : MonoBehaviour {
 
 	void OnSelect()
 	{	
+		GameObject.Find("DraggableDescriptionPanel").SendMessage("ResetPosition");
 		_selected = true;
 	//	LeanTween.rotate(CubeTransform.gameObject,_startRotation,.3f);
 	}
@@ -113,7 +116,7 @@ public class CubeRotator : MonoBehaviour {
 		Debug.Log("cube rototor unselect");
 		FadeButtonPanel(0,0);
 		TweenAlpha.Begin(_backPanel,0,0);
-		TweenAlpha.Begin(_buttonPanel,0,0);
+		TweenAlpha.Begin(_leftPanel,0,0);
 
 		LeanTween.cancel(CubeTransform.gameObject);
 
