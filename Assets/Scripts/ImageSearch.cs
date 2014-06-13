@@ -75,9 +75,9 @@ public class ImageSearch : MonoBehaviour {
 		string returnStr = null;
 
 		Debug.Log("searching for: " + search);
-
-		string query = "http://75.103.15.46:8080/context";
-
+	
+		//	string query = "http://75.103.15.46:8080/context";
+		string query = "http://54.83.28.73:8080/context";
 		WWWForm form = new WWWForm();
 		WWW www = null;
 

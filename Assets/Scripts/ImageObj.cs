@@ -114,7 +114,7 @@ public class ImageObj : MonoBehaviour {
 
 	void OnSelected()
 	{
-		ImageRenderer.materials[1].mainTexture = WhiteTexture;
+	//	ImageRenderer.materials[1].mainTexture = WhiteTexture;
 		Text.gameObject.SetActive(false);
 		Debug.Log("scale x: " + transform.localScale.x);
 		float animTime = .3f;
@@ -156,7 +156,7 @@ public class ImageObj : MonoBehaviour {
 		CubeRotator.SendMessage("OnUnselect");
 		CubeRotator.SetActive(false);
 		ScaleToPlane();
-		ImageRenderer.materials[1].mainTexture = ImageRenderer.material.mainTexture;
+	//	ImageRenderer.materials[1].mainTexture = ImageRenderer.material.mainTexture;
 
 	}
 	
@@ -176,7 +176,7 @@ public class ImageObj : MonoBehaviour {
 		_data = data;
 
 		ImageRenderer.material.mainTexture = tex;
-		ImageRenderer.materials[1].mainTexture = tex;
+	//	ImageRenderer.materials[1].mainTexture = tex;
 
 		float aspectRatio = (float)tex.width / (float)tex.height;
 		Vector3 scale = transform.localScale;
