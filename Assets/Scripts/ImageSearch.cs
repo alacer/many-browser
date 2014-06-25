@@ -23,6 +23,8 @@ public class ImageSearch : MonoBehaviour {
 	void Start()
 	{
 
+		ImageSearch.Instance.Search("women studies");
+			
 	}
 
 //	void OnPress(bool pressed)

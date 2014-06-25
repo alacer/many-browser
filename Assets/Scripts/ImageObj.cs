@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class ImageObj : MonoBehaviour {
 
-
+	public float RandomOffsetRadX = 1.5f;
 	public Renderer ImageRenderer;
 	public GameObject ParticlePrefab;
 	public Texture2D WhiteTexture;
@@ -49,7 +49,8 @@ public class ImageObj : MonoBehaviour {
 		_imageBox.localScale = new Vector3(.001f,_imageBox.localScale.y,_imageBox.localScale.z);
 		_startXScale = _imageBox.localScale.x;
 //		_startRotation = _imagePlane.rotation.eulerAngles;
-		_imageBox.localPosition += Random.onUnitSphere * 100;
+
+		_imageBox.localPosition += new Vector3( Random.Range(-RandomOffsetRadX,RandomOffsetRadX),0 ,0);
 	
 
 
@@ -190,7 +191,7 @@ public class ImageObj : MonoBehaviour {
 			scale *= MaxWidthScale / scale.x;
 		}
 
-		LeanTween.moveLocal(_imageBox.gameObject,Vector3.zero,1);
+	//	LeanTween.moveLocal(_imageBox.gameObject,Vector3.zero,1);
 		transform.localScale = scale;
 	
 		_aspectScale = scale;

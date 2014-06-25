@@ -3,7 +3,14 @@ using System.Collections;
 
 public class CameraManager : MonoBehaviour {
 
+	public float MaxX;
+	public float MinX;
+	public float MaxY;
+	public float MinY;
+	public float MaxZ;
+	public float MinZ;
 	public float Speed = 10;
+	public float ZoomSpeed = .001f;
 	public float MaxSpeed = 15;
 	public float OneFingerSwipeSpeed = .5f;
 	public float TwoFingerSwipeSpeed = .1f;
@@ -44,32 +51,40 @@ public class CameraManager : MonoBehaviour {
 #region Finger Swiping
 	
 
-	void OnTwoFingerSwipe(Vector3 dir)
-	{
-		if (LeanTween.isTweening(gameObject))
-			return;
+//	void OnTwoFingerSwipe(Vector3 dir)
+//	{
+//		if (LeanTween.isTweening(gameObject))
+//			return;
+//
+//		if (_currentScene == Scene.Browse)
+//			HandleBrowseTwoFingerSwipe(dir);
+//
+//	}
 
-		if (_currentScene == Scene.Browse)
-			HandleBrowseTwoFingerSwipe(dir);
+	void OnTwoFingerSpread(float spread)
+	{
+		Debug.Log("spreading");
+
+		_velocity = GetForward()*spread * ZoomSpeed;
 
 	}
 
 	
-	void HandleBrowseTwoFingerSwipe(Vector3 dir)
-	{
-		Debug.Log("two finger swipe stop");
-		_velocity = Vector3.zero;
-		
-		_tweenDir = dir;
-		
-		Vector3 moveDir = (dir.z == 1) ? _forward : -_forward;
-		
-		LeanTween.move(gameObject,transform.position + moveDir * GridManager.Instance.GetZPadding(),1).setEase(LeanTweenType.easeOutQuint).setOnComplete( () =>
-		                                                                                                                                                 {
-			_tweenDir = Vector3.zero;
-			
-		});
-	}
+//	void HandleBrowseTwoFingerSwipe(Vector3 dir)
+//	{
+//		Debug.Log("two finger swipe stop");
+//		_velocity = Vector3.zero;
+//		
+//		_tweenDir = dir;
+//		
+//		Vector3 moveDir = (dir.z == 1) ? _forward : -_forward;
+//		
+//		LeanTween.move(gameObject,transform.position + moveDir * GridManager.Instance.GetZPadding(),1).setEase(LeanTweenType.easeOutQuint).setOnComplete( () =>
+//		                                                                                                                                                 {
+//			_tweenDir = Vector3.zero;
+//			
+//		});
+//	}
 
 
 #endregion
@@ -118,9 +133,30 @@ public class CameraManager : MonoBehaviour {
 			else
 				transform.position += _velocity;
 				
+			ApplyBounds();
 			ApplyFriction(magnitude);
 		}
 
+	}
+
+	void ApplyBounds()
+	{
+		Vector3 pos = transform.position;
+
+		if (pos.x > MaxX)
+			transform.position = new Vector3(MaxX,transform.position.y,transform.position.z);
+		else if (pos.x < MinX)
+			transform.position = new Vector3(MinX,transform.position.y,transform.position.z);
+
+		if (pos.y > MaxY)
+			transform.position = new Vector3(transform.position.x,MaxY,transform.position.z);
+		else if (pos.y < MinY)
+			transform.position = new Vector3(transform.position.x,MinY,transform.position.z);
+
+		if (pos.z > MaxZ)
+			transform.position = new Vector3(transform.position.x,transform.position.y,MaxZ);
+		else if (pos.z < MinZ)
+			transform.position = new Vector3(transform.position.x,transform.position.y,MinZ);
 	}
 
 	void ApplyFriction(float magnitude)

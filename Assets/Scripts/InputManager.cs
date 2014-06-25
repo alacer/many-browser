@@ -146,6 +146,12 @@ public class InputManager : MonoBehaviour {
 			_lastFingerDist = fingerDist;
 			return true;
 		}
+		else if (!_hasLiftedFingersSinceLastSwipe)
+		{
+			float spreadDist = fingerDist - _lastFingerDist;
+			Debug.Log("calling spread");
+			Utils.SendMessageToAll("OnTwoFingerSpread",spreadDist);
+		}
 		else if (_hasLiftedFingersSinceLastSwipe) // they may be moving their fingers
 		{
 
@@ -158,10 +164,9 @@ public class InputManager : MonoBehaviour {
 				Utils.SendMessageToAll("OnTwoFingerSwipe",Vector3.back);
 				
 			}
-			
-			
-			
+			_hasLiftedFingersSinceLastSwipe = false;
 		}
+
 		_lastFingerDist = fingerDist;
 		return true;
 	}

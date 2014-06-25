@@ -74,31 +74,32 @@ public class SceneManager : MonoBehaviour {
 		GridManager.Instance.SetAllVisible(true);
 
 
-		GameObject camera = Camera.main.gameObject;
+//		GameObject camera = Camera.main.gameObject;
+//
+//		Vector3 startPos = camera.transform.position;
+//		Vector3 startRotation = camera.transform.rotation.eulerAngles;
+//
+//		camera.transform.rotation = Quaternion.Euler(Vector3.zero);
+//		camera.transform.position +=  CameraManager.Instance.GetForward() * 10;//GridManager.Instance.GetZPadding()/2.0f;
+//
+//		LeanTween.scale(CenterPanel,Vector3.zero,1).setOnComplete(() => 
+//		{ 
+//			LeanTween.delayedCall(1,() => 
+//			{ 
+//				LeanTween.rotate(camera,startRotation,1).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => 
+//				                                                                                            { 
+//					PushScene(Scene.Browse);
+//				});
+//			});
+//			LeanTween.move(camera,startPos,2).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => 
+//			                                                                                     { 
+//				camera.transform.position = startPos;
+//			});;
+//		});
 
-		Vector3 startPos = camera.transform.position;
-		Vector3 startRotation = camera.transform.rotation.eulerAngles;
 
-		camera.transform.rotation = Quaternion.Euler(Vector3.zero);
-		camera.transform.position +=  CameraManager.Instance.GetForward() * 10;//GridManager.Instance.GetZPadding()/2.0f;
-
-		LeanTween.scale(CenterPanel,Vector3.zero,1).setOnComplete(() => 
-		{ 
-			LeanTween.delayedCall(1,() => 
-			{ 
-				LeanTween.rotate(camera,startRotation,1).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => 
-				                                                                                            { 
-					PushScene(Scene.Browse);
-				});
-			});
-			LeanTween.move(camera,startPos,2).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => 
-			                                                                                     { 
-				camera.transform.position = startPos;
-			});;
-		});
-
-		OnSceneTransition(Scene.Browse);
-
+	//	OnSceneTransition(Scene.Browse);
+		PushScene(Scene.Browse);
 	}
 
 	public void OnSceneTransition(Scene toScene)
