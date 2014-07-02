@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -42,7 +42,7 @@ public class HelixButton : MonoBehaviour {
 			}
 		}
 
-		GridManager.Instance.FormHelix(sort,order);
+		HelixManager.Instance.FormHelix(sort,order);
 	}
 
 

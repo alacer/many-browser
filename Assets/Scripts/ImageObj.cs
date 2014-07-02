@@ -51,19 +51,21 @@ public class ImageObj : MonoBehaviour {
 
 		if (DefaultImage != null)
 		{
-			Initialize(DefaultImage, null);
+			Initialize(DefaultImage);
 		}
 
 	}
 
-	public void Initialize(Texture2D tex, Dictionary<string,object> data)
+	public void InitData(Dictionary<string,object> data)
+	{
+		_data = data;
+	}
+
+	public void Initialize(Texture2D tex)
 	{
 		if (this == null)
 			return;
-		
 
-		_data = data;
-		
 		ImageRenderer.material.mainTexture = tex;
 	
 		

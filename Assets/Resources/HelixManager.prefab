@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: GridManager
+  m_Name: HelixManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,18 +35,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81f580c7ade9f4463becb09ad645b4fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 15631705dbe094c1fb860bcac3e02995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imageObjPrefab: {fileID: 100000, guid: d68434dd6d1174e3d9af7882b5a5a09d, type: 2}
-  RandomOffsetRadX: 1
-  xPadding: 2
-  yPadding: 1.29999995
-  zPadding: 1
-  xSize: 12
-  ySize: 1
-  zSize: 2
-  HelixRadius: 4
+  FadeInOnAwake: 1
+  imageObjPrefab: {fileID: 0}
+  HelixRadius: 3
   MaxZ: 0
   MinZ: 0
 --- !u!1001 &100100000

@@ -37,6 +37,7 @@ public class CameraManager : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		Instance = this;
+		Application.targetFrameRate = 60;
 		LeanTween.init(3000);
 		_helixObj = transform.Find("HelixBottom");
 		
@@ -179,7 +180,7 @@ public class CameraManager : MonoBehaviour {
 		Community.BackCommunity = Community.ForwardCommunity;
 
 
-		Vector3 targetPos = new Vector3(transform.position.x, transform.position.y, Community.BackCommunity.transform.position.z + 2);
+		Vector3 targetPos = GetForwardTransitionTargetPos();
 
 
 		Community.ForwardCommunity = obj.DoCommunityForwardTransition(targetPos).GetComponent<Community>();
@@ -189,7 +190,11 @@ public class CameraManager : MonoBehaviour {
 		});
 		
 	}
-	
+
+	public Vector3 GetForwardTransitionTargetPos()
+	{
+		return new Vector3(transform.position.x, transform.position.y, Community.BackCommunity.transform.position.z + 2);
+	}
 	
 	#endregion
 
@@ -266,14 +271,14 @@ public class CameraManager : MonoBehaviour {
 	void HelixUpdate()
 	{
 
-		GridManager.Instance.transform.RotateAround(_helixObj.position,Vector3.up,_velocity.x);
+		HelixManager.Instance.transform.RotateAround(_helixObj.position,Vector3.up,_velocity.x);
 		transform.position += new Vector3(0,_velocity.y,0);
 
 		// clamp bounds
-		if (transform.position.y > GridManager.Instance.GetHelixMaxY())
-			transform.position = new Vector3(transform.position.x, GridManager.Instance.GetHelixMaxY(), transform.position.z);
-		else if (transform.position.y < GridManager.Instance.GetHelixMinY())
-			transform.position = new Vector3(transform.position.x, GridManager.Instance.GetHelixMinY(), transform.position.z);
+		if (transform.position.y > HelixManager.Instance.GetHelixMaxY())
+			transform.position = new Vector3(transform.position.x, HelixManager.Instance.GetHelixMaxY(), transform.position.z);
+		else if (transform.position.y < HelixManager.Instance.GetHelixMinY())
+			transform.position = new Vector3(transform.position.x, HelixManager.Instance.GetHelixMinY(), transform.position.z);
 	}
 
 #endregion

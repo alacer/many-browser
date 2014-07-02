@@ -299,7 +299,7 @@ public class ImageSearch : MonoBehaviour {
 
 		if (_dataList.Count > 0)
 		{
-			GridManager.Initialize();
+			HelixManager.Initialize(_dataList);
 			TweenAlpha.Begin(GameObject.Find("ErrorLabel"),0,0);
 		
 			ImageManager.Instance.Initialize(_dataList);
@@ -308,6 +308,7 @@ public class ImageSearch : MonoBehaviour {
 				SceneManager.Instance.TransitionToBrowseView();
 			else
 				SceneManager.Instance.PushScene(Scene.Browse);
+
 			_searching = false;
 		}
 	}

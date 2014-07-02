@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public enum Scene
@@ -75,34 +75,9 @@ public class SceneManager : MonoBehaviour {
 
 	public void TransitionToBrowseView()
 	{
-		GridManager.Instance.SetAllVisible(true);
+		HelixManager.Instance.SetAllVisible(true);
 
 
-//		GameObject camera = Camera.main.gameObject;
-//
-//		Vector3 startPos = camera.transform.position;
-//		Vector3 startRotation = camera.transform.rotation.eulerAngles;
-//
-//		camera.transform.rotation = Quaternion.Euler(Vector3.zero);
-//		camera.transform.position +=  CameraManager.Instance.GetForward() * 10;//GridManager.Instance.GetZPadding()/2.0f;
-//
-//		LeanTween.scale(CenterPanel,Vector3.zero,1).setOnComplete(() => 
-//		{ 
-//			LeanTween.delayedCall(1,() => 
-//			{ 
-//				LeanTween.rotate(camera,startRotation,1).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => 
-//				                                                                                            { 
-//					PushScene(Scene.Browse);
-//				});
-//			});
-//			LeanTween.move(camera,startPos,2).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => 
-//			                                                                                     { 
-//				camera.transform.position = startPos;
-//			});;
-//		});
-
-
-	//	OnSceneTransition(Scene.Browse);
 		PushScene(Scene.Browse);
 	}
 
@@ -127,7 +102,7 @@ public class SceneManager : MonoBehaviour {
 
 			LeanTween.scale(CenterPanel,Vector3.one,1).setEase(LeanTweenType.easeOutQuint).setOnComplete(() => 
 			{ 
-				GridManager.Instance.SetAllVisible(false);
+				HelixManager.Instance.SetAllVisible(false);
 				camera.transform.position = startPos;
 				camera.transform.rotation = Quaternion.Euler(startRotation);
 				PushScene(Scene.Default);

@@ -5,11 +5,9 @@ using System.Collections.Generic;
 public class ImageManager : MonoBehaviour {
 
 	public static ImageManager Instance;
-	
-	Dictionary<ImageObj,string> _imageObjToUrl = new Dictionary<ImageObj, string>();
-	Dictionary<string,List<ImageObj>> _urlToImageObj = new Dictionary<string, List<ImageObj>>();
 
-//	Dictionary<string,string> _largeImageDict = new Dictionary<string, string>();
+	Dictionary<string,ImageObj> _urlToImageObj = new Dictionary<string,ImageObj>();
+	
 
 	ImageObj[] _imageObjs;
 	List< Dictionary<string,object> > _objData = new List<Dictionary<string, object>>();
@@ -20,12 +18,16 @@ public class ImageManager : MonoBehaviour {
 
 	int _imageIndex;
 
+	void Awake()
+	{
+		Instance = this;
+	}
 
 	public void Initialize(List< Dictionary<string,object> > objData)
 	{
 		_objData = objData;
-		_imageObjs = FindObjectsOfType<ImageObj>();
-		CreateDictionaries();
+		_imageObjs = HelixManager.Instance.GetAllObjs().ToArray();
+		CreateDictionary();
 		
 		GetAllImages();
 		
@@ -33,89 +35,52 @@ public class ImageManager : MonoBehaviour {
 		
 	}
 
-	
-	void Awake()
+	void CreateDictionary()
 	{
-		Instance = this;
-	}
-
-	
-	public void Clear()
-	{
-		_urlToImageObj.Clear();
-		_imageObjToUrl.Clear();
-
-		_objData.Clear();
-
-	}
-
-	public List<ImageObj> GetUniqueImageObjList()
-	{
-		List<ImageObj> uniqueList = new List<ImageObj>();
-
-		foreach (List<ImageObj> list in _urlToImageObj.Values)
-		{
-			uniqueList.Add(list[0]);
-
-		}
-
-		return uniqueList;
-	}
-
-
-	void CreateDictionaries()
-	{
-		for (int i=0; i < _imageObjs.Length; i++)
-		{
-			string url = (string)_objData[i % _objData.Count]["Url"];
-		
-			_imageObjToUrl.Add(_imageObjs[i], url);
-		}
 
 		foreach (Dictionary<string,object> data in _objData)
 		{
 			string url = (string)data["Url"];
-
+			
 			foreach (ImageObj obj in _imageObjs)
 			{
-				if (url == _imageObjToUrl[obj])
+				if (url == obj.GetData<string>("Url"))
 				{
-					if (_urlToImageObj.ContainsKey(url) == false)
-						_urlToImageObj[url] = new List<ImageObj>();
-
-					_urlToImageObj[url].Add(obj);
-
+					_urlToImageObj[url] = obj;
 				}
-				
 			}
 		}
 	}
+	
+	public void Clear()
+	{
+		_urlToImageObj.Clear();
+		_objData.Clear();
+
+	}
+
 
 	void GetAllImages()
 	{
-		
 		var textureCache = WebTextureCache.InstantiateGlobal ();
-
-
 
 		for (int i= _objData.Count-1; i >= 0; i--)
 		{
 			Dictionary<string,object> data = _objData[i];
 			StartCoroutine (textureCache.GetTexture ((string)data["Url"], data, OnGotTexture));
-
 		}
 	}
 
 	void OnGotTexture(string url, Dictionary<string,object> data, Texture2D tex)
 	{
-		foreach (ImageObj obj in _urlToImageObj[data["Url"].ToString()])
-		{
+		ImageObj obj = _urlToImageObj[data["Url"].ToString()];
 
-			obj.Initialize(tex,data);
-			_objData.Remove(data);
-			if (_objData.Count == 0)
-				OnLoadedAllImages();
-		}
+		obj.Initialize(tex);
+		_objData.Remove(data);
+
+		if (_objData.Count == 0)
+			OnLoadedAllImages();
+
 	}
 
 	void OnLoadedAllImages()
