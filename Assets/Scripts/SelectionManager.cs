@@ -25,6 +25,36 @@ public class SelectionManager : MonoBehaviour {
 		return _selectedObj != null;
 	}
 
+	void OnTwoFingerSpread(float spread)
+	{
+		if (SceneManager.Instance.GetScene() != Scene.Selected)
+			return;
+
+		if (spread < 0)
+			LeaveSelectedObj();
+		else if (spread > 0)
+		{
+
+			StartCoroutine ( DoForwardCommunityTransition() );
+		}
+
+	}
+
+	IEnumerator DoForwardCommunityTransition()
+	{
+		ImageObj obj = _selectedObj.GetComponent<ImageObj>();
+
+		CameraManager.Instance.DoForwardTransitionOnObj(obj);
+
+		_selectedObj.parent = null;
+
+
+		yield return new WaitForSeconds(2);
+
+		LeaveSelectedObj();
+
+	}
+
 	void OnSingleTap(Vector3 screenPos)
 	{
 
@@ -69,20 +99,38 @@ public class SelectionManager : MonoBehaviour {
 	//	_velocity = Vector3.zero;
 		LeanTween.cancel(gameObject);
 	}
-	
+
 	public float LeaveSelectedObj()
+	{
+		return LeaveSelectedObj(false);
+	}
+
+	public float LeaveSelectedObj(bool inForwardCommunityTransition)
 	{
 		if (_selectedObj == null)
 			return 0;
 
+		float animTime = .3f;
+
+		StartCoroutine(LeaveSelectedRoutine(animTime, inForwardCommunityTransition));
+
+		return animTime;
+	}
+
+	IEnumerator LeaveSelectedRoutine(float animTime, bool inForwardCommunityTransition)
+	{
+
 		LeanTween.alpha(_overlay,0,.3f);
 		Debug.Log("leaving selected");
 		SceneManager.Instance.OnSceneTransition(SceneManager.Instance.GetLastScene());
-
+		
 		_selectedObj.SendMessage("OnUnselected",SendMessageOptions.DontRequireReceiver);
-
+		
 		_selectedObj.parent = _previousParent;
-		float animTime = .3f;
+		
+		if (inForwardCommunityTransition)
+				yield return new WaitForSeconds(2);
+
 		LeanTween.move(_selectedObj.gameObject,_previousPos,animTime);
 		LeanTween.rotate(_selectedObj.gameObject,_previousRot, animTime).setOnComplete ( () =>
 		                                                                                {
@@ -90,7 +138,6 @@ public class SelectionManager : MonoBehaviour {
 		});
 
 		_selectedObj = null;
-		return animTime;
 	}
 
 	void OnSceneChange(Scene scene)

@@ -22,8 +22,8 @@ public class ImageSearch : MonoBehaviour {
 
 	void Start()
 	{
-
-		ImageSearch.Instance.Search("women studies");
+		SceneManager.Instance.PushScene(Scene.Browse);
+	//	ImageSearch.Instance.Search("book");//women studies");
 			
 	}
 
@@ -225,7 +225,7 @@ public class ImageSearch : MonoBehaviour {
 
 			// availablitity
 			try {
-				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["Offers"][0]["OfferListing"][0]["AvailabilityAttributes"][0]["MinimumHours"][0];
+				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["Offers"][0]["Offer"][0]["OfferListing"][0]["AvailabilityAttributes"][0]["MinimumHours"][0];
 				
 				float availability = float.Parse(str) ;
 				data["Availability"] = availability;
@@ -278,7 +278,7 @@ public class ImageSearch : MonoBehaviour {
 
 			// Large image url
 			try {
-				data["LargeUrl"] = jArray[i]["body"]["images"]["primary"]["LargeImage"]["url"].ToString();
+				data["LargeUrl"] = jArray[i]["body"]["images"]["primary"]["largeImage"]["url"].ToString();
 				
 			} catch (System.Exception ex) {
 				Debug.LogWarning("could not parse large image error: " + ex.Message);

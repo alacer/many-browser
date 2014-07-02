@@ -11,15 +11,14 @@ public enum SortOrder
 public class GridManager : MonoBehaviour {
 
 	public GameObject imageObjPrefab;
+	public float RandomOffsetRadX = 4f;
 	public float xPadding = 2;
 	public float yPadding = 2;
 	public float zPadding = 5;
 	public float xSize = 10;
 	public float ySize = 10;
 	public float zSize = 10;
-	public float RandomMoveMaxTime = 1;
-	public float RandomMoveMinTime = .5f;
-	public float MaxRandomZMovement = 3;
+
 	public float HelixRadius = 3f;
 
 	public float MaxZ;
@@ -58,11 +57,9 @@ public class GridManager : MonoBehaviour {
 
 		GameObject.Find("HelixHitCylinder").transform.localScale = new Vector3(HelixRadius*2,5000,HelixRadius*2);
 
-
 	}
 
-
-
+	
 	public static void Initialize()
 	{
 		if (Instance != null)
@@ -326,7 +323,7 @@ public class GridManager : MonoBehaviour {
 
 	Vector3 GetCenterPos()
 	{
-		return Camera.main.transform.FindChild("GridCenter").position;
+		return GameObject.Find("KartaCenter").transform.position;
 	}
 	
 
@@ -507,6 +504,8 @@ public class GridManager : MonoBehaviour {
 				{
 					float zOffset = Random.Range(MinZ,MaxZ);
 					float zPos = z + zOffset;
+
+					x += Random.Range(-RandomOffsetRadX,RandomOffsetRadX);
 
 					GameObject imageObj = (GameObject) Instantiate (imageObjPrefab,new Vector3(x + center.x,y + center.y,zPos + center.z),Quaternion.Euler(0,0,0));
 					imageObj.transform.parent = transform;

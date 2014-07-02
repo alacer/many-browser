@@ -120,7 +120,7 @@ public class ImageManager : MonoBehaviour {
 
 	void OnLoadedAllImages()
 	{
-		GameObject.Find("SortButtons").SendMessage("Show");
+//		GameObject.Find("SortButtons").SendMessage("Show");
 	}
 
 }

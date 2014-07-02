@@ -39,15 +39,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageObjPrefab: {fileID: 100000, guid: d68434dd6d1174e3d9af7882b5a5a09d, type: 2}
-  xPadding: 3
+  RandomOffsetRadX: 1
+  xPadding: 2
   yPadding: 1.29999995
   zPadding: 1
-  xSize: 7
+  xSize: 12
   ySize: 1
   zSize: 2
-  RandomMoveMaxTime: .0500000007
-  RandomMoveMinTime: .00999999978
-  MaxRandomZMovement: 3
   HelixRadius: 4
   MaxZ: 0
   MinZ: 0

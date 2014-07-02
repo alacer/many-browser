@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
-
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 public class ImageObj : MonoBehaviour {
 
-	public float RandomOffsetRadX = 1.5f;
+	public Texture2D DefaultImage;
+	public GameObject CommunityPrefab;
 	public Renderer ImageRenderer;
-	public GameObject ParticlePrefab;
 	public Texture2D WhiteTexture;
 	public TextMesh Text;
 	public float MoveSpeed = 1;
@@ -50,23 +50,107 @@ public class ImageObj : MonoBehaviour {
 		_startXScale = _imageBox.localScale.x;
 //		_startRotation = _imagePlane.rotation.eulerAngles;
 
-		_imageBox.localPosition += new Vector3( Random.Range(-RandomOffsetRadX,RandomOffsetRadX),0 ,0);
-	
-
-
 
 		Text.gameObject.SetActive(false);
 
+		if (DefaultImage != null)
+		{
+			Initialize(DefaultImage, null);
+		}
 
 	}
 
-	IEnumerator Start()
+	public void Initialize(Texture2D tex, Dictionary<string,object> data)
+	{
+		if (this == null)
+			return;
+		
+
+		_data = data;
+		
+		ImageRenderer.material.mainTexture = tex;
+	
+		
+		float aspectRatio = (float)tex.width / (float)tex.height;
+
+		Vector3 scale = transform.localScale;
+		
+		_cubeScale = scale;
+		
+		scale.x *= aspectRatio;
+		
+		if (scale.x > MaxWidthScale)
+		{
+			scale *= MaxWidthScale / scale.x;
+		}
+		
+		//	LeanTween.moveLocal(_imageBox.gameObject,Vector3.zero,1);
+		transform.localScale = scale;
+		
+		_aspectScale = scale;
+	}
+
+#region community transitions
+
+	public GameObject DoCommunityForwardTransition()
+	{
+		if (SceneManager.Instance.GetScene() == Scene.InTransition)
+			return null;
+
+		Vector3 scale = _imageBox.transform.localScale;
+//		scale.x = _startXScale;
+//		_imageBox.transform.localScale = scale;
+		ScaleToPlane(.1f);
+		SceneManager.Instance.SetTransitioning(true);
+
+		GameObject community = (GameObject)Instantiate(CommunityPrefab,new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z + 5),Quaternion.identity);
+
+		StartCoroutine(FadeMaterial(ImageRenderer.material,.5f,0,() => {
+			Debug.Log("stopped transitioning");
+			SceneManager.Instance.SetTransitioning(false);
+		}));
+
+		return community;
+	}
+
+	public void DoCommunityBackTransition()
+	{
+		if (SceneManager.Instance.GetScene() == Scene.InTransition)
+			return;
+		
+		SceneManager.Instance.SetTransitioning(true);
+
+		StartCoroutine(FadeMaterial(ImageRenderer.material,2,1,() => {
+			Debug.Log("stopped transitioning");
+			SceneManager.Instance.SetTransitioning(false);
+		}));
+		
+	}
+
+#endregion
+
+	IEnumerator FadeMaterial(Material mat, float fadeTime, float alpha, Action onComplete )
 	{
 
-		yield return new WaitForSeconds(Random.Range(5,30));
-//		Instantiate(ParticlePrefab,transform.position + transform.forward * -1,Quaternion.identity);
-	}
+		float cycleTime = .05f;
+		float timeLeft = fadeTime;
+		float alphaChange = alpha - mat.color.a;
+		float numCycles = fadeTime / cycleTime;
 
+		while (timeLeft > 0)
+		{
+			Color c = mat.color;
+			c.a += alphaChange / numCycles;
+			mat.color = c;
+
+			yield return new WaitForSeconds(cycleTime);
+			timeLeft -= cycleTime;
+		}
+
+		if (onComplete != null)
+			onComplete();
+
+	}
 
 	void UpdateRoation()
 	{
@@ -87,19 +171,6 @@ public class ImageObj : MonoBehaviour {
 
 	}
 
-	void FaceCamera()
-	{
-		LeanTween.rotate(gameObject,Camera.main.transform.rotation.eulerAngles,.2f);
-
-		_isFacingCamera = true;
-	}
-
-	void FaceOriginalDirection()
-	{
-		LeanTween.rotate(gameObject,Vector3.zero,.2f);
-		_isFacingCamera = false;
-	}
-	
 
 	void Update()
 	{
@@ -134,9 +205,7 @@ public class ImageObj : MonoBehaviour {
 		CubeRotator.SetActive(true);
 		CubeRotator.SendMessage("OnSelect");
 
-
-
-		if (_data.ContainsKey("LargeUrl"))
+		if (_data != null && _data.ContainsKey("LargeUrl"))
 		{
 			var textureCache = WebTextureCache.InstantiateGlobal ();
 
@@ -156,7 +225,7 @@ public class ImageObj : MonoBehaviour {
 		Debug.Log("imageobj unselect");
 		CubeRotator.SendMessage("OnUnselect");
 		CubeRotator.SetActive(false);
-		ScaleToPlane();
+		ScaleToPlane(.3f);
 	//	ImageRenderer.materials[1].mainTexture = ImageRenderer.material.mainTexture;
 
 	}
@@ -165,63 +234,7 @@ public class ImageObj : MonoBehaviour {
 	{
 		ImageRenderer.material.mainTexture = largeTex;
 	}
-
-	public void Initialize(Texture2D tex, Dictionary<string,object> data)
-	{
-		if (this == null)
-			return;
-
-//		if (tex == null)
-//			Debug.LogError("texture is null for url " + url);
-
-		_data = data;
-
-		ImageRenderer.material.mainTexture = tex;
-	//	ImageRenderer.materials[1].mainTexture = tex;
-
-		float aspectRatio = (float)tex.width / (float)tex.height;
-		Vector3 scale = transform.localScale;
-
-		_cubeScale = scale;
-
-		scale.x *= aspectRatio;
-
-		if (scale.x > MaxWidthScale)
-		{
-			scale *= MaxWidthScale / scale.x;
-		}
-
-	//	LeanTween.moveLocal(_imageBox.gameObject,Vector3.zero,1);
-		transform.localScale = scale;
 	
-		_aspectScale = scale;
-	}
-
-	public void ScaleToCube()
-	{
-		LeanTween.scaleX(_imageBox.gameObject,CubeXScale,.3f);
-	}
-	
-	public void ScaleToPlane()
-	{
-		LeanTween.scaleX(_imageBox.gameObject,_startXScale,.3f);
-		
-	}
-	
-	void ScaleToBox(float animTime)
-	{
-		Debug.Log("scaling to Box " + _cubeScale);
-	//	transform.localScale = _cubeScale;
-		LeanTween.scale(gameObject,_cubeScale,.1f);
-	}
-
-	void ScaleToAspect(float animTime)
-	{
-		Debug.Log("scaling to Aspect " + _aspectScale);
-//		transform.localScale = _aspectScale;
-		LeanTween.scale(gameObject,_aspectScale,.1f);
-
-	}
 
 	public void MoveToSavedPlace(float animTime)
 	{
@@ -245,6 +258,53 @@ public class ImageObj : MonoBehaviour {
 			transform.localPosition = _savedPos;
 			transform.localRotation = Quaternion.Euler(_savedRotation);
 		}
+	}
+
+	public void FadeOut(float time)
+	{
+		StartCoroutine(FadeMaterial(ImageRenderer.material,time,0,null));
+		
+	}
+	
+	public void FadeIn(float time)
+	{
+		StartCoroutine(FadeMaterial(ImageRenderer.material,time,1,null));
+		
+	}
+	
+	public void SetAlpha(float alpha)
+	{
+		Color c = ImageRenderer.material.color;
+		c.a = alpha;
+		ImageRenderer.material.color = c;
+		
+	}
+
+	public void ScaleToCube()
+	{
+		LeanTween.scaleX(_imageBox.gameObject,CubeXScale,.3f);
+	}
+	
+	public void ScaleToPlane(float time)
+	{
+		Debug.Log("scaling to plane " + time);
+		LeanTween.scaleX(_imageBox.gameObject,_startXScale,time);
+		
+	}
+	
+	void ScaleToBox(float animTime)
+	{
+		Debug.Log("scaling to Box " + _cubeScale);
+		//	transform.localScale = _cubeScale;
+		LeanTween.scale(gameObject,_cubeScale,.1f);
+	}
+	
+	void ScaleToAspect(float animTime)
+	{
+		Debug.Log("scaling to Aspect " + _aspectScale);
+		//		transform.localScale = _aspectScale;
+		LeanTween.scale(gameObject,_aspectScale,.1f);
+		
 	}
 
 	public void SavePlace()
@@ -299,11 +359,17 @@ public class ImageObj : MonoBehaviour {
 	
 	public T GetData<T>(string key)
 	{
+
 		if (_data.ContainsKey(key) == false)
 		{
 			Debug.Log("key: " + key + " has null value");
 		}
 		return (T)_data[key];
+	}
+
+	public bool HasData()
+	{
+		return _data != null;
 	}
 	
 
@@ -313,8 +379,13 @@ public class ImageObj : MonoBehaviour {
 	}
 	
 
+	public bool IsCommunity()
+	{
+		return CommunityPrefab != null;
+
+	}
 	
-	
+
 	public void SetVisible(bool visible)
 	{
 		ImageRenderer.enabled = visible;
@@ -325,5 +396,17 @@ public class ImageObj : MonoBehaviour {
 		return ImageRenderer.isVisible;
 	}
 
+	void FaceCamera()
+	{
+		LeanTween.rotate(gameObject,Camera.main.transform.rotation.eulerAngles,.2f);
+		
+		_isFacingCamera = true;
+	}
 	
+	void FaceOriginalDirection()
+	{
+		LeanTween.rotate(gameObject,Vector3.zero,.2f);
+		_isFacingCamera = false;
+	}
+
 }

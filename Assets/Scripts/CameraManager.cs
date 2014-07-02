@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CameraManager : MonoBehaviour {
 
+	public bool SkipIntro;
 	public float MaxX;
 	public float MinX;
 	public float MaxY;
@@ -27,6 +28,10 @@ public class CameraManager : MonoBehaviour {
 	Vector3 _savedPos;
 	Vector3 _savedRotation;
 
+	ImageObj _backCommunityItem;
+	GameObject _backCommunity;
+	GameObject _forwardCommunity;
+
 	Transform _helixObj;
 	Scene _currentScene;
 
@@ -43,49 +48,22 @@ public class CameraManager : MonoBehaviour {
 		_forward = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * Vector3.forward;
 		_right = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * Vector3.right;
 		
-		
+		if (SkipIntro)
+			animation["CameraAnim"].speed = 10;
 	}
-	
+
 	
 
 #region Finger Swiping
-	
-
-//	void OnTwoFingerSwipe(Vector3 dir)
-//	{
-//		if (LeanTween.isTweening(gameObject))
-//			return;
-//
-//		if (_currentScene == Scene.Browse)
-//			HandleBrowseTwoFingerSwipe(dir);
-//
-//	}
 
 	void OnTwoFingerSpread(float spread)
 	{
-		Debug.Log("spreading");
+
 
 		_velocity = GetForward()*spread * ZoomSpeed;
 
 	}
-
 	
-//	void HandleBrowseTwoFingerSwipe(Vector3 dir)
-//	{
-//		Debug.Log("two finger swipe stop");
-//		_velocity = Vector3.zero;
-//		
-//		_tweenDir = dir;
-//		
-//		Vector3 moveDir = (dir.z == 1) ? _forward : -_forward;
-//		
-//		LeanTween.move(gameObject,transform.position + moveDir * GridManager.Instance.GetZPadding(),1).setEase(LeanTweenType.easeOutQuint).setOnComplete( () =>
-//		                                                                                                                                                 {
-//			_tweenDir = Vector3.zero;
-//			
-//		});
-//	}
-
 
 #endregion
 
@@ -95,19 +73,19 @@ public class CameraManager : MonoBehaviour {
 	void FixedUpdate () {
 		_currentScene = SceneManager.Instance.GetScene();
 
-
-		if (SceneManager.IsInHelixOrBrowse() == false)
-			return;
+//		if (SceneManager.IsInHelixOrBrowse() == false)
+//			return;
 
 		Vector3 worldTouchPos = ScreenToWorldPos( InputManager.Instance.GetTouchPos(0));
 		Vector3 lastWorldTouchPos = ScreenToWorldPos(InputManager.Instance.GetLastTouchPos());
 
 
 		// get one finger swipe velocity
-		if (InputManager.Instance.IsTouchingWithOneFinger()) // && Input.touches[0].deltaPosition.magnitude > 0)
+		if (InputManager.Instance.IsTouchingWithOneFinger() && _currentScene == Scene.Browse) // && Input.touches[0].deltaPosition.magnitude > 0)
 		{
 
 			Vector3 delta = lastWorldTouchPos -  worldTouchPos;
+			delta.z = 0;
 
 			if (InputManager.Instance.HasFingerStoppedMoving())
 				_velocity = Vector3.zero;
@@ -131,17 +109,93 @@ public class CameraManager : MonoBehaviour {
 				HelixUpdate();
 			}
 			else
+			{
 				transform.position += _velocity;
+				HandleCommunityTransitions();
+			}
 				
-			ApplyBounds();
+	//		ApplyBounds();
 			ApplyFriction(magnitude);
 		}
 
 	}
 
+#region CommunityTransitions
+
+	void HandleCommunityTransitions()
+	{
+		if (_velocity.z == 0 || LeanTween.isTweening(gameObject))
+			return;
+
+		if (_velocity.z > 0)
+		{
+			HandleForwardCommmunityTransitions();
+		}
+		else if (_velocity.z < 0)
+		{
+			HandleBackwardCommunityTransitions();
+		}
+
+
+	}
+
+	void HandleBackwardCommunityTransitions()
+	{
+		if (_backCommunity != null && transform.position.z < _backCommunityItem.transform.position.z + 1)
+		{
+			Debug.Log("doing back transition");
+			_velocity = Vector3.zero;
+			_forwardCommunity.SendMessage("FadeOutAndRemove");
+			_backCommunity = null;
+			_backCommunityItem.DoCommunityBackTransition();
+			LeanTween.move(gameObject,_backCommunityItem.transform.position + Vector3.back, 1);
+		}
+
+	}
+
+	void HandleForwardCommmunityTransitions()
+	{
+
+		Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2.0f,Screen.height/2.0f));
+		//	Debug.DrawRay(ray.origin,ray.direction*1000);
+		RaycastHit hit;
+		
+		
+		if (Physics.Raycast(ray, out hit, .5f, 1 << LayerMask.NameToLayer("ImageObj")))
+		{
+			ImageObj obj = hit.transform.GetComponent<ImageObj>();
+			
+			// if we are hitting a community transition into it
+			if (obj.IsCommunity())
+			{
+				DoForwardTransitionOnObj(obj);
+				Debug.Log("starting transition: " + hit.transform.name);
+			}
+
+			//	hit.transform.localScale *= .5f;
+		}
+	}
+
+	public void DoForwardTransitionOnObj(ImageObj obj)
+	{
+		_velocity = Vector3.zero;
+		_backCommunityItem = obj;
+		_backCommunity = obj.transform.parent.gameObject;
+		_forwardCommunity = obj.DoCommunityForwardTransition();
+	//	Vector3 targetPos = new Vector3(
+		LeanTween.move(gameObject,transform.position + Vector3.forward * 2, 1).setOnComplete( () => {
+			_velocity = Vector3.zero;
+		});
+		
+	}
+	
+	
+	#endregion
+
 	void ApplyBounds()
 	{
 		Vector3 pos = transform.position;
+
 
 		if (pos.x > MaxX)
 			transform.position = new Vector3(MaxX,transform.position.y,transform.position.z);
@@ -161,10 +215,10 @@ public class CameraManager : MonoBehaviour {
 
 	void ApplyFriction(float magnitude)
 	{
-					// apply friction
-			magnitude -= Friction ;
-			magnitude = Mathf.Max(0,magnitude);
-			_velocity = _velocity.normalized * magnitude;
+		// apply friction
+		magnitude -= Friction ;
+		magnitude = Mathf.Max(0,magnitude);
+		_velocity = _velocity.normalized * magnitude;
 	}
 
 	float LimitVelocity()
@@ -245,7 +299,7 @@ public class CameraManager : MonoBehaviour {
 
 		foreach (RaycastHit hit in hits)
 		{
-			if (( _currentScene == Scene.Browse && hit.transform.name == "HitPlane" ) || 
+			if (( ( _currentScene == Scene.Browse || _currentScene == Scene.Selected) && hit.transform.name == "HitPlane" ) || 
 			    ( _currentScene == Scene.Helix && hit.transform.name == "HelixHitCylinder" ))
 				return hit.point;
 		}

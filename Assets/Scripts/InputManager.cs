@@ -149,7 +149,7 @@ public class InputManager : MonoBehaviour {
 		else if (!_hasLiftedFingersSinceLastSwipe)
 		{
 			float spreadDist = fingerDist - _lastFingerDist;
-			Debug.Log("calling spread");
+		
 			Utils.SendMessageToAll("OnTwoFingerSpread",spreadDist);
 		}
 		else if (_hasLiftedFingersSinceLastSwipe) // they may be moving their fingers

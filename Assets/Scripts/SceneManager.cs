@@ -51,6 +51,10 @@ public class SceneManager : MonoBehaviour {
 		return _transitioningToScene;
 	}
 
+	public void SetTransitioning(bool isTransitioning)
+	{
+		_isTransitioning = isTransitioning;
+	}
 
 	public void PushScene(Scene scene)
 	{
