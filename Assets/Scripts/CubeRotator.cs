@@ -28,7 +28,15 @@ public class CubeRotator : MonoBehaviour {
 		if (obj.HasData())
 			GameObject.Find("ObjectDescriptionLabel").GetComponent<UILabel>().text = obj.GetData<string>("Description");
 	}
-	
+
+	public void DoFastRotateToFront()
+	{
+		TweenAlpha.Begin(_backPanel,0,0);
+		LeanTween.rotateY(CubeTransform.gameObject,-90,.1f);
+		
+		_totalAngleChange = Vector3.zero;
+	}
+
 	// Update is called once per frame
 	void Update () {
 
@@ -36,10 +44,8 @@ public class CubeRotator : MonoBehaviour {
 		Vector3 touchDelta = InputManager.Instance.GetOneFingerTouchDelta();
 
 
-
 		if (InputManager.Instance.GetTouchCount() == 0)
 		{
-	//		Debug.Log("touch count 0");
 			_totalAngleChange = Vector3.zero;
 			_fingerLiftedAfterSwipe = true;
 		}
@@ -49,9 +55,9 @@ public class CubeRotator : MonoBehaviour {
 	
 			_totalAngleChange += touchDelta;
 
-//			Debug.Log("total angle: " + _totalAngleChange + " Min angle: " + MinAngleToRotate + "fingerlifted " + _fingerLiftedAfterSwipe);
 		}
 
+		// did the just swipe to rotate the box?
 		if ( Mathf.Abs(_totalAngleChange.x) >  Mathf.Abs(_totalAngleChange.y) &&  Mathf.Abs(_totalAngleChange.x) > MinAngleToRotate && _fingerLiftedAfterSwipe)
 		{
 			TweenAlpha.Begin(_backPanel,0,0);
@@ -64,22 +70,15 @@ public class CubeRotator : MonoBehaviour {
 
 			forward = Quaternion.AngleAxis(-dir * 90,Vector3.up) * forward;
 
-
+			// do the rotation
 			LeanTween.rotateY(CubeTransform.gameObject,CubeTransform.rotation.eulerAngles.y + (dir * 90),animTime).setOnComplete( () => 
 			{
 
 				Debug.Log("forward: " + forward);
 
-//				if (forward == Vector3.back)
-//					transform.parent.SendMessage("ScaleToAspect",animTime);
-//				else // if (forward == Vector3.forward)
-//					transform.parent.SendMessage("ScaleToBox",animTime);
-//
-
 				if (forward == Vector3.forward)
 					TweenAlpha.Begin(_backPanel,.3f,1);
-//				else if (forward == Vector3.left)
-//					FadeButtonPanel(1,.3f);
+
 
 				_fingerLiftedAfterSwipe = false;
 				_totalAngleChange = Vector3.zero;
@@ -96,7 +95,6 @@ public class CubeRotator : MonoBehaviour {
 	{
 		for (int i=0; i < _leftPanel.transform.childCount; i++)
 		{
-		//	Debug.Log("child name: " + 
 			TweenAlpha.Begin(_leftPanel.transform.GetChild(i).gameObject,time,alpha);
 
 		}
@@ -108,7 +106,7 @@ public class CubeRotator : MonoBehaviour {
 	{	
 		GameObject.Find("DraggableDescriptionPanel").SendMessage("ResetPosition");
 		_selected = true;
-	//	LeanTween.rotate(CubeTransform.gameObject,_startRotation,.3f);
+
 	}
 
 	

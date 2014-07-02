@@ -92,18 +92,15 @@ public class ImageObj : MonoBehaviour {
 
 #region community transitions
 
-	public GameObject DoCommunityForwardTransition()
+	public GameObject DoCommunityForwardTransition(Vector3 finalCameraPos)
 	{
 		if (SceneManager.Instance.GetScene() == Scene.InTransition)
 			return null;
 
-		Vector3 scale = _imageBox.transform.localScale;
-//		scale.x = _startXScale;
-//		_imageBox.transform.localScale = scale;
-		ScaleToPlane(.1f);
+		CubeRotator.SendMessage("DoFastRotateToFront");
 		SceneManager.Instance.SetTransitioning(true);
 
-		GameObject community = (GameObject)Instantiate(CommunityPrefab,new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z + 5),Quaternion.identity);
+		GameObject community = (GameObject)Instantiate(CommunityPrefab,new Vector3(finalCameraPos.x, 0, finalCameraPos.z + 5),Quaternion.identity);
 
 		StartCoroutine(FadeMaterial(ImageRenderer.material,.5f,0,() => {
 			Debug.Log("stopped transitioning");

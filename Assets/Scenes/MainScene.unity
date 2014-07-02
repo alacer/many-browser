@@ -6454,7 +6454,7 @@ Renderer:
   - {fileID: 2100000, guid: 2a32dc8eaa6834893bf9fdca73e4748b, type: 2}
   - {fileID: 2100000, guid: 5d3cbf4442710486486110880195f0bd, type: 2}
   - {fileID: 2100000, guid: 5275356f93d424c6db5d149fe88534b2, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a3e5efeeecc270848b5bed5556de38f3, type: 2}
   - {fileID: 2100000, guid: 191a9b3ad3779493b863e644a59a4475, type: 2}
   - {fileID: 2100000, guid: 14cf1bdbed8554008ba7dbb76f4a87a8, type: 2}
   m_SubsetIndices: 
@@ -15089,6 +15089,10 @@ Prefab:
       propertyPath: CommunityPrefab
       value: 
       objectReference: {fileID: 100020, guid: fb4c52dc344e14425ba53b76b0acb076, type: 2}
+    - target: {fileID: 2300000, guid: d68434dd6d1174e3d9af7882b5a5a09d, type: 2}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: a3e5efeeecc270848b5bed5556de38f3, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d68434dd6d1174e3d9af7882b5a5a09d, type: 2}
   m_RootGameObject: {fileID: 1222237966}
@@ -23864,7 +23868,7 @@ Renderer:
   - {fileID: 2100000, guid: 2a32dc8eaa6834893bf9fdca73e4748b, type: 2}
   - {fileID: 2100000, guid: 5d3cbf4442710486486110880195f0bd, type: 2}
   - {fileID: 2100000, guid: 5275356f93d424c6db5d149fe88534b2, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a3e5efeeecc270848b5bed5556de38f3, type: 2}
   - {fileID: 2100000, guid: 191a9b3ad3779493b863e644a59a4475, type: 2}
   - {fileID: 2100000, guid: 14cf1bdbed8554008ba7dbb76f4a87a8, type: 2}
   m_SubsetIndices: 
@@ -27991,7 +27995,7 @@ Renderer:
   - {fileID: 2100000, guid: 2a32dc8eaa6834893bf9fdca73e4748b, type: 2}
   - {fileID: 2100000, guid: 5d3cbf4442710486486110880195f0bd, type: 2}
   - {fileID: 2100000, guid: 5275356f93d424c6db5d149fe88534b2, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a3e5efeeecc270848b5bed5556de38f3, type: 2}
   - {fileID: 2100000, guid: 191a9b3ad3779493b863e644a59a4475, type: 2}
   - {fileID: 2100000, guid: 14cf1bdbed8554008ba7dbb76f4a87a8, type: 2}
   m_SubsetIndices: 
@@ -30059,6 +30063,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1242035413}
+  - 114: {fileID: 1242035414}
   m_Layer: 0
   m_Name: KartuaView
   m_TagString: Untagged
@@ -30082,6 +30087,18 @@ Transform:
   - {fileID: 1222237967}
   - {fileID: 1670142309}
   m_Father: {fileID: 0}
+--- !u!114 &1242035414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1242035412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d425086acd2407e9f15fc614f6f400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FadeInOnAwake: 0
 --- !u!1 &1246757047
 GameObject:
   m_ObjectHideFlags: 0
@@ -32223,7 +32240,7 @@ Renderer:
   - {fileID: 2100000, guid: 2a32dc8eaa6834893bf9fdca73e4748b, type: 2}
   - {fileID: 2100000, guid: 5d3cbf4442710486486110880195f0bd, type: 2}
   - {fileID: 2100000, guid: 5275356f93d424c6db5d149fe88534b2, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a3e5efeeecc270848b5bed5556de38f3, type: 2}
   - {fileID: 2100000, guid: 191a9b3ad3779493b863e644a59a4475, type: 2}
   - {fileID: 2100000, guid: 14cf1bdbed8554008ba7dbb76f4a87a8, type: 2}
   m_SubsetIndices: 
@@ -33972,7 +33989,7 @@ Renderer:
   - {fileID: 2100000, guid: 2a32dc8eaa6834893bf9fdca73e4748b, type: 2}
   - {fileID: 2100000, guid: 5d3cbf4442710486486110880195f0bd, type: 2}
   - {fileID: 2100000, guid: 5275356f93d424c6db5d149fe88534b2, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a3e5efeeecc270848b5bed5556de38f3, type: 2}
   - {fileID: 2100000, guid: 191a9b3ad3779493b863e644a59a4475, type: 2}
   - {fileID: 2100000, guid: 14cf1bdbed8554008ba7dbb76f4a87a8, type: 2}
   m_SubsetIndices: 

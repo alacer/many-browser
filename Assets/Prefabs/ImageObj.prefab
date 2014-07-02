@@ -308,7 +308,7 @@ Renderer:
   - {fileID: 2100000, guid: 2a32dc8eaa6834893bf9fdca73e4748b, type: 2}
   - {fileID: 2100000, guid: 5d3cbf4442710486486110880195f0bd, type: 2}
   - {fileID: 2100000, guid: 5275356f93d424c6db5d149fe88534b2, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a3e5efeeecc270848b5bed5556de38f3, type: 2}
   - {fileID: 2100000, guid: 191a9b3ad3779493b863e644a59a4475, type: 2}
   - {fileID: 2100000, guid: 14cf1bdbed8554008ba7dbb76f4a87a8, type: 2}
   m_SubsetIndices: 
@@ -477,9 +477,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RandomOffsetRadX: 0
+  DefaultImage: {fileID: 0}
+  CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300000}
-  ParticlePrefab: {fileID: 0}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
   Text: {fileID: 10200000}
   MoveSpeed: 1

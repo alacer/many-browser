@@ -100,6 +100,11 @@ public class SelectionManager : MonoBehaviour {
 		LeanTween.cancel(gameObject);
 	}
 
+	public void FadeOutOverlay()
+	{
+		LeanTween.alpha(_overlay,0,.3f);
+	}
+
 	public float LeaveSelectedObj()
 	{
 		return LeaveSelectedObj(false);
@@ -120,7 +125,7 @@ public class SelectionManager : MonoBehaviour {
 	IEnumerator LeaveSelectedRoutine(float animTime, bool inForwardCommunityTransition)
 	{
 
-		LeanTween.alpha(_overlay,0,.3f);
+		FadeOutOverlay();
 		Debug.Log("leaving selected");
 		SceneManager.Instance.OnSceneTransition(SceneManager.Instance.GetLastScene());
 		

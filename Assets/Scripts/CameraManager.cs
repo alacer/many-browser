@@ -52,6 +52,11 @@ public class CameraManager : MonoBehaviour {
 			animation["CameraAnim"].speed = 10;
 	}
 
+	void Start()
+	{
+		_forwardCommunity = Community.CurrentCommunity.gameObject;
+	}
+
 	
 
 #region Finger Swiping
@@ -146,6 +151,7 @@ public class CameraManager : MonoBehaviour {
 			Debug.Log("doing back transition");
 			_velocity = Vector3.zero;
 			_forwardCommunity.SendMessage("FadeOutAndRemove");
+			_forwardCommunity = _backCommunity;
 			_backCommunity = null;
 			_backCommunityItem.DoCommunityBackTransition();
 			LeanTween.move(gameObject,_backCommunityItem.transform.position + Vector3.back, 1);
@@ -180,10 +186,16 @@ public class CameraManager : MonoBehaviour {
 	{
 		_velocity = Vector3.zero;
 		_backCommunityItem = obj;
-		_backCommunity = obj.transform.parent.gameObject;
-		_forwardCommunity = obj.DoCommunityForwardTransition();
-	//	Vector3 targetPos = new Vector3(
-		LeanTween.move(gameObject,transform.position + Vector3.forward * 2, 1).setOnComplete( () => {
+		_backCommunity = _forwardCommunity;
+
+
+		Vector3 targetPos = new Vector3(transform.position.x, transform.position.y, _backCommunity.transform.position.z + 2);
+
+		Debug.Log("back community: " + _backCommunity.name + " pos: " + _backCommunity.transform.position);
+
+		_forwardCommunity = obj.DoCommunityForwardTransition(targetPos);
+
+		LeanTween.move(gameObject,targetPos, 1).setOnComplete( () => {
 			_velocity = Vector3.zero;
 		});
 		
