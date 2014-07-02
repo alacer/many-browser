@@ -19,13 +19,12 @@ public class ImageObj : MonoBehaviour {
 
 
 	Dictionary<string,object> _data;
-	static float MaxZOffset = .1f;
+
 	bool _isFacingCamera;
 	
 	bool _loaded;
 	
 	Vector3 _totalZMovement;
-	Vector3 _moveDelta;
 
 	Vector3 _aspectScale;
 
@@ -35,21 +34,18 @@ public class ImageObj : MonoBehaviour {
 
 	Transform _imageBox;
 	float _startXScale;
-
-	static Dictionary<string,Texture2D>  _imageCache = new Dictionary<string, Texture2D>();
+	
 	static List<ImageObj> _visibleObjs = new List<ImageObj>();
 	
 
 	void Awake()
 	{
 		CubeRotator.SetActive(false);
-//		transform.localScale = Vector3.one * .3f;
+
 		_imageBox = transform.FindChild("box");
 
 		_imageBox.localScale = new Vector3(.001f,_imageBox.localScale.y,_imageBox.localScale.z);
 		_startXScale = _imageBox.localScale.x;
-//		_startRotation = _imagePlane.rotation.eulerAngles;
-
 
 		Text.gameObject.SetActive(false);
 
@@ -83,8 +79,7 @@ public class ImageObj : MonoBehaviour {
 		{
 			scale *= MaxWidthScale / scale.x;
 		}
-		
-		//	LeanTween.moveLocal(_imageBox.gameObject,Vector3.zero,1);
+
 		transform.localScale = scale;
 		
 		_aspectScale = scale;
@@ -175,19 +170,14 @@ public class ImageObj : MonoBehaviour {
 		UpdateRoation();
 
 	}
-
-	public void SetMoveDelta(Vector3 moveDelta)
-	{
-		_moveDelta = moveDelta;
-	}
-
+	
 	void OnSelected()
 	{
 	//	ImageRenderer.materials[1].mainTexture = WhiteTexture;
 		Text.gameObject.SetActive(false);
-		Debug.Log("scale x: " + transform.localScale.x);
+
 		float animTime = .3f;
-		Vector3 newPos = Camera.main.ViewportToWorldPoint(new Vector3(.5f,.5f,2));
+		Vector3 newPos = Camera.main.ViewportToWorldPoint(new Vector3(.5f,.5f,1.8f));
 		LeanTween.move(gameObject,newPos ,animTime).setEase(LeanTweenType.easeOutQuad);
 		LeanTween.rotateLocal(gameObject,Vector3.zero, animTime).setEase(LeanTweenType.easeOutQuad).setOnComplete ( () =>
 		                                                                                                               {
@@ -284,14 +274,13 @@ public class ImageObj : MonoBehaviour {
 	
 	public void ScaleToPlane(float time)
 	{
-		Debug.Log("scaling to plane " + time);
 		LeanTween.scaleX(_imageBox.gameObject,_startXScale,time);
 		
 	}
 	
 	void ScaleToBox(float animTime)
 	{
-		Debug.Log("scaling to Box " + _cubeScale);
+	
 		//	transform.localScale = _cubeScale;
 		LeanTween.scale(gameObject,_cubeScale,.1f);
 	}

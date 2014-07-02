@@ -13,16 +13,16 @@ public class CubeRotator : MonoBehaviour {
 	float _lastSpeed;
 	GameObject _backPanel;
 	GameObject _leftPanel;
-	GameObject _rightPanel;
+
 	bool _fingerLiftedAfterSwipe = true;
-	bool _selected;
+
 
 	void Start()
 	{
 
 		_backPanel = GameObject.Find("BackPanel");
 		_leftPanel = GameObject.Find("ActionButtonPanel");
-		_rightPanel = GameObject.Find("RightPanel");
+
 
 		ImageObj obj = transform.parent.GetComponent<ImageObj>();
 		if (obj.HasData())
@@ -105,7 +105,6 @@ public class CubeRotator : MonoBehaviour {
 	void OnSelect()
 	{	
 		GameObject.Find("DraggableDescriptionPanel").SendMessage("ResetPosition");
-		_selected = true;
 
 	}
 
@@ -123,6 +122,5 @@ public class CubeRotator : MonoBehaviour {
 		LeanTween.rotateLocal(CubeTransform.gameObject,_startRotation,.3f);
 		forward = Vector3.back;
 
-		_selected = false;
 	}
 }

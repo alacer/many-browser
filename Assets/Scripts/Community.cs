@@ -5,11 +5,13 @@ public class Community : MonoBehaviour {
 
 	public bool FadeInOnAwake = true;
 
-	public static Community CurrentCommunity;
+	public static Community BackCommunity;
+	public static Community ForwardCommunity;
 
 	void Awake()
 	{
-		CurrentCommunity = this;
+		if (ForwardCommunity == null)
+			ForwardCommunity = this;
 
 		if (FadeInOnAwake)
 		{
@@ -25,17 +27,30 @@ public class Community : MonoBehaviour {
 
 	}
 
+	public void FadeOut(float animTime)
+	{
+		for (int i=0; i < transform.childCount; i++)
+		{
+			ImageObj obj = transform.GetChild(i).GetComponent<ImageObj>();
+			
+			obj.FadeOut(animTime);
+		}
+	}
+
+	public void FadeIn(float animTime)
+	{
+		for (int i=0; i < transform.childCount; i++)
+		{
+			ImageObj obj = transform.GetChild(i).GetComponent<ImageObj>();
+			
+			obj.FadeIn(animTime);
+		}
+	}
 
 	public IEnumerator FadeOutAndRemove()
 	{
 		float animTime = 1;
-		for (int i=0; i < transform.childCount; i++)
-		{
-			ImageObj obj = transform.GetChild(i).GetComponent<ImageObj>();
-
-			obj.FadeOut(animTime);
-
-		}
+		FadeOut(1);
 
 		yield return new WaitForSeconds(animTime);
 

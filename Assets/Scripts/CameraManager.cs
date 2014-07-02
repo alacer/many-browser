@@ -18,19 +18,14 @@ public class CameraManager : MonoBehaviour {
 	public float Friction = 2;
 
 	public float MaxAngularSpeed = 6;
-	
-	Vector3 _tweenDir;
 
 	Vector3 _forward;
-	Vector3 _right;
 	Vector3 _moveDir;
 	Vector3 _velocity;
 	Vector3 _savedPos;
 	Vector3 _savedRotation;
 
 	ImageObj _backCommunityItem;
-	GameObject _backCommunity;
-	GameObject _forwardCommunity;
 
 	Transform _helixObj;
 	Scene _currentScene;
@@ -46,18 +41,11 @@ public class CameraManager : MonoBehaviour {
 		_helixObj = transform.Find("HelixBottom");
 		
 		_forward = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * Vector3.forward;
-		_right = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * Vector3.right;
 		
 		if (SkipIntro)
 			animation["CameraAnim"].speed = 10;
 	}
 
-	void Start()
-	{
-		_forwardCommunity = Community.CurrentCommunity.gameObject;
-	}
-
-	
 
 #region Finger Swiping
 
@@ -146,13 +134,15 @@ public class CameraManager : MonoBehaviour {
 
 	void HandleBackwardCommunityTransitions()
 	{
-		if (_backCommunity != null && transform.position.z < _backCommunityItem.transform.position.z + 1)
+		if (Community.BackCommunity != null && transform.position.z < _backCommunityItem.transform.position.z + 1)
 		{
 			Debug.Log("doing back transition");
 			_velocity = Vector3.zero;
-			_forwardCommunity.SendMessage("FadeOutAndRemove");
-			_forwardCommunity = _backCommunity;
-			_backCommunity = null;
+
+			StartCoroutine( Community.ForwardCommunity.FadeOutAndRemove() );
+
+			Community.ForwardCommunity = Community.BackCommunity;
+			Community.BackCommunity = null;
 			_backCommunityItem.DoCommunityBackTransition();
 			LeanTween.move(gameObject,_backCommunityItem.transform.position + Vector3.back, 1);
 		}
@@ -186,14 +176,13 @@ public class CameraManager : MonoBehaviour {
 	{
 		_velocity = Vector3.zero;
 		_backCommunityItem = obj;
-		_backCommunity = _forwardCommunity;
+		Community.BackCommunity = Community.ForwardCommunity;
 
 
-		Vector3 targetPos = new Vector3(transform.position.x, transform.position.y, _backCommunity.transform.position.z + 2);
+		Vector3 targetPos = new Vector3(transform.position.x, transform.position.y, Community.BackCommunity.transform.position.z + 2);
 
-		Debug.Log("back community: " + _backCommunity.name + " pos: " + _backCommunity.transform.position);
 
-		_forwardCommunity = obj.DoCommunityForwardTransition(targetPos);
+		Community.ForwardCommunity = obj.DoCommunityForwardTransition(targetPos).GetComponent<Community>();
 
 		LeanTween.move(gameObject,targetPos, 1).setOnComplete( () => {
 			_velocity = Vector3.zero;
@@ -319,16 +308,7 @@ public class CameraManager : MonoBehaviour {
 		return Vector3.zero;
 	}
 	
-	public Vector3 GetMoveDir()
-	{
-		
-		
-		Vector3 movDir = Quaternion.AngleAxis(-transform.rotation.y,Vector3.up) *_velocity;
-		
-		
-		movDir += _tweenDir;
-		return movDir;
-	}
+
 	
 	public Vector3 MoveDirToWorldDir(Vector2 moveDir)
 	{

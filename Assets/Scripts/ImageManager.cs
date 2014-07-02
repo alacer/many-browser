@@ -17,7 +17,7 @@ public class ImageManager : MonoBehaviour {
 	float _frameRate;
 	float _frames;
 	float _time;
-	float _checkTime = .5f;
+
 	int _imageIndex;
 
 
