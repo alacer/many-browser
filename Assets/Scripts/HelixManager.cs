@@ -13,7 +13,7 @@ public class HelixManager : Community {
 	public GameObject imageObjPrefab;
 	public float MaxAngularSpeed = 2;
 	public float HelixRadius = 3f;
-
+	public float SpeedMultiplier = 2;
 	public float MaxZ;
 	public float MinZ;
 	public float Friction = 0.003f;
@@ -93,14 +93,13 @@ public class HelixManager : Community {
 
 			transform.RotateAround(transform.position,Vector3.up,_velocity.x);
 			transform.position += new Vector3(0,_velocity.y,0);
-			
+
 			// clamp bounds
 			if (transform.position.y > GetHelixMaxY())
 				transform.position = new Vector3(transform.position.x, GetHelixMaxY(), transform.position.z);
 			else if (transform.position.y < GetHelixMinY())
 				transform.position = new Vector3(transform.position.x, GetHelixMinY(), transform.position.z);
 		
-
 		}
 
 		ApplyFriction(magnitude);
@@ -119,7 +118,7 @@ public class HelixManager : Community {
 			float angleDelta = Vector3.Angle(lastPos,currentPos);
 
 			angleDelta = Mathf.Min(angleDelta,MaxAngularSpeed);
-			vel = new Vector3( angleDelta * dir , -InputManager.Instance.GetOneFingerDelta().y, 0);
+			vel = new Vector3( angleDelta * dir , -InputManager.Instance.GetOneFingerDelta().y, 0) * SpeedMultiplier;
 
 		}
 
@@ -165,10 +164,12 @@ public class HelixManager : Community {
 	
 	IEnumerator FormHelixRoutine(string sort)
 	{
+		if (SceneManager.Instance.GetScene() != Scene.Helix)
+			transform.position = CameraManager.Instance.GetForwardTransitionTargetPos() + Vector3.forward * 5;
+
 		Debug.Log("in form helix");
 		while (SceneManager.Instance.GetScene() == Scene.InTransition)
 		{
-			
 			yield return new WaitForSeconds(.1f);
 		}
 		
@@ -181,13 +182,11 @@ public class HelixManager : Community {
 
 		Debug.Log("all objs: " + _allObjs.Count);
 		SceneManager.Instance.OnSceneTransition(Scene.Helix);
-		CameraManager.Instance.SavePlace();
 
 //		List<Vector3> positions = new List<Vector3>();
 //		List<Vector3> rotations = new List<Vector3>();
 
 
-		transform.position = CameraManager.Instance.GetForwardTransitionTargetPos() + Vector3.forward * 5;
 
 		Vector3 center = transform.position;
 		Vector3 dir = Vector3.right;
@@ -199,7 +198,10 @@ public class HelixManager : Community {
 		float animateToHelixTime = 1;
 		Vector3 rotation = Vector3.zero;
 
-		_minHelixY = transform.position.z;
+		List<Vector3> positions = new List<Vector3>();
+		List<Vector3> rotations = new List<Vector3>();
+
+//		_minHelixY = transform.position.z;
 
 		// Create lists of new positions and rotations
 		for (int i=0; i < _allObjs.Count; i++)
@@ -212,19 +214,27 @@ public class HelixManager : Community {
 			Vector3 pos = center + (HelixRadius * dir);
 			rotation = Quaternion.LookRotation(-dir.normalized).eulerAngles;
 			
-//			if (i == _allObjs.Count-1)
-//			{
-//				_maxHelixY = pos.y;
-//			}
+			if (i == _allObjs.Count-1)
+			{
+				_maxHelixY = _minHelixY + (_minHelixY - pos.y);
+
+			}
 			
 			if (i == 0)
 			{
 				_topObjPos = pos;
-				_maxHelixY = pos.y + 1;
+
+				_minHelixY = pos.y;
+
 			}
+
+			positions.Add(pos);
+			rotations.Add(pos);
 
 			_allObjs[i].transform.position = pos;
 			_allObjs[i].transform.rotation = Quaternion.Euler(rotation);
+
+			_allObjs[i].SetText(sort);
 
 
 //			positions.Add(pos);
@@ -236,29 +246,30 @@ public class HelixManager : Community {
 
 		LeanTween.move(gameObject,transform.position + Vector3.up * moveUpDist,2);
 		// now animate all to new positions and rotations
-//		for (int i=0; i < _allObjs.Count; i++)
-//		{
-//			
-//			_allObjs[i].SetText(sort);
-//			GameObject obj = _allObjs[i].gameObject;
-//			LeanTween.cancel(obj);
-//			
-//			Vector3 newPos = positions[i];
-//			Vector3 newRotation = rotations[i];
-//			
-//			Vector3 viewportPos = Camera.main.WorldToViewportPoint(newPos);
-//			bool newPosIsVisible = (viewportPos.x >= 0 && viewportPos.x <= 1 && viewportPos.y >= 0 && viewportPos.y <= 1);
-//			if (obj.GetComponent<ImageObj>().IsVisible() || newPosIsVisible)
-//			{
-//				LeanTween.move(obj,newPos,animateToHelixTime).setEase(LeanTweenType.easeOutExpo);
-//				LeanTween.rotate(obj,newRotation,animateToHelixTime).setEase(LeanTweenType.easeOutExpo);
-//			}
-//			else 
-//			{
-//				obj.transform.position = positions[i];
-//				obj.transform.rotation = Quaternion.Euler(rotations[i]);
-//			}
-//		}
+
+		for (int i=0; i < _allObjs.Count; i++)
+		{
+			
+			_allObjs[i].SetText(sort);
+			GameObject obj = _allObjs[i].gameObject;
+			LeanTween.cancel(obj);
+			
+			Vector3 newPos = positions[i];
+			Vector3 newRotation = rotations[i];
+			
+			Vector3 viewportPos = Camera.main.WorldToViewportPoint(newPos);
+			bool newPosIsVisible = (viewportPos.x >= 0 && viewportPos.x <= 1 && viewportPos.y >= 0 && viewportPos.y <= 1);
+			if (obj.GetComponent<ImageObj>().IsVisible() || newPosIsVisible)
+			{
+				LeanTween.move(obj,newPos,animateToHelixTime).setEase(LeanTweenType.easeOutExpo);
+				LeanTween.rotate(obj,newRotation,animateToHelixTime).setEase(LeanTweenType.easeOutExpo);
+			}
+			else 
+			{
+				obj.transform.position = positions[i];
+				obj.transform.rotation = Quaternion.Euler(rotations[i]);
+			}
+		}
 
 		
 		yield return new WaitForSeconds (animateToHelixTime);
@@ -325,9 +336,7 @@ public class HelixManager : Community {
 	{
 		return _allObjs;
 	}
-
-
-
+	
 
 //	IEnumerator UnformHelix()
 //	{
@@ -402,61 +411,5 @@ public class HelixManager : Community {
 			transform.GetChild(i).GetComponent<ImageObj>().SetVisible(visible);
 		}
 	}
-	
-//	void CreateGrid()
-//	{
-//
-//		Vector3 center = GetCenterPos();
-//
-//		int zIndex=0;
-//		for (float z = -_zRadius; z <= _zRadius; z += zPadding)
-//		{
-//
-//			int xIndex=0;
-//			for (float x = -_xRadius; x <= _xRadius; x += xPadding)
-//			{
-//
-//
-//				int yIndex=0;
-//				for (float y = -_yRadius; y <= _yRadius; y += yPadding)
-//				{
-//					float zOffset = Random.Range(MinZ,MaxZ);
-//					float zPos = z + zOffset;
-//
-//					x += Random.Range(-RandomOffsetRadX,RandomOffsetRadX);
-//
-//					GameObject imageObj = (GameObject) Instantiate (imageObjPrefab,new Vector3(x + center.x,y + center.y,zPos + center.z),Quaternion.Euler(0,0,0));
-//					imageObj.transform.parent = transform;
-//
-//
-//					if (xIndex > _xLayers.Count-1)
-//						_xLayers.Add (new List<Transform>());
-//					if (yIndex > _yLayers.Count-1)
-//						_yLayers.Add (new List<Transform>());
-//					if (zIndex > _zLayers.Count-1)
-//						_zLayers.Add (new List<Transform>());
-//
-//
-//					_xLayers[xIndex].Add(imageObj.transform);
-//					_yLayers[yIndex].Add(imageObj.transform);
-//					_zLayers[zIndex].Add(imageObj.transform);
-//					_allObjs.Add(imageObj.GetComponent<ImageObj>());
-//
-//					yIndex++;
-//				}
-//
-//
-//				xIndex++;
-//			}
-//
-//			zIndex++;
-//		}
-//
-//
-//	}
-//
-//	public float GetZPadding()
-//	{
-//		return zPadding;
-//	}
+
 }

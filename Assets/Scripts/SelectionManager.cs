@@ -151,7 +151,7 @@ public class SelectionManager : MonoBehaviour {
 
 	void OnSceneChange(Scene scene)
 	{
-		Debug.Log("in new scene: " + scene.ToString());
+	//	Debug.Log("in new scene: " + scene.ToString());
 		if (scene != Scene.Selected && _selectedObj != null)
 		{
 			LeaveSelectedObj();

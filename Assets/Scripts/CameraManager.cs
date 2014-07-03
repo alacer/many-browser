@@ -20,8 +20,6 @@ public class CameraManager : MonoBehaviour {
 	Vector3 _forward;
 	Vector3 _moveDir;
 	Vector3 _velocity;
-	Vector3 _savedPos;
-	Vector3 _savedRotation;
 
 	ImageObj _backCommunityItem;
 	
@@ -124,7 +122,17 @@ public class CameraManager : MonoBehaviour {
 
 	void HandleBackwardCommunityTransitions()
 	{
-		if (Community.BackCommunity != null && transform.position.z < _backCommunityItem.transform.position.z + 1)
+		if (Community.BackCommunity == null)
+			return;
+
+
+		float backwardZTransitionPoint = (_backCommunityItem != null) ? 
+			_backCommunityItem.transform.position.z + 1 : Community.BackCommunity.transform.transform.position.z + 2;
+		
+		Vector3 backMoveToPos = (_backCommunityItem != null) ? 
+			_backCommunityItem.transform.position + Vector3.back : Community.BackCommunity.transform.transform.position + Vector3.back * 2;
+
+		if (transform.position.z < backwardZTransitionPoint)
 		{
 			Debug.Log("doing back transition");
 			_velocity = Vector3.zero;
@@ -133,8 +141,18 @@ public class CameraManager : MonoBehaviour {
 
 			Community.ForwardCommunity = Community.BackCommunity;
 			Community.BackCommunity = null;
-			_backCommunityItem.DoCommunityBackTransition();
-			LeanTween.move(gameObject,_backCommunityItem.transform.position + Vector3.back, 1);
+
+			if (_backCommunityItem != null)
+				_backCommunityItem.DoCommunityBackTransition();
+			else // we just came from the helix
+				Community.ForwardCommunity.FadeIn(2);
+
+			LeanTween.move(gameObject,backMoveToPos,1).setOnComplete ( () => {
+				if (SceneManager.Instance.GetScene() == Scene.Helix)
+					SceneManager.Instance.PushScene(Scene.Browse);
+			});
+
+
 		}
 
 	}
@@ -281,22 +299,7 @@ public class CameraManager : MonoBehaviour {
 
 	}
 
-	public void MoveToSavedPlace(float animTime)
-	{
-		transform.position = _savedPos;
-		transform.rotation = Quaternion.Euler(_savedRotation);
 
-//		LeanTween.move(gameObject,_savedPos,animTime).setEase(LeanTweenType.easeOutExpo);
-//		LeanTween.rotate(gameObject,_savedRotation,animTime).setEase(LeanTweenType.easeOutExpo);
-
-
-	}
-	
-	public void SavePlace()
-	{
-		_savedPos = transform.position;
-		_savedRotation = transform.rotation.eulerAngles;
-	}
 
 #endregion
 }

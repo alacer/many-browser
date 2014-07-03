@@ -151,7 +151,6 @@ public class ImageObj : MonoBehaviour {
 		if (gameObject == null || SceneManager.Instance.GetScene() != Scene.Browse)
 			return;
 
-
 		float dist = Vector3.Distance(transform.position, Camera.main.transform.position);
 
 		if (dist < RotateDistance && !_isFacingCamera)
@@ -168,7 +167,6 @@ public class ImageObj : MonoBehaviour {
 
 	void Update()
 	{
-
 		UpdateRoation();
 
 	}
@@ -200,8 +198,6 @@ public class ImageObj : MonoBehaviour {
 
 			Debug.Log ("loading large url: " + (string)_data["LargeUrl"]);
 			StartCoroutine (textureCache.GetTexture ((string)_data["LargeUrl"], _data, OnGotLargeTexture));
-				
-
 
 		}
 	}
