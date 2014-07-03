@@ -95,11 +95,11 @@ public class HelixManager : Community {
 			transform.position += new Vector3(0,_velocity.y,0);
 			
 			// clamp bounds
-//			if (transform.position.y > GetHelixMaxY())
-//				transform.position = new Vector3(transform.position.x, GetHelixMaxY(), transform.position.z);
-//			else if (transform.position.y < GetHelixMinY())
-//				transform.position = new Vector3(transform.position.x, GetHelixMinY(), transform.position.z);
-//		
+			if (transform.position.y > GetHelixMaxY())
+				transform.position = new Vector3(transform.position.x, GetHelixMaxY(), transform.position.z);
+			else if (transform.position.y < GetHelixMinY())
+				transform.position = new Vector3(transform.position.x, GetHelixMinY(), transform.position.z);
+		
 
 		}
 
@@ -117,12 +117,10 @@ public class HelixManager : Community {
 			currentPos.y = 0;
 			float dir = (Vector3.Cross(lastPos,currentPos).y > 0) ? 1 : -1;
 			float angleDelta = Vector3.Angle(lastPos,currentPos);
-			
-			if (angleDelta > 0)
-			{
-				angleDelta = Mathf.Min(angleDelta,MaxAngularSpeed);
-				vel = new Vector3( angleDelta * dir , -InputManager.Instance.GetOneFingerDelta().y, 0);
-			}
+
+			angleDelta = Mathf.Min(angleDelta,MaxAngularSpeed);
+			vel = new Vector3( angleDelta * dir , -InputManager.Instance.GetOneFingerDelta().y, 0);
+
 		}
 
 		return vel;
@@ -201,6 +199,8 @@ public class HelixManager : Community {
 		float animateToHelixTime = 1;
 		Vector3 rotation = Vector3.zero;
 
+		_minHelixY = transform.position.z;
+
 		// Create lists of new positions and rotations
 		for (int i=0; i < _allObjs.Count; i++)
 		{
@@ -212,10 +212,10 @@ public class HelixManager : Community {
 			Vector3 pos = center + (HelixRadius * dir);
 			rotation = Quaternion.LookRotation(-dir.normalized).eulerAngles;
 			
-			if (i == _allObjs.Count-1)
-			{
-				_minHelixY = pos.y;
-			}
+//			if (i == _allObjs.Count-1)
+//			{
+//				_maxHelixY = pos.y;
+//			}
 			
 			if (i == 0)
 			{
