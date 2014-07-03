@@ -8,6 +8,8 @@ public class InputManager : MonoBehaviour {
 	Vector2 _twoFingerTouchStartPos;
 	Vector2 _simulatedFinger2Pos;
 	Vector3 _touchDelta;
+	Vector3 _oneFingerDragDelta;
+
 	float _lastTwoFingerSwipeSpeed;
 	float _lastFingerDist;
 
@@ -54,32 +56,20 @@ public class InputManager : MonoBehaviour {
 
 //		if (Application.isEditor)
 //		{
-			if (Input.GetMouseButtonDown(0))
-				_timeSinceMouseDown = 0;
+		if (Input.GetMouseButtonDown(0))
+			_timeSinceMouseDown = 0;
 
-			if (Input.GetMouseButton(0))
-				_timeSinceMouseDown += Time.deltaTime;
+		if (Input.GetMouseButton(0))
+			_timeSinceMouseDown += Time.deltaTime;
 
-			if (Input.GetMouseButtonUp(0))
-			{
+		if (Input.GetMouseButtonUp(0))
+		{
 //				Debug.Log("time since mouse down: " + _timeSinceMouseDown);
-				if (_timeSinceMouseDown <= _clickTime && _touchDelta.magnitude < 5)
-					Utils.SendMessageToAll("OnSingleTap",Input.mousePosition);
+			if (_timeSinceMouseDown <= _clickTime && _touchDelta.magnitude < 5)
+				Utils.SendMessageToAll("OnSingleTap",Input.mousePosition);
 
-			}
-//		}
+		}
 
-
-//		foreach(Touch touch in Input.touches)
-//		{
-//
-//			if (touch.phase == TouchPhase.Ended && touch.tapCount == 1)
-//			{
-//				Debug.Log("got tap");
-//				SendMessageToAll("OnSingleTap",new Vector3(touch.position.x,touch.position.y,0));
-//				break;
-//			}
-//		}
 
 		// if they just touch the screen and stuff is moving.. stop everything
 		if (_lastTouchCount == 0 && GetTouchCount() > 0)
@@ -110,6 +100,12 @@ public class InputManager : MonoBehaviour {
 
 		if (GetTouchCount() == 1)
 		{
+			Vector3 worldTouchPos = GetTouchWorldPos();
+			Vector3 lastWorldTouchPos = GetLastTouchWorldPos();
+
+			_oneFingerDragDelta = lastWorldTouchPos -  worldTouchPos;
+			_oneFingerDragDelta.z = 0;
+			 
 			if (_lastTouchCount == 1)
 				_touchDelta = GetTouchPos(0) - _lastTouchPos;
 
@@ -119,6 +115,34 @@ public class InputManager : MonoBehaviour {
 			_touchDelta = Vector3.zero;
 		
 		_lastTouchCount = GetTouchCount();
+	}
+
+	Vector3 ScreenToWorldPos(Vector3 screenPos)
+	{
+		Ray ray = Camera.main.ScreenPointToRay(screenPos);
+		
+		RaycastHit[] hits = Physics.RaycastAll(ray);
+		
+		foreach (RaycastHit hit in hits)
+		{
+			Scene currentScene = SceneManager.Instance.GetScene();
+
+			if (( ( currentScene == Scene.Browse || currentScene == Scene.Selected) && hit.transform.name == "HitPlane" ) || 
+			    ( currentScene == Scene.Helix && hit.transform.name == "HelixHitCylinder" ))
+				return hit.point;
+		}
+		
+		return Vector3.zero;
+	}
+
+	public Vector3 GetTouchWorldPos()
+	{
+		return ScreenToWorldPos( GetTouchPos(0));
+	}
+
+	public Vector3 GetLastTouchWorldPos()
+	{
+		return ScreenToWorldPos(GetLastTouchPos());
 	}
 
 	public bool HasFingerStoppedMoving()
@@ -170,7 +194,11 @@ public class InputManager : MonoBehaviour {
 		_lastFingerDist = fingerDist;
 		return true;
 	}
-	
+
+	public Vector3 GetOneFingerDelta()
+	{
+		return _oneFingerDragDelta;
+	}
 
 	public Vector3 GetLastTouchPos()
 	{

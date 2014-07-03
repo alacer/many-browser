@@ -17,8 +17,6 @@ public class CameraManager : MonoBehaviour {
 	public float TwoFingerSwipeSpeed = .1f;
 	public float Friction = 2;
 
-	public float MaxAngularSpeed = 6;
-
 	Vector3 _forward;
 	Vector3 _moveDir;
 	Vector3 _velocity;
@@ -26,8 +24,7 @@ public class CameraManager : MonoBehaviour {
 	Vector3 _savedRotation;
 
 	ImageObj _backCommunityItem;
-
-	Transform _helixObj;
+	
 	Scene _currentScene;
 
 
@@ -39,7 +36,6 @@ public class CameraManager : MonoBehaviour {
 		Instance = this;
 		Application.targetFrameRate = 60;
 		LeanTween.init(3000);
-		_helixObj = transform.Find("HelixBottom");
 		
 		_forward = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * Vector3.forward;
 		
@@ -67,25 +63,18 @@ public class CameraManager : MonoBehaviour {
 	void FixedUpdate () {
 		_currentScene = SceneManager.Instance.GetScene();
 
-//		if (SceneManager.IsInHelixOrBrowse() == false)
-//			return;
-
-		Vector3 worldTouchPos = ScreenToWorldPos( InputManager.Instance.GetTouchPos(0));
-		Vector3 lastWorldTouchPos = ScreenToWorldPos(InputManager.Instance.GetLastTouchPos());
+		if (SceneManager.IsInHelixOrBrowse() == false)
+			return;
 
 
 		// get one finger swipe velocity
-		if (InputManager.Instance.IsTouchingWithOneFinger() && _currentScene == Scene.Browse) // && Input.touches[0].deltaPosition.magnitude > 0)
+		if (InputManager.Instance.IsTouchingWithOneFinger() && _currentScene == Scene.Browse)
 		{
-
-			Vector3 delta = lastWorldTouchPos -  worldTouchPos;
-			delta.z = 0;
 
 			if (InputManager.Instance.HasFingerStoppedMoving())
 				_velocity = Vector3.zero;
 			else
-				UpdateVelocity(delta,worldTouchPos,lastWorldTouchPos);
-
+				_velocity = InputManager.Instance.GetOneFingerDelta();
 
 		}
 
@@ -100,13 +89,13 @@ public class CameraManager : MonoBehaviour {
 			// do helix movement if we are in the helix
 			if (_currentScene == Scene.Helix)
 			{
-				HelixUpdate();
+				_velocity.x = 0;
+				_velocity.y = 0;
 			}
-			else
-			{
-				transform.position += _velocity;
-				HandleCommunityTransitions();
-			}
+
+			transform.position += _velocity;
+			HandleCommunityTransitions();
+
 				
 	//		ApplyBounds();
 			ApplyFriction(magnitude);
@@ -177,11 +166,9 @@ public class CameraManager : MonoBehaviour {
 	{
 		_velocity = Vector3.zero;
 		_backCommunityItem = obj;
-		Community.BackCommunity = Community.ForwardCommunity;
-
 
 		Vector3 targetPos = GetForwardTransitionTargetPos();
-
+		Community.BackCommunity = Community.ForwardCommunity;
 
 		Community.ForwardCommunity = obj.DoCommunityForwardTransition(targetPos).GetComponent<Community>();
 
@@ -191,9 +178,28 @@ public class CameraManager : MonoBehaviour {
 		
 	}
 
+	public void DoToHelixTransition()
+	{
+		_velocity = Vector3.zero;
+
+		Community.ForwardCommunity.FadeOut(1);
+
+		Community.BackCommunity = Community.ForwardCommunity;
+		Community.ForwardCommunity = HelixManager.Instance;
+
+		Vector3 targetPos = HelixManager.Instance.GetTopObjPos() + Vector3.back*2;
+
+		LeanTween.move(gameObject,targetPos, 2).setDelay(1).setOnComplete( () => {
+			_velocity = Vector3.zero;
+		});
+
+	}
+
 	public Vector3 GetForwardTransitionTargetPos()
 	{
-		return new Vector3(transform.position.x, transform.position.y, Community.BackCommunity.transform.position.z + 2);
+
+
+		return new Vector3(transform.position.x, transform.position.y, Community.ForwardCommunity.transform.position.z + 2);
 	}
 	
 	#endregion
@@ -230,7 +236,7 @@ public class CameraManager : MonoBehaviour {
 	float LimitVelocity()
 	{		
 		float magnitude =_velocity.magnitude;
-		float maxSpeed = (_currentScene == Scene.Helix) ? MaxAngularSpeed : MaxSpeed;
+		float maxSpeed = MaxSpeed;
 
 
 		if (magnitude > maxSpeed)
@@ -243,43 +249,7 @@ public class CameraManager : MonoBehaviour {
 
 	}
 
-	void UpdateVelocity(Vector3 delta, Vector3 worldTouchPos, Vector3 lastWorldTouchPos)
-	{
-		if (_currentScene == Scene.Browse)
-			_velocity = delta;
-		else if (_currentScene == Scene.Helix)
-		{
-			if (worldTouchPos != Vector3.zero)
-			{
-				Vector3 lastPos = lastWorldTouchPos - _helixObj.position;
-				Vector3 currentPos = worldTouchPos - _helixObj.position;
-				lastPos.y = 0;
-				currentPos.y = 0;
-				float dir = (Vector3.Cross(lastPos,currentPos).y > 0) ? 1 : -1;
-				float angleDelta = Vector3.Angle(lastPos,currentPos);
-				
-				if (angleDelta > 0)
-				{
-					angleDelta = Mathf.Min(angleDelta,MaxAngularSpeed);
-					_velocity = new Vector3( angleDelta * dir , delta.y, 0);
-				}
-			}
 
-		}
-	}
-
-	void HelixUpdate()
-	{
-
-		HelixManager.Instance.transform.RotateAround(_helixObj.position,Vector3.up,_velocity.x);
-		transform.position += new Vector3(0,_velocity.y,0);
-
-		// clamp bounds
-		if (transform.position.y > HelixManager.Instance.GetHelixMaxY())
-			transform.position = new Vector3(transform.position.x, HelixManager.Instance.GetHelixMaxY(), transform.position.z);
-		else if (transform.position.y < HelixManager.Instance.GetHelixMinY())
-			transform.position = new Vector3(transform.position.x, HelixManager.Instance.GetHelixMinY(), transform.position.z);
-	}
 
 #endregion
 	
@@ -297,32 +267,13 @@ public class CameraManager : MonoBehaviour {
 		return _forward;
 	}
 
-	Vector3 ScreenToWorldPos(Vector3 screenPos)
-	{
-		Ray ray = Camera.main.ScreenPointToRay(screenPos);
 
-		RaycastHit[] hits = Physics.RaycastAll(ray);
-
-		foreach (RaycastHit hit in hits)
-		{
-			if (( ( _currentScene == Scene.Browse || _currentScene == Scene.Selected) && hit.transform.name == "HitPlane" ) || 
-			    ( _currentScene == Scene.Helix && hit.transform.name == "HelixHitCylinder" ))
-				return hit.point;
-		}
-
-		return Vector3.zero;
-	}
-	
-
-	
 	public Vector3 MoveDirToWorldDir(Vector2 moveDir)
 	{
 		Vector3 worldDir = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * new Vector3( moveDir.x, moveDir.y, 0);
 		
 		return worldDir;
 	}
-	
-
 
 	Vector3 GetWorldPos(Vector2 touchPos)
 	{
