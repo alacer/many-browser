@@ -67,7 +67,7 @@ public class ImageObj : MonoBehaviour {
 			return;
 
 		ImageRenderer.material.mainTexture = tex;
-	
+		ImageRenderer.materials[1].mainTexture = ImageRenderer.material.mainTexture;
 		
 		float aspectRatio = (float)tex.width / (float)tex.height;
 
@@ -94,12 +94,12 @@ public class ImageObj : MonoBehaviour {
 		if (SceneManager.Instance.GetScene() == Scene.InTransition)
 			return null;
 
-		CubeRotator.SendMessage("DoFastRotateToFront");
+		CubeRotator.SendMessage("DoFastRotateToFront",SendMessageOptions.DontRequireReceiver);
 		SceneManager.Instance.SetTransitioning(true);
 
 		GameObject community = (GameObject)Instantiate(CommunityPrefab,new Vector3(finalCameraPos.x, 0, finalCameraPos.z + 5),Quaternion.identity);
 
-		StartCoroutine(FadeMaterial(ImageRenderer.material,.5f,0,() => {
+		StartCoroutine(FadeMaterial(.5f,0,() => {
 			Debug.Log("stopped transitioning");
 			SceneManager.Instance.SetTransitioning(false);
 		}));
@@ -112,30 +112,31 @@ public class ImageObj : MonoBehaviour {
 		if (SceneManager.Instance.GetScene() == Scene.InTransition)
 			return;
 		
-		SceneManager.Instance.SetTransitioning(true);
+	//	SceneManager.Instance.SetTransitioning(true);
 
-		StartCoroutine(FadeMaterial(ImageRenderer.material,2,1,() => {
+		StartCoroutine(FadeMaterial(1,1,() => {
 			Debug.Log("stopped transitioning");
-			SceneManager.Instance.SetTransitioning(false);
+//			SceneManager.Instance.SetTransitioning(false);
 		}));
 		
 	}
 
 #endregion
 
-	IEnumerator FadeMaterial(Material mat, float fadeTime, float alpha, Action onComplete )
+	IEnumerator FadeMaterial(float fadeTime, float alpha, Action onComplete )
 	{
-
 		float cycleTime = .05f;
 		float timeLeft = fadeTime;
-		float alphaChange = alpha - mat.color.a;
+		float alphaChange = alpha - ImageRenderer.materials[0].color.a;
 		float numCycles = fadeTime / cycleTime;
 
 		while (timeLeft > 0)
 		{
-			Color c = mat.color;
+			Color c = ImageRenderer.materials[0].color;
 			c.a += alphaChange / numCycles;
-			mat.color = c;
+
+			ImageRenderer.materials[0].color = c;
+			ImageRenderer.materials[1].color = c;
 
 			yield return new WaitForSeconds(cycleTime);
 			timeLeft -= cycleTime;
@@ -173,7 +174,7 @@ public class ImageObj : MonoBehaviour {
 	
 	void OnSelected()
 	{
-	//	ImageRenderer.materials[1].mainTexture = WhiteTexture;
+		ImageRenderer.materials[1].mainTexture = WhiteTexture;
 		Text.gameObject.SetActive(false);
 
 		float animTime = .3f;
@@ -211,7 +212,7 @@ public class ImageObj : MonoBehaviour {
 		CubeRotator.SendMessage("OnUnselect");
 		CubeRotator.SetActive(false);
 		ScaleToPlane(.3f);
-	//	ImageRenderer.materials[1].mainTexture = ImageRenderer.material.mainTexture;
+		ImageRenderer.materials[1].mainTexture = ImageRenderer.material.mainTexture;
 
 	}
 	
@@ -247,13 +248,13 @@ public class ImageObj : MonoBehaviour {
 
 	public void FadeOut(float time)
 	{
-		StartCoroutine(FadeMaterial(ImageRenderer.material,time,0,null));
+		StartCoroutine(FadeMaterial(time,0,null));
 		
 	}
 	
 	public void FadeIn(float time)
 	{
-		StartCoroutine(FadeMaterial(ImageRenderer.material,time,1,null));
+		StartCoroutine(FadeMaterial(time,1,null));
 		
 	}
 	

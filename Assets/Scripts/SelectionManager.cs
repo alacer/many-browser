@@ -83,6 +83,10 @@ public class SelectionManager : MonoBehaviour {
 	
 	void OnSelectObj(Transform obj)
 	{
+		if (SceneManager.Instance.GetScene() == Scene.InTransition || LeanTween.isTweening(Camera.main.gameObject))
+			return;
+
+
 		LeanTween.alpha(_overlay,1,.3f);
 		SceneManager.Instance.OnSceneTransition(Scene.Selected);
 		_selectedObj = obj;
@@ -129,7 +133,7 @@ public class SelectionManager : MonoBehaviour {
 
 		FadeOutOverlay();
 
-		Community.ForwardCommunity.FadeIn(.3f);
+		Community.ForwardCommunity.FadeIn(animTime);
 		Debug.Log("leaving selected");
 		SceneManager.Instance.OnSceneTransition(SceneManager.Instance.GetLastScene());
 		
@@ -137,8 +141,8 @@ public class SelectionManager : MonoBehaviour {
 		
 		_selectedObj.parent = _previousParent;
 		
-		if (inForwardCommunityTransition)
-				yield return new WaitForSeconds(1);
+//		if (inForwardCommunityTransition)
+//				yield return new WaitForSeconds(1);
 
 		LeanTween.move(_selectedObj.gameObject,_previousPos,animTime);
 		LeanTween.rotate(_selectedObj.gameObject,_previousRot, animTime).setOnComplete ( () =>
@@ -147,6 +151,8 @@ public class SelectionManager : MonoBehaviour {
 		});
 
 		_selectedObj = null;
+
+		yield return null;
 	}
 
 	void OnSceneChange(Scene scene)

@@ -59,11 +59,14 @@ public class CameraManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate () {
+
+		if (SceneManager.Instance == null)
+			Debug.Log("instance is null");
+
 		_currentScene = SceneManager.Instance.GetScene();
 
 		if (SceneManager.IsInHelixOrBrowse() == false)
 			return;
-
 
 		// get one finger swipe velocity
 		if (InputManager.Instance.IsTouchingWithOneFinger() && _currentScene == Scene.Browse)
@@ -142,14 +145,16 @@ public class CameraManager : MonoBehaviour {
 			Community.ForwardCommunity = Community.BackCommunity;
 			Community.BackCommunity = null;
 
-			if (_backCommunityItem != null)
+			if (_backCommunityItem != null) // we just came from another community
 				_backCommunityItem.DoCommunityBackTransition();
-			else // we just came from the helix
-				Community.ForwardCommunity.FadeIn(2);
+
+			Community.ForwardCommunity.FadeIn(1);
 
 			LeanTween.move(gameObject,backMoveToPos,1).setOnComplete ( () => {
 				if (SceneManager.Instance.GetScene() == Scene.Helix)
 					SceneManager.Instance.PushScene(Scene.Browse);
+
+				_velocity = Vector3.zero;
 			});
 
 

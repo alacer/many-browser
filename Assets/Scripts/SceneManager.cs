@@ -54,6 +54,8 @@ public class SceneManager : MonoBehaviour {
 	public void SetTransitioning(bool isTransitioning)
 	{
 		_isTransitioning = isTransitioning;
+		Debug.Log("set transitioning: " + isTransitioning);
+
 	}
 
 	public void PushScene(Scene scene)
@@ -63,6 +65,8 @@ public class SceneManager : MonoBehaviour {
 		_lastScene = _currentScene;
 
 		_currentScene = scene;
+		Debug.Log("setting scene: " + scene);
+
 		Utils.SendMessageToAll("OnSceneChange",_currentScene);
 	}
 
@@ -85,6 +89,8 @@ public class SceneManager : MonoBehaviour {
 	{
 		_isTransitioning = true;
 		_transitioningToScene = toScene;
+
+		Debug.Log("onscenetransition");
 	}
 
 	public void TransitionToDefaultView()

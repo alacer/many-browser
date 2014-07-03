@@ -10,7 +10,7 @@ public class HelixButton : MonoBehaviour {
 
 	void Awake()
 	{
-		Debug.Log("adding button from: " + gameObject.name);
+
 		_button = GetComponent<UIButton>();
 		_allButtons.Add(_button);
 	}

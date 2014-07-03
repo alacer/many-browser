@@ -299,18 +299,28 @@ public class ImageSearch : MonoBehaviour {
 
 		if (_dataList.Count > 0)
 		{
-			DoSearchTransition();
+			StartCoroutine( DoSearchTransition() );
 		}
 	}
 
-	void DoSearchTransition()
+	IEnumerator DoSearchTransition()
 	{
+		float animTime = SelectionManager.Instance.LeaveSelectedObj();
+
+		yield return new WaitForSeconds (animTime + .5f);
+
+		bool isInHelix = SceneManager.Instance.GetScene() == Scene.Helix;
+
 		HelixManager.Initialize(_dataList);
 		TweenAlpha.Begin(GameObject.Find("ErrorLabel"),0,0);
 		
 		ImageManager.Instance.Initialize(_dataList);
 
-		CameraManager.Instance.DoToHelixTransition();
+		Debug.Log("in scene: " + SceneManager.Instance.GetScene());
+
+		if (!isInHelix)
+			CameraManager.Instance.DoToHelixTransition();
+
 		_searching = false;
 
 	}
