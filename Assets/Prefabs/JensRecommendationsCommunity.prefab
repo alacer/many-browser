@@ -184,7 +184,7 @@ GameObject:
   - 4: {fileID: 400020}
   - 114: {fileID: 11400050}
   m_Layer: 0
-  m_Name: AmazonCommunity
+  m_Name: JensRecommendationsCommunity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2395,7 +2395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultImage: {fileID: 2800000, guid: 4e185d4e803554c35b2011e7ce25f78c, type: 3}
+  DefaultImage: {fileID: 2800000, guid: cb22c4f98eb3f42009673d931a450046, type: 3}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300002}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -2467,7 +2467,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultImage: {fileID: 2800000, guid: c995694346c8f4de1a29aefc41762887, type: 3}
+  DefaultImage: {fileID: 2800000, guid: 6a9d1d221a3c94d83b614d921df0402e, type: 3}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300012}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -2533,7 +2533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultImage: {fileID: 2800000, guid: 6937e278588be4b1990f7401b22e7617, type: 3}
+  DefaultImage: {fileID: 2800000, guid: a7fe3df4d05b84d23b6634ec1f477aa5, type: 3}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300018}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -2671,8 +2671,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultImage: {fileID: 2800000, guid: 4e185d4e803554c35b2011e7ce25f78c, type: 3}
-  CommunityPrefab: {fileID: 100020, guid: 07f32d0da44994f96aff518d0d2b4a3e, type: 2}
+  DefaultImage: {fileID: 2800000, guid: 9bd122f448d8840e9963f9cb3fc6dd03, type: 3}
+  CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300034}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
   Text: {fileID: 10200008}
