@@ -5,13 +5,28 @@ public class Community : MonoBehaviour {
 
 	public bool FadeInOnAwake = true;
 
-	public static Community BackCommunity;
-	public static Community ForwardCommunity;
+
+	public static Community CurrentCommunity;
+
+	Community _backCommunity;
+	ImageObj _backCommunityItem;
+
+	public Community BackCommunity {
+		get { return _backCommunity; }
+		set { _backCommunity = value; }
+		}
+
+	public ImageObj BackCommunityItem
+	{
+		get { return _backCommunityItem; }
+		set { _backCommunityItem = value; }
+
+	}
 
 	void Awake()
 	{
-		if (ForwardCommunity == null)
-			ForwardCommunity = this;
+		if (CurrentCommunity == null)
+			CurrentCommunity = this;
 
 		if (FadeInOnAwake)
 		{

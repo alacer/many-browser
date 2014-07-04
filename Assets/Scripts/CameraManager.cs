@@ -21,8 +21,6 @@ public class CameraManager : MonoBehaviour {
 	Vector3 _moveDir;
 	Vector3 _velocity;
 
-	ImageObj _backCommunityItem;
-	
 	Scene _currentScene;
 
 
@@ -125,30 +123,29 @@ public class CameraManager : MonoBehaviour {
 
 	void HandleBackwardCommunityTransitions()
 	{
-		if (Community.BackCommunity == null)
+		if (Community.CurrentCommunity.BackCommunity == null)
 			return;
 
-
-		float backwardZTransitionPoint = (_backCommunityItem != null) ? 
-			_backCommunityItem.transform.position.z + 1 : Community.BackCommunity.transform.transform.position.z + 2;
+		ImageObj backItem = Community.CurrentCommunity.BackCommunityItem;
+		float backwardZTransitionPoint = (backItem != null) ? 
+			backItem.transform.position.z + 1 : Community.CurrentCommunity.BackCommunity.transform.transform.position.z + 2;
 		
-		Vector3 backMoveToPos = (_backCommunityItem != null) ? 
-			_backCommunityItem.transform.position + Vector3.back : Community.BackCommunity.transform.transform.position + Vector3.back * 2;
+		Vector3 backMoveToPos = (backItem != null) ? 
+			backItem.transform.position + Vector3.back : Community.CurrentCommunity.BackCommunity.transform.position + Vector3.back * 2;
 
 		if (transform.position.z < backwardZTransitionPoint)
 		{
 			Debug.Log("doing back transition");
 			_velocity = Vector3.zero;
 
-			StartCoroutine( Community.ForwardCommunity.FadeOutAndRemove() );
+			StartCoroutine( Community.CurrentCommunity.FadeOutAndRemove() );
 
-			Community.ForwardCommunity = Community.BackCommunity;
-			Community.BackCommunity = null;
+			Community.CurrentCommunity = Community.CurrentCommunity.BackCommunity;
 
-			if (_backCommunityItem != null) // we just came from another community
-				_backCommunityItem.DoCommunityBackTransition();
+			if (backItem != null) // we just came from another community
+				backItem.DoCommunityBackTransition();
 
-			Community.ForwardCommunity.FadeIn(1);
+			Community.CurrentCommunity.FadeIn(1);
 
 			LeanTween.move(gameObject,backMoveToPos,1).setOnComplete ( () => {
 				if (SceneManager.Instance.GetScene() == Scene.Helix)
@@ -188,12 +185,15 @@ public class CameraManager : MonoBehaviour {
 	public void DoForwardTransitionOnObj(ImageObj obj)
 	{
 		_velocity = Vector3.zero;
-		_backCommunityItem = obj;
 
 		Vector3 targetPos = GetForwardTransitionTargetPos();
-		Community.BackCommunity = Community.ForwardCommunity;
 
-		Community.ForwardCommunity = obj.DoCommunityForwardTransition(targetPos).GetComponent<Community>();
+		Community backCommunity = Community.CurrentCommunity;
+
+		Community.CurrentCommunity = obj.DoCommunityForwardTransition(targetPos).GetComponent<Community>();
+
+		Community.CurrentCommunity.BackCommunity = backCommunity;
+		Community.CurrentCommunity.BackCommunityItem = obj;
 
 		LeanTween.move(gameObject,targetPos, 1).setOnComplete( () => {
 			_velocity = Vector3.zero;
@@ -205,10 +205,12 @@ public class CameraManager : MonoBehaviour {
 	{
 		_velocity = Vector3.zero;
 
-		Community.ForwardCommunity.FadeOut(1);
+		Community.CurrentCommunity.FadeOut(1);
 
-		Community.BackCommunity = Community.ForwardCommunity;
-		Community.ForwardCommunity = HelixManager.Instance;
+		Community backCommunity = Community.CurrentCommunity;
+
+		Community.CurrentCommunity = HelixManager.Instance;
+		Community.CurrentCommunity.BackCommunity = backCommunity;
 
 		Vector3 targetPos = HelixManager.Instance.GetTopObjPos() + Vector3.back*2;
 
@@ -222,7 +224,7 @@ public class CameraManager : MonoBehaviour {
 	{
 
 
-		return new Vector3(transform.position.x, transform.position.y, Community.ForwardCommunity.transform.position.z + 2);
+		return new Vector3(transform.position.x, transform.position.y, Community.CurrentCommunity.transform.position.z + 2);
 	}
 	
 	#endregion

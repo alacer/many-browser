@@ -97,7 +97,7 @@ public class SelectionManager : MonoBehaviour {
 		
 		obj.parent = Camera.main.transform;
 
-		Community.ForwardCommunity.FadeOut(.3f);
+		Community.CurrentCommunity.FadeOut(.3f);
 
 		obj.SendMessage("OnSelected",SendMessageOptions.DontRequireReceiver);
 
@@ -133,7 +133,7 @@ public class SelectionManager : MonoBehaviour {
 
 		FadeOutOverlay();
 
-		Community.ForwardCommunity.FadeIn(animTime);
+		Community.CurrentCommunity.FadeIn(animTime);
 		Debug.Log("leaving selected");
 		SceneManager.Instance.OnSceneTransition(SceneManager.Instance.GetLastScene());
 		
