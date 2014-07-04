@@ -1012,7 +1012,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100020}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 10.4306231}
+  m_LocalPosition: {x: 2.1065464, y: 2.81464696, z: 6.90357304}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400006}
@@ -2395,7 +2395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultImage: {fileID: 2800000, guid: 4e185d4e803554c35b2011e7ce25f78c, type: 3}
+  DefaultImage: {fileID: 2800000, guid: fe42b192f71c2412e87ee168730707dd, type: 3}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300002}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -2467,7 +2467,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultImage: {fileID: 2800000, guid: c995694346c8f4de1a29aefc41762887, type: 3}
+  DefaultImage: {fileID: 2800000, guid: 01994c09d322949e6a0cb78b25b5c6d2, type: 3}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300012}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -2533,7 +2533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultImage: {fileID: 2800000, guid: 6937e278588be4b1990f7401b22e7617, type: 3}
+  DefaultImage: {fileID: 2800000, guid: 1dd06c146edee4f2e89d67d4f5d0da7b, type: 3}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300018}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -2605,7 +2605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultImage: {fileID: 2800000, guid: 4cf48759d9a1a4b438fd98b1ed8f7046, type: 3}
+  DefaultImage: {fileID: 2800000, guid: f8a94a67497974208baf6c0b0abc7964, type: 3}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300028}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -2671,7 +2671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultImage: {fileID: 2800000, guid: 4e185d4e803554c35b2011e7ce25f78c, type: 3}
+  DefaultImage: {fileID: 2800000, guid: c93cffb04021c4cfdafa0b5d591f24e9, type: 3}
   CommunityPrefab: {fileID: 100020, guid: 07f32d0da44994f96aff518d0d2b4a3e, type: 2}
   ImageRenderer: {fileID: 2300034}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
