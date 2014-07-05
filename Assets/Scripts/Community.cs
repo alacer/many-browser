@@ -5,8 +5,21 @@ public class Community : MonoBehaviour {
 
 	public bool FadeInOnAwake = true;
 
+	static Community _currentCommunity;
 
-	public static Community CurrentCommunity;
+	public static Community CurrentCommunity
+	{
+		get { return _currentCommunity; }
+		set 
+		{ 
+			_currentCommunity = value; 
+			GameObject hitPlane = GameObject.Find("HitPlane");
+			Vector3 pos = hitPlane.transform.position;
+			pos.z = _currentCommunity.transform.position.z;
+			hitPlane.transform.position = pos;
+		}
+
+	}
 
 	Community _backCommunity;
 	ImageObj _backCommunityItem;

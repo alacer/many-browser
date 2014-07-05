@@ -24,6 +24,9 @@ public class HelixManager : Community {
 	Vector3 _velocity;
 	Vector3 _topObjPos;
 
+	Vector3 _targetPos;
+	Quaternion _targetRotation;
+
 	List<ImageObj> _allObjs = new List<ImageObj>();
 
 	
@@ -36,6 +39,7 @@ public class HelixManager : Community {
 		GameObject.Find("HelixHitCylinder").transform.localScale = new Vector3(HelixRadius*2,5000,HelixRadius*2);
 
 		transform.parent = GameObject.Find("UIRoot").transform;
+
 
 	}
 
@@ -100,6 +104,9 @@ public class HelixManager : Community {
 		
 		if (!wasAlreadyInHelix)
 			transform.position = CameraManager.Instance.GetForwardTransitionTargetPos() + Vector3.forward * 5;
+
+		_targetPos = transform.position;
+		_targetRotation = transform.rotation;
 		
 		Debug.Log("in form helix");
 		while (SceneManager.Instance.GetScene() == Scene.InTransition)
@@ -231,9 +238,14 @@ public class HelixManager : Community {
 		
 		if (magnitude > 0)
 		{
+			Debug.Log("vel: " + _velocity);
 
-			transform.RotateAround(transform.position,Vector3.up,_velocity.x);
-			transform.position += new Vector3(0,_velocity.y,0);
+			_targetPos += new Vector3(0,_velocity.y,0);
+			_targetRotation = _targetRotation * Quaternion.AngleAxis(_velocity.x,Vector3.up);
+
+			Debug.Log("target pos: " + _targetPos);
+		//	transform.RotateAround(transform.position,Vector3.up,_velocity.x);
+
 
 			// clamp bounds
 			if (transform.position.y > GetHelixMaxY())
@@ -242,6 +254,9 @@ public class HelixManager : Community {
 				transform.position = new Vector3(transform.position.x, GetHelixMinY(), transform.position.z);
 		
 		}
+
+		transform.rotation = Quaternion.Lerp(transform.rotation,_targetRotation,Time.deltaTime*SpeedMultiplier);
+		transform.position = Vector3.Lerp(transform.position,_targetPos,Time.deltaTime * SpeedMultiplier);
 
 		ApplyFriction(magnitude);
 	}
@@ -259,7 +274,7 @@ public class HelixManager : Community {
 			float angleDelta = Vector3.Angle(lastPos,currentPos);
 
 			angleDelta = Mathf.Min(angleDelta,MaxAngularSpeed);
-			vel = new Vector3( angleDelta * dir , -InputManager.Instance.GetOneFingerDelta().y, 0) * SpeedMultiplier;
+			vel = new Vector3( angleDelta * dir , -InputManager.Instance.GetOneFingerDelta().y, 0);
 
 		}
 

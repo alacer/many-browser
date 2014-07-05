@@ -69,7 +69,12 @@ public class SelectionManager : MonoBehaviour {
 		Ray ray = Camera.main.ScreenPointToRay(screenPos);
 		Debug.DrawRay(ray.origin,ray.direction*1000);
 		RaycastHit hit;
-		
+
+		if (Physics.Raycast(ray, out hit,1000))
+		{
+			if (hit.transform.tag == "TouchBlocker")
+				return;
+		}
 		
 		if (Physics.Raycast(ray, out hit,1000, 1 << LayerMask.NameToLayer("ImageObj")))
 		{

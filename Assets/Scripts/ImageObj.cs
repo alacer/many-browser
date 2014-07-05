@@ -54,6 +54,8 @@ public class ImageObj : MonoBehaviour {
 			Initialize(DefaultImage);
 		}
 
+//		for (int i=2; i <= 5; i++)
+//			Destroy( ImageRenderer.materials[i]);
 	}
 
 	public void InitData(Dictionary<string,object> data)
