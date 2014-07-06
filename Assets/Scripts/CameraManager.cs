@@ -70,10 +70,10 @@ public class CameraManager : MonoBehaviour {
 		if (InputManager.Instance.IsTouchingWithOneFinger() && _currentScene == Scene.Browse)
 		{
 
-			if (InputManager.Instance.HasFingerStoppedMoving())
-				_velocity = Vector3.zero;
-			else
-				_velocity = InputManager.Instance.GetOneFingerDelta();
+//			if (InputManager.Instance.HasFingerStoppedMoving())
+//				_velocity = Vector3.zero;
+//			else
+				_velocity = InputManager.Instance.GetOneFingerWorldDelta();
 
 		}
 

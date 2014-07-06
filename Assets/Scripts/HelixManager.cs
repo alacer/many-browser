@@ -226,10 +226,7 @@ public class HelixManager : Community {
 
 		if (InputManager.Instance.IsTouchingWithOneFinger())
 		{
-			if (InputManager.Instance.HasFingerStoppedMoving())
-				_velocity = Vector3.zero;
-			else
-				_velocity = GetHelixVelocity();
+			_velocity = GetHelixVelocity();
 		}
 
 		// apply velocity and friction
@@ -240,11 +237,13 @@ public class HelixManager : Community {
 		{
 			Debug.Log("vel: " + _velocity);
 
-			_targetPos += new Vector3(0,_velocity.y,0);
-			_targetRotation = _targetRotation * Quaternion.AngleAxis(_velocity.x,Vector3.up);
+
+//			_targetPos += new Vector3(0,_velocity.y,0);
+//			_targetRotation = _targetRotation * Quaternion.AngleAxis(_velocity.x,Vector3.up);
 
 			Debug.Log("target pos: " + _targetPos);
-		//	transform.RotateAround(transform.position,Vector3.up,_velocity.x);
+			transform.position += new Vector3(0,_velocity.y,0);
+			transform.RotateAround(transform.position,Vector3.up,_velocity.x);
 
 
 			// clamp bounds
@@ -255,26 +254,31 @@ public class HelixManager : Community {
 		
 		}
 
-		transform.rotation = Quaternion.Lerp(transform.rotation,_targetRotation,Time.deltaTime*SpeedMultiplier);
-		transform.position = Vector3.Lerp(transform.position,_targetPos,Time.deltaTime * SpeedMultiplier);
+	//	transform.rotation = Quaternion.Lerp(transform.rotation,_targetRotation,Time.deltaTime*SpeedMultiplier);
+	//	transform.position = Vector3.Lerp(transform.position,_targetPos,Time.deltaTime * SpeedMultiplier);
 
 		ApplyFriction(magnitude);
 	}
 
 	Vector3 GetHelixVelocity()
 	{
+
 		Vector3 vel = Vector3.zero;
-		if (InputManager.Instance.GetTouchWorldPos() != Vector3.zero)
+		if (InputManager.Instance.GetTouchWorldPos() != Vector3.zero && InputManager.Instance.GetLastTouchWorldPos() != Vector3.zero)
 		{
-			Vector3 lastPos = InputManager.Instance.GetLastTouchWorldPos() - transform.position;
-			Vector3 currentPos = InputManager.Instance.GetTouchWorldPos() - transform.position;
+			Vector3 worldPos = InputManager.Instance.GetTouchWorldPos();
+			Vector3 lastWorldPos = InputManager.Instance.GetLastTouchWorldPos();
+			float yVel = lastWorldPos.y - worldPos.y;
+
+			Vector3 lastPos = lastWorldPos - transform.position;
+			Vector3 currentPos = worldPos - transform.position;
 			lastPos.y = 0;
 			currentPos.y = 0;
 			float dir = (Vector3.Cross(lastPos,currentPos).y > 0) ? 1 : -1;
 			float angleDelta = Vector3.Angle(lastPos,currentPos);
 
 			angleDelta = Mathf.Min(angleDelta,MaxAngularSpeed);
-			vel = new Vector3( angleDelta * dir , -InputManager.Instance.GetOneFingerDelta().y, 0);
+			vel = new Vector3( angleDelta * dir , -yVel, 0);
 
 		}
 

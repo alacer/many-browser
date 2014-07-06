@@ -133,12 +133,13 @@ public class ImageSearch : MonoBehaviour {
 		Debug.Log("adding to cache: " + search);
 		PlayerPrefs.SetString(search,returnStr);
 
+		Debug.Log("1");
 		JArray jArray = (JArray)JsonConvert.DeserializeObject(returnStr);
-
+		Debug.Log("2");
 
 		for (int i=0; i < jArray.Count; i++)
 		{
-
+			Debug.Log("3");
 			Dictionary<string,object> data = new Dictionary<string, object>();
 
 			// image url
@@ -152,6 +153,7 @@ public class ImageSearch : MonoBehaviour {
 				continue;
 			}
 
+			Debug.Log("4");
 			// price
 			try {
 				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["ListPrice"][0]["Amount"][0];
@@ -200,6 +202,7 @@ public class ImageSearch : MonoBehaviour {
 				data["Author"] = "";
 			}
 
+			Debug.Log("5");
 			// Release Data
 			try {
 				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["ReleaseDate"][0];
@@ -293,7 +296,7 @@ public class ImageSearch : MonoBehaviour {
 //			TweenAlpha.Begin(GameObject.Find("ErrorLabel"),.3f,1);
 //
 //		}
-
+		Debug.Log("6");
 
 		Loader.Instance.Hide();
 

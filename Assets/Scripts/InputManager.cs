@@ -8,7 +8,8 @@ public class InputManager : MonoBehaviour {
 	Vector2 _twoFingerTouchStartPos;
 	Vector2 _simulatedFinger2Pos;
 	Vector3 _touchDelta;
-	Vector3 _oneFingerDragDelta;
+	Vector3 _oneFingerTotalWorldDelta;
+	Vector3 _oneFingerTouchStartPos;
 
 	float _lastTwoFingerSwipeSpeed;
 	float _lastFingerDist;
@@ -101,13 +102,23 @@ public class InputManager : MonoBehaviour {
 		if (GetTouchCount() == 1)
 		{
 			Vector3 worldTouchPos = GetTouchWorldPos();
-			Vector3 lastWorldTouchPos = GetLastTouchWorldPos();
+	//		Vector3 lastWorldTouchPos = GetLastTouchWorldPos();
 
-			_oneFingerDragDelta = lastWorldTouchPos -  worldTouchPos;
-			_oneFingerDragDelta.z = 0;
-			 
+
 			if (_lastTouchCount == 1)
+			{
 				_touchDelta = GetTouchPos(0) - _lastTouchPos;
+				_oneFingerTotalWorldDelta = _oneFingerTouchStartPos -  worldTouchPos;
+//				Debug.Log("delta: " + _oneFingerTotalWorldDelta + " start: " + _oneFingerTouchStartPos + " pos: " + worldTouchPos);
+				_oneFingerTotalWorldDelta.z = 0;
+			}
+			else 
+			{
+				_oneFingerTouchStartPos = GetTouchWorldPos();
+				_touchDelta = Vector3.zero;
+				_oneFingerTotalWorldDelta = Vector3.zero;
+				
+			}
 
 			_lastTouchPos =  GetTouchPos(0) ;
 		}
@@ -195,9 +206,9 @@ public class InputManager : MonoBehaviour {
 		return true;
 	}
 
-	public Vector3 GetOneFingerDelta()
+	public Vector3 GetOneFingerWorldDelta()
 	{
-		return _oneFingerDragDelta;
+		return _oneFingerTotalWorldDelta;
 	}
 
 	public Vector3 GetLastTouchPos()
