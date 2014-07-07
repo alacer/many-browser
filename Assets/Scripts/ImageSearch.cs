@@ -302,6 +302,7 @@ public class ImageSearch : MonoBehaviour {
 
 		if (_dataList.Count > 0)
 		{
+			PastSearches.OnDidSearch(search);
 			StartCoroutine( DoSearchTransition() );
 		}
 	}

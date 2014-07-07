@@ -224,7 +224,7 @@ public class CameraManager : MonoBehaviour {
 	{
 
 
-		return new Vector3(transform.position.x, transform.position.y, Community.CurrentCommunity.transform.position.z + 2);
+		return new Vector3(transform.position.x, transform.position.y, Community.CurrentCommunity.transform.position.z + 12);
 	}
 	
 	#endregion

@@ -46,9 +46,12 @@ public class Community : MonoBehaviour {
 			for (int i=0; i < transform.childCount; i++)
 			{
 				ImageObj obj = transform.GetChild(i).GetComponent<ImageObj>();
-				
-				obj.SetAlpha(0);
-				obj.FadeIn(1);
+
+				if (obj.gameObject.activeSelf == true)
+				{
+					obj.SetAlpha(0);
+					obj.FadeIn(1);
+				}
 				
 			}
 		}
@@ -62,7 +65,7 @@ public class Community : MonoBehaviour {
 
 			ImageObj obj = transform.GetChild(i).GetComponent<ImageObj>();
 
-			if (obj != null)
+			if (obj != null && obj.gameObject.activeSelf == true)
 			{
 				obj.FadeOut(animTime);
 			
@@ -76,7 +79,7 @@ public class Community : MonoBehaviour {
 		{
 			ImageObj obj = transform.GetChild(i).GetComponent<ImageObj>();
 
-			if (obj != null)
+			if (obj != null && obj.gameObject.activeSelf == true)
 				obj.FadeIn(animTime);
 		}
 	}

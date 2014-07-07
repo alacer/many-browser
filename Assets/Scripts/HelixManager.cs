@@ -89,7 +89,6 @@ public class HelixManager : Community {
 
 	public void FormHelix(string sort, SortOrder order)
 	{
-		
 		SortObjsBy(sort,order);
 		
 		Debug.Log("forming helix");
@@ -118,7 +117,6 @@ public class HelixManager : Community {
 		{
 			float time = SelectionManager.Instance.LeaveSelectedObj();
 			yield return new WaitForSeconds(time);
-			
 		}
 		
 		Debug.Log("all objs: " + _allObjs.Count);
