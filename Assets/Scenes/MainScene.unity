@@ -7368,7 +7368,7 @@ MonoBehaviour:
   alwaysOnScreen: 0
   anchorOffset: 0
   renderQueue: 0
-  startingRenderQueue: 3004
+  startingRenderQueue: 3005
   mAlpha: 1
   mClipping: 3
   mClipRange: {x: -1, y: -44, z: 274, w: 372}
@@ -11342,7 +11342,7 @@ MonoBehaviour:
   alwaysOnScreen: 0
   anchorOffset: 0
   renderQueue: 0
-  startingRenderQueue: 3004
+  startingRenderQueue: 3005
   mAlpha: 0
   mClipping: 3
   mClipRange: {x: -1, y: -13, z: 274, w: 434}
@@ -20658,7 +20658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ede6af9b697484cd7813d032333907aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SkipIntro: 1
+  SkipIntro: 0
   MaxX: 15.6000004
   MinX: -21.2999992
   MaxY: .939999998

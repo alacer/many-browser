@@ -36,11 +36,16 @@ public class ImageObj : MonoBehaviour {
 	float _startXScale;
 	
 	static List<ImageObj> _visibleObjs = new List<ImageObj>();
-	
+
+	Material[] _planeMaterials;
+	Material[] _boxMaterials;
 
 	void Awake()
 	{
 		CubeRotator.SetActive(false);
+		_boxMaterials = ImageRenderer.materials;
+		_planeMaterials = new Material[] { ImageRenderer.materials[0], ImageRenderer.materials[1] };
+		ImageRenderer.materials = _planeMaterials;
 
 		_imageBox = transform.FindChild("box");
 
@@ -176,6 +181,7 @@ public class ImageObj : MonoBehaviour {
 	
 	void OnSelected()
 	{
+		ImageRenderer.materials = _boxMaterials;
 		ImageRenderer.materials[1].mainTexture = WhiteTexture;
 		Text.gameObject.SetActive(false);
 
@@ -207,6 +213,7 @@ public class ImageObj : MonoBehaviour {
 
 	void OnUnselected()
 	{
+		ImageRenderer.materials = _planeMaterials;
 		ScaleToAspect(.3f);
 		if (SceneManager.Instance.GetTransitioningToScene() == Scene.Helix)
 			Text.gameObject.SetActive(true);
