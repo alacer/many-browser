@@ -466,7 +466,10 @@ public class UIInput : MonoBehaviour
 
 		// Unity has issues bringing up the keyboard properly if it's in "hideInput" mode and you happen
 		// to select one input in the same Update as de-selecting another.
-		if (label != null && NGUITools.GetActive(this)) mSelectMe = Time.frameCount;
+		if (label != null && NGUITools.GetActive(this)) 
+		{
+			mSelectMe = Time.frameCount;
+		}
 	}
 
 	/// <summary>
@@ -1034,6 +1037,12 @@ public class UIInput : MonoBehaviour
 
 	protected virtual void OnPress (bool isPressed)
 	{
+//		if (isPressed)
+//		{
+//			value = string.Empty;
+//
+//		}
+
 		if (isPressed && isSelected && label != null &&
 			(UICamera.currentScheme == UICamera.ControlScheme.Mouse ||
 			 UICamera.currentScheme == UICamera.ControlScheme.Touch))

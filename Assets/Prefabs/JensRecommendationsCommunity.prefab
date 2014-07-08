@@ -2718,6 +2718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2d425086acd2407e9f15fc614f6f400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: Jen's Recommendations
   FadeInOnAwake: 1
 --- !u!135 &13500000
 SphereCollider:

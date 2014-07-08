@@ -14,6 +14,7 @@ public class ImageSearch : MonoBehaviour {
 	public TextAsset CachedResponse;
 	List<Dictionary<string,object>> _dataList = new List<Dictionary<string, object>>();
 	bool _searching;
+	string _search;
 
 	void Awake()
 	{
@@ -36,6 +37,43 @@ public class ImageSearch : MonoBehaviour {
 	{
 		string text = NGUIText.StripSymbols(GetComponent<UIInput>().value);
 		Search(text);
+	}
+
+	void OnCommunityChange()
+	{
+		UpdateKeywordTrail();
+
+	}
+
+	public void UpdateKeywordTrail()
+	{
+		Community community = Community.CurrentCommunity;
+
+//		Debug.Log("current community: " + community.Name + " back com: " + community.BackCommunity.Name);
+
+		List<string> keywords = new List<string>();
+
+		while (community != null)
+		{
+			Debug.Log("adding com: " + community.Name);
+			keywords.Add(community.Name);
+			community = community.BackCommunity;
+
+		}
+
+
+		string labelText = string.Empty;
+
+		for (int i = keywords.Count-2; i >= 0; i--)
+		{
+			labelText += "#" + keywords[i] + " ";
+		}
+
+		if (labelText == string.Empty)
+			labelText = "#NOW";
+
+		GetComponent<UIInput>().label.text = labelText;
+		GetComponent<UIInput>().value = labelText;
 	}
 
 	public void Search (string search)
@@ -73,6 +111,7 @@ public class ImageSearch : MonoBehaviour {
 //			}
 //		}
 		HelixButton.UnselectAll();
+		_search = search;
 
 		LeanTween.alpha(GameObject.Find("Overlay"),0,.3f);
 		// clear out previous searches & show loader
@@ -80,7 +119,7 @@ public class ImageSearch : MonoBehaviour {
 		_dataList.Clear();
 		Loader.Instance.Show();
 		Debug.Log("game obj: " + gameObject.name);
-		GetComponent<UIInput>().label.text = search;
+//		GetComponent<UIInput>().label.text = search;
 
 		string returnStr = null;
 
@@ -166,7 +205,7 @@ public class ImageSearch : MonoBehaviour {
 			try {
 				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["ListPrice"][0]["Amount"][0];
 			
-				float price = float.Parse(str) / 100.0f;
+				float price = float.Parse(str);
 				data["Price"] = price;
 
 			} catch (System.Exception ex) {
@@ -341,5 +380,8 @@ public class ImageSearch : MonoBehaviour {
 		yield return null;
 	}
 
-
+	public string GetSearch()
+	{
+		return _search;
+	}
 }

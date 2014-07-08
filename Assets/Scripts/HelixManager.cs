@@ -102,7 +102,7 @@ public class HelixManager : Community {
 		bool wasAlreadyInHelix = SceneManager.Instance.GetScene() == Scene.Helix;
 		
 		if (!wasAlreadyInHelix)
-			transform.position = CameraManager.Instance.GetForwardTransitionTargetPos() + Vector3.forward * 5;
+			transform.position = CameraManager.Instance.GetForwardTransitionTargetPos(10) + Vector3.forward * 5;
 
 		_targetPos = transform.position;
 		_targetRotation = transform.rotation;
@@ -173,6 +173,8 @@ public class HelixManager : Community {
 			{
 				positions.Add(pos);
 				rotations.Add(rotation);
+				Community.CurrentCommunity.Name = ImageSearch.Instance.GetSearch();
+				Utils.SendMessageToAll("OnCommunityChange");
 			}
 			else
 			{

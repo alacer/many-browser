@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Community : MonoBehaviour {
 
+	public string Name;
 	public bool FadeInOnAwake = true;
 
 	static Community _currentCommunity;
@@ -22,6 +23,7 @@ public class Community : MonoBehaviour {
 			Vector3 pos = hitPlane.transform.position;
 			pos.z = _currentCommunity.transform.position.z;
 			hitPlane.transform.position = pos;
+
 		}
 
 	}
@@ -31,8 +33,10 @@ public class Community : MonoBehaviour {
 
 	public Community BackCommunity {
 		get { return _backCommunity; }
-		set { _backCommunity = value; }
+		set { 
+			_backCommunity = value; 
 		}
+	}
 
 	public ImageObj BackCommunityItem
 	{
@@ -62,6 +66,7 @@ public class Community : MonoBehaviour {
 		}
 
 	}
+
 
 	public void FadeOut(float animTime)
 	{

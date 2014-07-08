@@ -155,7 +155,7 @@ public class CameraManager : MonoBehaviour {
 				_velocity = Vector3.zero;
 			});
 
-
+			Utils.SendMessageToAll("OnCommunityChange");
 		}
 
 	}
@@ -196,7 +196,7 @@ public class CameraManager : MonoBehaviour {
 
 		_velocity = Vector3.zero;
 
-		Vector3 targetPos = GetForwardTransitionTargetPos();
+		Vector3 targetPos = GetForwardTransitionTargetPos(2);
 
 		Community backCommunity = Community.CurrentCommunity;
 
@@ -208,7 +208,7 @@ public class CameraManager : MonoBehaviour {
 		LeanTween.move(gameObject,targetPos, 1).setOnComplete( () => {
 			_velocity = Vector3.zero;
 		});
-		
+		Utils.SendMessageToAll("OnCommunityChange");
 	}
 
 	IEnumerator StartToHelixThroughObjTransition(ImageObj obj)
@@ -216,7 +216,7 @@ public class CameraManager : MonoBehaviour {
 		((PastSearchObj)obj).DoSearch();
 		Community.CurrentCommunity.FadeOut(.3f);
 		obj.FadeOut(.3f);
-		LeanTween.move(gameObject,GetForwardTransitionTargetPos(), 2).setOnComplete( () => {
+		LeanTween.move(gameObject,GetForwardTransitionTargetPos(10), 2).setOnComplete( () => {
 			_velocity = Vector3.zero;
 		});
 
@@ -248,26 +248,25 @@ public class CameraManager : MonoBehaviour {
 		Community backCommunity = Community.CurrentCommunity;
 
 		Community.CurrentCommunity = HelixManager.Instance;
+		Community.CurrentCommunity.Name = ImageSearch.Instance.GetSearch();
+
 		Community.CurrentCommunity.BackCommunity = backCommunity;
 
 		Community.CurrentCommunity.BackCommunityItem = obj;
 
-		Debug.Log("current community: " + Community.CurrentCommunity.gameObject.name + " back item: " + Community.CurrentCommunity.BackCommunityItem.gameObject.name);
-
-
 		Vector3 targetPos = HelixManager.Instance.GetTopObjPos() + Vector3.back*2;
-		Debug.Log("target pos: " + targetPos);
+
 		LeanTween.cancel(gameObject);
 		LeanTween.move(gameObject,targetPos, 2).setDelay(1).setOnComplete( () => {
 			_velocity = Vector3.zero;
 		});
-
+		Utils.SendMessageToAll("OnCommunityChange");
 	}
 
-	public Vector3 GetForwardTransitionTargetPos()
+	public Vector3 GetForwardTransitionTargetPos(float distPastCommunity)
 	{
 
-		return new Vector3(transform.position.x, transform.position.y, Community.CurrentCommunity.transform.position.z + 10);
+		return new Vector3(transform.position.x, transform.position.y, Community.CurrentCommunity.transform.position.z + distPastCommunity);
 	}
 	
 	#endregion
