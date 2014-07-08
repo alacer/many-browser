@@ -12,6 +12,11 @@ public class Community : MonoBehaviour {
 		get { return _currentCommunity; }
 		set 
 		{ 
+			if (value == null)
+				Debug.Log("community is null for obj" );
+			else
+				Debug.Log("setting current community: " + value.gameObject.name);
+
 			_currentCommunity = value; 
 			GameObject hitPlane = GameObject.Find("HitPlane");
 			Vector3 pos = hitPlane.transform.position;

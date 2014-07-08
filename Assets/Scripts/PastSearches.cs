@@ -26,6 +26,7 @@ public class PastSearches : MonoBehaviour {
 			if (PlayerPrefs.HasKey(key))
 			{
 				AllObjs[i].gameObject.SetActive(true);
+				AllObjs[i].SetSearchText (PlayerPrefs.GetString(key));
 			}
 			else
 				break;

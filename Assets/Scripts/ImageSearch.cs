@@ -40,16 +40,24 @@ public class ImageSearch : MonoBehaviour {
 
 	public void Search (string search)
 	{
+		Search(search,false);
+	}
+
+	public void Search (string search, bool inPastSearch)
+	{
+		if (search == string.Empty)
+			return;
+
 		if (!_searching)
 		{
 			_searching = true;
-			StartCoroutine(SearchRoutine(search));
+			StartCoroutine(SearchRoutine(search,inPastSearch));
 		}
 	}
 	
 
 	// Use this for initialization
-	IEnumerator SearchRoutine (string search) {
+	IEnumerator SearchRoutine (string search, bool inPastSearch) {
 
 //		if (search.Contains(" "))
 //		{
@@ -302,16 +310,20 @@ public class ImageSearch : MonoBehaviour {
 
 		if (_dataList.Count > 0)
 		{
-			PastSearches.OnDidSearch(search);
-			StartCoroutine( DoSearchTransition() );
+			if (!inPastSearch)
+				PastSearches.OnDidSearch(search);
+			StartCoroutine( DoSearchTransition(inPastSearch) );
 		}
 	}
 
-	IEnumerator DoSearchTransition()
+	IEnumerator DoSearchTransition(bool inPastSearch)
 	{
-		float animTime = SelectionManager.Instance.LeaveSelectedObj();
+		if (!inPastSearch)
+		{
+			float animTime = SelectionManager.Instance.LeaveSelectedObj();
 
-		yield return new WaitForSeconds (animTime + .5f);
+			yield return new WaitForSeconds (animTime + .5f);
+		}
 
 		bool isInHelix = SceneManager.Instance.GetScene() == Scene.Helix;
 
@@ -322,11 +334,11 @@ public class ImageSearch : MonoBehaviour {
 
 		Debug.Log("in scene: " + SceneManager.Instance.GetScene());
 
-		if (!isInHelix)
-			CameraManager.Instance.DoToHelixTransition();
+		if (!isInHelix && !inPastSearch)
+			CameraManager.Instance.DoToHelixTransition(null);
 
 		_searching = false;
-
+		yield return null;
 	}
 
 

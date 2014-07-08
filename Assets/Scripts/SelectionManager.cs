@@ -34,25 +34,33 @@ public class SelectionManager : MonoBehaviour {
 			LeaveSelectedObj();
 		else if (spread > 0)
 		{
-
+			Debug.Log("doing forward transition");
 			StartCoroutine ( DoForwardCommunityTransition() );
 		}
 
 	}
 
-	IEnumerator DoForwardCommunityTransition()
+	protected virtual IEnumerator DoForwardCommunityTransition()
 	{
+
 		ImageObj obj = _selectedObj.GetComponent<ImageObj>();
-		FadeOutOverlay();
-		CameraManager.Instance.DoForwardTransitionOnObj(obj);
+		if (obj.CanGoThrough() == true)
+		{
 
-		_selectedObj.parent = null;
+			FadeOutOverlay();
+			CameraManager.Instance.DoForwardTransitionOnObj(obj);
+
+			if (_selectedObj != null)
+				_selectedObj.parent = null;
 
 
-		yield return new WaitForSeconds(2);
+			yield return new WaitForSeconds(2);
 
-		LeaveSelectedObj();
+			Debug.Log("leaving object");
 
+			LeaveSelectedObj();
+		}
+		yield return null;
 	}
 
 	void OnSingleTap(Vector3 screenPos)

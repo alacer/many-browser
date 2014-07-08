@@ -96,7 +96,12 @@ public class ImageObj : MonoBehaviour {
 
 #region community transitions
 
-	public GameObject DoCommunityForwardTransition(Vector3 finalCameraPos)
+	public virtual bool CanGoThrough()
+	{
+		return CommunityPrefab != null;
+	}
+
+	public virtual GameObject DoCommunityForwardTransition(Vector3 finalCameraPos)
 	{
 		if (SceneManager.Instance.GetScene() == Scene.InTransition)
 			return null;
@@ -144,7 +149,7 @@ public class ImageObj : MonoBehaviour {
 
 			ImageRenderer.materials[0].color = c;
 			ImageRenderer.materials[1].color = c;
-
+			SetAlphaOnText(c.a);
 			yield return new WaitForSeconds(cycleTime);
 			timeLeft -= cycleTime;
 		}
@@ -152,6 +157,11 @@ public class ImageObj : MonoBehaviour {
 		if (onComplete != null)
 			onComplete();
 
+	}
+
+	protected virtual void SetAlphaOnText(float alpha)
+	{
+		// override
 	}
 
 	void UpdateRoation()
@@ -179,7 +189,7 @@ public class ImageObj : MonoBehaviour {
 
 	}
 	
-	void OnSelected()
+	protected virtual void OnSelected()
 	{
 		ImageRenderer.materials = _boxMaterials;
 		ImageRenderer.materials[1].mainTexture = WhiteTexture;
@@ -275,7 +285,7 @@ public class ImageObj : MonoBehaviour {
 		
 	}
 
-	public void ScaleToCube()
+	public virtual void ScaleToCube()
 	{
 		LeanTween.scaleX(_imageBox.gameObject,CubeXScale,.3f);
 	}
@@ -286,14 +296,14 @@ public class ImageObj : MonoBehaviour {
 		
 	}
 	
-	void ScaleToBox(float animTime)
+	protected virtual void ScaleToBox(float animTime)
 	{
 	
 		//	transform.localScale = _cubeScale;
 		LeanTween.scale(gameObject,_cubeScale,.1f);
 	}
 	
-	void ScaleToAspect(float animTime)
+	protected virtual void ScaleToAspect(float animTime)
 	{
 		Debug.Log("scaling to Aspect " + _aspectScale);
 		//		transform.localScale = _aspectScale;

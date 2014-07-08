@@ -129,7 +129,8 @@ public class CameraManager : MonoBehaviour {
 		ImageObj backItem = Community.CurrentCommunity.BackCommunityItem;
 		float backwardZTransitionPoint = (backItem != null) ? 
 			backItem.transform.position.z + 1 : Community.CurrentCommunity.BackCommunity.transform.transform.position.z + 2;
-		
+
+
 		Vector3 backMoveToPos = (backItem != null) ? 
 			backItem.transform.position + Vector3.back : Community.CurrentCommunity.BackCommunity.transform.position + Vector3.back * 2;
 
@@ -172,7 +173,7 @@ public class CameraManager : MonoBehaviour {
 			ImageObj obj = hit.transform.GetComponent<ImageObj>();
 			
 			// if we are hitting a community transition into it
-			if (obj.IsCommunity())
+			if (obj.CanGoThrough())
 			{
 				DoForwardTransitionOnObj(obj);
 				Debug.Log("starting transition: " + hit.transform.name);
@@ -184,6 +185,15 @@ public class CameraManager : MonoBehaviour {
 
 	public void DoForwardTransitionOnObj(ImageObj obj)
 	{
+		if (obj.CanGoThrough() == false)
+			return;
+
+		if (obj is PastSearchObj)
+		{
+			StartCoroutine(StartToHelixThroughObjTransition(obj));
+			return;
+		}
+
 		_velocity = Vector3.zero;
 
 		Vector3 targetPos = GetForwardTransitionTargetPos();
@@ -201,9 +211,37 @@ public class CameraManager : MonoBehaviour {
 		
 	}
 
-	public void DoToHelixTransition()
+	IEnumerator StartToHelixThroughObjTransition(ImageObj obj)
+	{
+		((PastSearchObj)obj).DoSearch();
+		Community.CurrentCommunity.FadeOut(.3f);
+		obj.FadeOut(.3f);
+		LeanTween.move(gameObject,GetForwardTransitionTargetPos(), 2).setOnComplete( () => {
+			_velocity = Vector3.zero;
+		});
+
+		yield return new WaitForSeconds(.3f);
+
+
+
+		while (SceneManager.Instance.GetScene() != Scene.Helix)
+		{
+
+			yield return new WaitForSeconds(.1f);
+			Debug.Log("moving forward");
+		}
+
+		DoToHelixTransition(obj);
+		yield return null;
+	}
+
+	public void DoToHelixTransition(ImageObj obj)
 	{
 		_velocity = Vector3.zero;
+
+		if (obj == null)
+			Debug.Log("obj is null");
+
 
 		Community.CurrentCommunity.FadeOut(1);
 
@@ -212,8 +250,14 @@ public class CameraManager : MonoBehaviour {
 		Community.CurrentCommunity = HelixManager.Instance;
 		Community.CurrentCommunity.BackCommunity = backCommunity;
 
-		Vector3 targetPos = HelixManager.Instance.GetTopObjPos() + Vector3.back*2;
+		Community.CurrentCommunity.BackCommunityItem = obj;
 
+		Debug.Log("current community: " + Community.CurrentCommunity.gameObject.name + " back item: " + Community.CurrentCommunity.BackCommunityItem.gameObject.name);
+
+
+		Vector3 targetPos = HelixManager.Instance.GetTopObjPos() + Vector3.back*2;
+		Debug.Log("target pos: " + targetPos);
+		LeanTween.cancel(gameObject);
 		LeanTween.move(gameObject,targetPos, 2).setDelay(1).setOnComplete( () => {
 			_velocity = Vector3.zero;
 		});
@@ -223,8 +267,7 @@ public class CameraManager : MonoBehaviour {
 	public Vector3 GetForwardTransitionTargetPos()
 	{
 
-
-		return new Vector3(transform.position.x, transform.position.y, Community.CurrentCommunity.transform.position.z + 12);
+		return new Vector3(transform.position.x, transform.position.y, Community.CurrentCommunity.transform.position.z + 10);
 	}
 	
 	#endregion
