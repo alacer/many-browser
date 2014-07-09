@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour {
 	Vector2 _simulatedFinger2Pos;
 	Vector3 _touchDelta;
 	Vector3 _oneFingerTotalWorldDelta;
-	Vector3 _oneFingerTouchStartPos;
+	Vector3 _oneFingerTouchWorldStartPos;
 
 	float _lastTwoFingerSwipeSpeed;
 	float _lastFingerDist;
@@ -17,13 +17,14 @@ public class InputManager : MonoBehaviour {
 	int _lastTouchCount;
 	Vector2 _lastTouchPos;
 	float _lastTouchDist;
+	Vector2 _touchStartPos;
 
 	int _stopFrames = 20;
 	int _currentStopFrame;
 	float _timeSinceMouseDown;
 	float _clickTime = .1f;
 
-
+	GameObject _touchStartObj = null;
 	bool _hasLiftedFingersSinceLastSwipe = true;
 
 	public static InputManager Instance;
@@ -108,24 +109,51 @@ public class InputManager : MonoBehaviour {
 			if (_lastTouchCount == 1)
 			{
 				_touchDelta = GetTouchPos(0) - _lastTouchPos;
-				_oneFingerTotalWorldDelta = _oneFingerTouchStartPos -  worldTouchPos;
+				_oneFingerTotalWorldDelta = _oneFingerTouchWorldStartPos -  worldTouchPos;
 //				Debug.Log("delta: " + _oneFingerTotalWorldDelta + " start: " + _oneFingerTouchStartPos + " pos: " + worldTouchPos);
 				_oneFingerTotalWorldDelta.z = 0;
 			}
-			else 
+			else // on touch began
 			{
-				_oneFingerTouchStartPos = GetTouchWorldPos();
+				_touchStartPos = GetTouchPos(0);
+				_oneFingerTouchWorldStartPos = GetTouchWorldPos();
 				_touchDelta = Vector3.zero;
 				_oneFingerTotalWorldDelta = Vector3.zero;
-				
+				SetTouchStartObj();
 			}
 
 			_lastTouchPos =  GetTouchPos(0) ;
 		}
-		else
+		else // not touching with one finger
+		{
 			_touchDelta = Vector3.zero;
+			_touchStartObj = null;
+		}
 		
 		_lastTouchCount = GetTouchCount();
+	}
+
+	void SetTouchStartObj()
+	{
+		Ray ray = Camera.main.ScreenPointToRay(GetTouchPos(0));
+
+		RaycastHit hit;
+
+		if (Physics.Raycast(ray,out hit, 1000))
+		{
+			_touchStartObj = hit.transform.gameObject;
+
+		}
+
+	}
+	public Vector2 GetTouchStartPos()
+	{
+		return _touchStartPos;
+	}
+
+	public GameObject GetTouchStartObj()
+	{
+		return _touchStartObj;
 	}
 
 	Vector3 ScreenToWorldPos(Vector3 screenPos)
