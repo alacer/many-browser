@@ -2719,7 +2719,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Jen's Recommendations
+  Type: 0
   FadeInOnAwake: 1
+  HitPlaneOffset: {x: 0, y: 0, z: 0}
+  RelativeZoomedOutCameraPos: {x: 0, y: 0, z: -8}
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

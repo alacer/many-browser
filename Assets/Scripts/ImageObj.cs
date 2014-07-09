@@ -109,7 +109,7 @@ public class ImageObj : MonoBehaviour {
 		CubeRotator.SendMessage("DoFastRotateToFront",SendMessageOptions.DontRequireReceiver);
 		SceneManager.Instance.SetTransitioning(true);
 
-		GameObject community = (GameObject)Instantiate(CommunityPrefab,new Vector3(finalCameraPos.x, 0, finalCameraPos.z + 5),Quaternion.identity);
+		GameObject community = (GameObject)Instantiate(CommunityPrefab,new Vector3(finalCameraPos.x, 0, finalCameraPos.z + 4),Quaternion.identity);
 
 		StartCoroutine(FadeMaterial(.5f,0,() => {
 

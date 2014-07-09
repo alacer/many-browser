@@ -16,7 +16,7 @@ public class Community : MonoBehaviour {
 	public bool FadeInOnAwake = true;
  
 	public Vector3 HitPlaneOffset;
-	public Vector3 ZoomedOutCameraPos;
+	public Vector3 RelativeZoomedOutCameraPos = new Vector3(0,0,-5);
 	Vector3 _zoomedInPos;
 
 	static Community _currentCommunity;
@@ -85,9 +85,14 @@ public class Community : MonoBehaviour {
 		return _zoomedInPos;
 	}
 
+	public void SetZoomedOutYPos(float zoomedOutYPos)
+	{
+		RelativeZoomedOutCameraPos.y = zoomedOutYPos - transform.position.y;
+	}
+
 	public Vector3 GetZoomedOutCameraPos()
 	{
-		return transform.position + ZoomedOutCameraPos;
+		return transform.position + RelativeZoomedOutCameraPos;
 
 	}
 

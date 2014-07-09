@@ -2720,7 +2720,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Amazon
+  Type: 0
   FadeInOnAwake: 1
+  HitPlaneOffset: {x: 0, y: 0, z: 0}
+  RelativeZoomedOutCameraPos: {x: 0, y: 0, z: -8}
 --- !u!114 &11400052
 MonoBehaviour:
   m_ObjectHideFlags: 1

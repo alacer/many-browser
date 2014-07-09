@@ -227,10 +227,13 @@ public class HelixManager : Community {
 
 	void SetZoomOutPos()
 	{
-		Debug.Log (" pos: " + transform.position.y + " max: " + _maxHelixY);
+
 
 		float midYPos = transform.position.y - (_maxHelixY / 2.0f);
-		Community.CurrentCommunity.ZoomedOutCameraPos.y = midYPos;
+
+		Debug.Log (" pos: " + transform.position.y + " max: " + _maxHelixY + " mid y: " + midYPos);
+
+		Community.CurrentCommunity.SetZoomedOutYPos(midYPos);
 	}
 
 	void FixedUpdate()

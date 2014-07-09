@@ -56,6 +56,14 @@ public class PastSearches : MonoBehaviour {
 
 	public static void OnDidSearch(string search)
 	{
+		// don't do anything if this is already in our past searches
+		for (int i=0; i < GetPastSearchesCount(); i++)
+		{
+			if (PlayerPrefs.GetString("PastSearch" + i) == search)
+				return;
+
+		}
+
 		PlayerPrefs.SetString("PastSearch" + GetPastSearchesCount() % MaxSearches, search);
 
 		if (Instance != null)

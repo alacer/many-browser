@@ -257,7 +257,7 @@ public class CameraManager : MonoBehaviour {
 
 		_velocity = Vector3.zero;
 
-		Vector3 targetPos = GetForwardTransitionTargetPos(2);
+		Vector3 targetPos = GetForwardTransitionTargetPos(12);
 
 		Community backCommunity = Community.CurrentCommunity;
 
