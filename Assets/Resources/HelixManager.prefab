@@ -99,6 +99,8 @@ MonoBehaviour:
   Name: 
   Type: 1
   FadeInOnAwake: 1
+  HitPlaneOffset: {x: 0, y: 0, z: 0}
+  ZoomedOutCameraPos: {x: 0, y: 0, z: -10}
   imageObjPrefab: {fileID: 100000, guid: d68434dd6d1174e3d9af7882b5a5a09d, type: 2}
   MaxAngularSpeed: 2
   HelixRadius: 3

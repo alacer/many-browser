@@ -13,14 +13,15 @@ public class CameraManager : MonoBehaviour {
 	public float Speed = 10;
 	public float ZoomSpeed = .001f;
 	public float MaxSpeed = 15;
-	public float OneFingerSwipeSpeed = .5f;
-	public float TwoFingerSwipeSpeed = .1f;
+//	public float OneFingerSwipeSpeed = .5f;
+//	public float TwoFingerSwipeSpeed = .1f;
 	public float Friction = 2;
 
 	Vector3 _forward;
 	Vector3 _moveDir;
 	Vector3 _velocity;
 
+	Transform _hitPlane;
 	Scene _currentScene;
 
 
@@ -32,7 +33,8 @@ public class CameraManager : MonoBehaviour {
 		Instance = this;
 		Application.targetFrameRate = 60;
 		LeanTween.init(3000);
-		
+		_hitPlane = GameObject.Find("HitPlane").transform;
+
 		_forward = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * Vector3.forward;
 		
 		if (SkipIntro)
@@ -99,6 +101,10 @@ public class CameraManager : MonoBehaviour {
 				_velocity.y = 0;
 			}
 
+			// stop right before we go through the hit plane
+			if (_velocity.z > 0 && (transform.position + _velocity).z > _hitPlane.position.z)
+				_velocity.z = 0;
+
 			transform.position += _velocity;
 			HandleCommunityTransitions();
 
@@ -116,41 +122,73 @@ public class CameraManager : MonoBehaviour {
 		if (_velocity.z == 0 || LeanTween.isTweening(gameObject))
 			return;
 
-		if (_velocity.z > 0)
+
+
+		if (_velocity.z > 0) // going forward
 		{
-			HandleForwardCommmunityTransitions();
+			_velocity.z = 0;
+			// move to zoomed out view if we are at or behind zoomed in pos
+			if (transform.position.z < Community.CurrentCommunity.GetZoomedInPos().z) 
+				LeanTween.move(gameObject,Community.CurrentCommunity.GetZoomedInPos(),.3f).setOnComplete ( () => {
+					_velocity = Vector3.zero;
+				});
+			else
+				HandleForwardCommmunityTransitions();
 		}
-		else if (_velocity.z < 0)
+		else if (_velocity.z < 0 && LeanTween.isTweening(gameObject) == false) // going back
 		{
-			HandleBackwardCommunityTransitions();
+			_velocity.z = 0;
+			// if the camera is further in than the zoomed in pos just zoom out to it
+			if (transform.position.z > Community.CurrentCommunity.GetZoomedInPos().z)
+			{
+				LeanTween.move(gameObject,Community.CurrentCommunity.GetZoomedInPos(),.3f).setOnComplete ( () => {
+					_velocity = Vector3.zero;
+				});
+
+				return;
+			}
+
+
+
+			Vector3 zoomOutPos = Community.CurrentCommunity.GetZoomedOutCameraPos();
+
+			if (transform.position.z <= zoomOutPos.z) // are we already at zoomed out pos
+				DoBackTransition();
+			else 
+				LeanTween.move(gameObject,zoomOutPos,.3f).setOnComplete ( () => {
+					_velocity = Vector3.zero;
+				});
 		}
 
 
 	}
 
-	void HandleBackwardCommunityTransitions()
+//	void HandleBackwardCommunityTransitions()
+//	{
+//		if (Community.CurrentCommunity.BackCommunity == null)
+//			return;
+//
+//
+//		ImageObj backItem = Community.CurrentCommunity.BackCommunityItem;
+//		float backwardZTransitionPoint = (backItem != null) ? 
+//			backItem.transform.position.z + 1 : Community.CurrentCommunity.BackCommunity.transform.transform.position.z + 2;
+//
+//
+//
+//
+//		if (transform.position.z < backwardZTransitionPoint)
+//		{
+//			DoBackTransition();
+//
+//		}
+//
+//	}
+
+	public void DoBackTransition()
 	{
 		if (Community.CurrentCommunity.BackCommunity == null)
 			return;
 
-
-		ImageObj backItem = Community.CurrentCommunity.BackCommunityItem;
-		float backwardZTransitionPoint = (backItem != null) ? 
-			backItem.transform.position.z + 1 : Community.CurrentCommunity.BackCommunity.transform.transform.position.z + 2;
-
-
-
-
-		if (transform.position.z < backwardZTransitionPoint)
-		{
-			DoBackTransition();
-
-		}
-
-	}
-
-	public void DoBackTransition()
-	{
 		ImageObj backItem = Community.CurrentCommunity.BackCommunityItem;
 		Vector3 backMoveToPos = (backItem != null) ? 
 			backItem.transform.position + Vector3.back : Community.CurrentCommunity.BackCommunity.transform.position + Vector3.back * 2;
@@ -228,6 +266,9 @@ public class CameraManager : MonoBehaviour {
 		LeanTween.move(gameObject,targetPos, 1).setOnComplete( () => {
 			_velocity = Vector3.zero;
 		});
+
+		Community.CurrentCommunity.SetZoomedInCameraPos(targetPos);
+
 		Utils.SendMessageToAll("OnCommunityChange");
 	}
 
@@ -280,6 +321,9 @@ public class CameraManager : MonoBehaviour {
 		LeanTween.move(gameObject,targetPos, 2).setDelay(1).setOnComplete( () => {
 			_velocity = Vector3.zero;
 		});
+
+		Community.CurrentCommunity.SetZoomedInCameraPos(targetPos);
+
 		Utils.SendMessageToAll("OnCommunityChange");
 	}
 
@@ -294,7 +338,6 @@ public class CameraManager : MonoBehaviour {
 	void ApplyBounds()
 	{
 		Vector3 pos = transform.position;
-
 
 		if (pos.x > MaxX)
 			transform.position = new Vector3(MaxX,transform.position.y,transform.position.z);

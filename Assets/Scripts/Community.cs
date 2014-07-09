@@ -14,6 +14,10 @@ public class Community : MonoBehaviour {
 	public string Name;
 	public CommunityType Type;
 	public bool FadeInOnAwake = true;
+ 
+	public Vector3 HitPlaneOffset;
+	public Vector3 ZoomedOutCameraPos;
+	Vector3 _zoomedInPos;
 
 	static Community _currentCommunity;
 
@@ -27,7 +31,7 @@ public class Community : MonoBehaviour {
 			GameObject hitPlane = GameObject.Find("HitPlane");
 			Vector3 pos = hitPlane.transform.position;
 			pos.z = _currentCommunity.transform.position.z;
-			hitPlane.transform.position = pos;
+			hitPlane.transform.position = pos + _currentCommunity.HitPlaneOffset;
 
 		}
 
@@ -69,9 +73,23 @@ public class Community : MonoBehaviour {
 				
 			}
 		}
-
 	}
 
+	public void SetZoomedInCameraPos(Vector3 zoomedInPos)
+	{
+		_zoomedInPos = zoomedInPos;
+	}
+
+	public Vector3 GetZoomedInPos()
+	{
+		return _zoomedInPos;
+	}
+
+	public Vector3 GetZoomedOutCameraPos()
+	{
+		return transform.position + ZoomedOutCameraPos;
+
+	}
 
 	public void FadeOut(float animTime)
 	{

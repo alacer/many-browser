@@ -298,11 +298,12 @@ public class ImageSearch : MonoBehaviour {
 				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["Offers"][0]["Offer"][0]["OfferListing"][0]["AvailabilityAttributes"][0]["MinimumHours"][0];
 				
 				float availability = float.Parse(str) ;
+				Debug.Log("setting availability: " + availability);
 				data["Availability"] = availability;
 				
 			} catch (System.Exception ex) {
 				Debug.LogWarning("could not parse availability error: " + ex.Message);
-				data["Availability"] = 24.0f;
+				data["Availability"] = (Random.Range(0,2) == 1) ? 24.0f : 48.0f;
 			}
 
 			// Popularity
