@@ -225,6 +225,14 @@ public class HelixManager : Community {
 
 	}
 
+	void SetZoomOutPos()
+	{
+		Debug.Log (" pos: " + transform.position.y + " max: " + _maxHelixY);
+
+		float midYPos = transform.position.y - (_maxHelixY / 2.0f);
+		Community.CurrentCommunity.ZoomedOutCameraPos.y = midYPos;
+	}
+
 	void FixedUpdate()
 	{
 		 if (SceneManager.Instance.GetScene() != Scene.Helix)
@@ -249,6 +257,9 @@ public class HelixManager : Community {
 
 			Debug.Log("target pos: " + _targetPos);
 			transform.position += new Vector3(0,_velocity.y,0);
+			if (_velocity.y != 0)
+				SetZoomOutPos();
+
 			transform.RotateAround(transform.position,Vector3.up,_velocity.x);
 
 

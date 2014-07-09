@@ -25993,9 +25993,9 @@ MonoBehaviour:
   MaxZ: 3
   MinZ: -20
   Speed: .5
-  ZoomSpeed: .0399999991
+  ZoomSpeed: .00999999978
   MaxSpeed: .800000012
-  Friction: .0500000007
+  Friction: .00899999961
 --- !u!45 &1119771875
 Skybox:
   m_ObjectHideFlags: 0

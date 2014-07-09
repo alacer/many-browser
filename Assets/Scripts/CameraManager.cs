@@ -126,12 +126,15 @@ public class CameraManager : MonoBehaviour {
 
 		if (_velocity.z > 0) // going forward
 		{
-			_velocity.z = 0;
+
 			// move to zoomed out view if we are at or behind zoomed in pos
 			if (transform.position.z < Community.CurrentCommunity.GetZoomedInPos().z) 
+			{
+				_velocity.z = 0;
 				LeanTween.move(gameObject,Community.CurrentCommunity.GetZoomedInPos(),.3f).setOnComplete ( () => {
 					_velocity = Vector3.zero;
 				});
+			}
 			else
 				HandleForwardCommmunityTransitions();
 		}
