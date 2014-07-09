@@ -41,6 +41,8 @@ public class ImageObj : MonoBehaviour {
 
 	Material[] _planeMaterials;
 	Material[] _boxMaterials;
+	bool _zoomedIn;
+
 
 	void Awake()
 	{
@@ -123,8 +125,9 @@ public class ImageObj : MonoBehaviour {
 
 	public IEnumerator DoZoomIn()
 	{
-		float animTime = .3f;
+		float animTime = .2f;
 		LeanTween.move(gameObject,transform.position + Vector3.back * .05f,animTime);
+		_zoomedIn = true;
 
 //		ImageRenderer.materials[0].shader = BlendShader;
 //		ImageRenderer.materials[0].SetTexture(
@@ -270,7 +273,8 @@ public class ImageObj : MonoBehaviour {
 	
 	void OnGotLargeTexture(string url, Dictionary<string,object> data , Texture2D largeTex )
 	{
-		ImageRenderer.material.mainTexture = largeTex;
+		if (!_zoomedIn)
+			ImageRenderer.material.mainTexture = largeTex;
 	}
 	
 
