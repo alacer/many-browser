@@ -96,6 +96,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15631705dbe094c1fb860bcac3e02995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: 
+  Type: 1
   FadeInOnAwake: 1
   imageObjPrefab: {fileID: 100000, guid: d68434dd6d1174e3d9af7882b5a5a09d, type: 2}
   MaxAngularSpeed: 2

@@ -112,7 +112,7 @@ public class ImageObj : MonoBehaviour {
 		GameObject community = (GameObject)Instantiate(CommunityPrefab,new Vector3(finalCameraPos.x, 0, finalCameraPos.z + 5),Quaternion.identity);
 
 		StartCoroutine(FadeMaterial(.5f,0,() => {
-			Debug.Log("stopped transitioning");
+
 			SceneManager.Instance.SetTransitioning(false);
 		}));
 
@@ -202,7 +202,6 @@ public class ImageObj : MonoBehaviour {
 		                                                                                                               {
 			SceneManager.Instance.PushScene(Scene.Selected);
 		
-			Debug.Log("cubescale: " + _cubeScale);
 		});
 
 		LeanTween.rotateLocal(ImageRenderer.gameObject,new Vector3(0,270,0), animTime).setEase(LeanTweenType.easeOutQuad);
@@ -227,7 +226,7 @@ public class ImageObj : MonoBehaviour {
 		ScaleToAspect(.3f);
 		if (SceneManager.Instance.GetTransitioningToScene() == Scene.Helix)
 			Text.gameObject.SetActive(true);
-		Debug.Log("imageobj unselect");
+
 		CubeRotator.SendMessage("OnUnselect");
 		CubeRotator.SetActive(false);
 		ScaleToPlane(.3f);
@@ -305,7 +304,7 @@ public class ImageObj : MonoBehaviour {
 	
 	protected virtual void ScaleToAspect(float animTime)
 	{
-		Debug.Log("scaling to Aspect " + _aspectScale);
+
 		//		transform.localScale = _aspectScale;
 		LeanTween.scale(gameObject,_aspectScale,.1f);
 		

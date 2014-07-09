@@ -1,9 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum CommunityType
+{
+	Generic = 0,
+	Helix,
+	Kartua,
+	
+}
+
 public class Community : MonoBehaviour {
 
 	public string Name;
+	public CommunityType Type;
 	public bool FadeInOnAwake = true;
 
 	static Community _currentCommunity;
@@ -13,10 +22,6 @@ public class Community : MonoBehaviour {
 		get { return _currentCommunity; }
 		set 
 		{ 
-			if (value == null)
-				Debug.Log("community is null for obj" );
-			else
-				Debug.Log("setting current community: " + value.gameObject.name);
 
 			_currentCommunity = value; 
 			GameObject hitPlane = GameObject.Find("HitPlane");

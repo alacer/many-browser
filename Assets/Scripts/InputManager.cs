@@ -234,6 +234,14 @@ public class InputManager : MonoBehaviour {
 
 	}
 
+	public bool IsFingerMoving()
+	{
+		if (Application.isEditor)
+			return _touchDelta.magnitude > 0;
+		else
+			return Input.touches[0].phase == TouchPhase.Moved;
+	}
+
 	public Vector2 GetTouchPos(int fingerIndex)
 	{
 

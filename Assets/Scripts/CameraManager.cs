@@ -37,8 +37,15 @@ public class CameraManager : MonoBehaviour {
 		
 		if (SkipIntro)
 			animation["CameraAnim"].speed = 10;
+
+
 	}
 
+	void OnAnimationComplete()
+	{
+		GameObject.Find("SidePanels").SendMessage("ShowPanel",CommunityType.Kartua);
+
+	}
 
 #region Finger Swiping
 
@@ -126,38 +133,51 @@ public class CameraManager : MonoBehaviour {
 		if (Community.CurrentCommunity.BackCommunity == null)
 			return;
 
+
 		ImageObj backItem = Community.CurrentCommunity.BackCommunityItem;
 		float backwardZTransitionPoint = (backItem != null) ? 
 			backItem.transform.position.z + 1 : Community.CurrentCommunity.BackCommunity.transform.transform.position.z + 2;
 
 
-		Vector3 backMoveToPos = (backItem != null) ? 
-			backItem.transform.position + Vector3.back : Community.CurrentCommunity.BackCommunity.transform.position + Vector3.back * 2;
+
 
 		if (transform.position.z < backwardZTransitionPoint)
 		{
-			Debug.Log("doing back transition");
-			_velocity = Vector3.zero;
+			DoBackTransition();
 
-			StartCoroutine( Community.CurrentCommunity.FadeOutAndRemove() );
-
-			Community.CurrentCommunity = Community.CurrentCommunity.BackCommunity;
-
-			if (backItem != null) // we just came from another community
-				backItem.DoCommunityBackTransition();
-
-			Community.CurrentCommunity.FadeIn(1);
-
-			LeanTween.move(gameObject,backMoveToPos,1).setOnComplete ( () => {
-				if (SceneManager.Instance.GetScene() == Scene.Helix)
-					SceneManager.Instance.PushScene(Scene.Browse);
-
-				_velocity = Vector3.zero;
-			});
-
-			Utils.SendMessageToAll("OnCommunityChange");
 		}
 
+	}
+
+	public void DoBackTransition()
+	{
+		ImageObj backItem = Community.CurrentCommunity.BackCommunityItem;
+		Vector3 backMoveToPos = (backItem != null) ? 
+			backItem.transform.position + Vector3.back : Community.CurrentCommunity.BackCommunity.transform.position + Vector3.back * 2;
+
+
+		if (SceneManager.Instance.GetScene() == Scene.Helix)
+			GameObject.Find("Advertisement").SendMessage("Show");
+		
+		_velocity = Vector3.zero;
+		
+		StartCoroutine( Community.CurrentCommunity.FadeOutAndRemove() );
+		
+		Community.CurrentCommunity = Community.CurrentCommunity.BackCommunity;
+		
+		if (backItem != null) // we just came from another community
+			backItem.DoCommunityBackTransition();
+		
+		Community.CurrentCommunity.FadeIn(1);
+		
+		LeanTween.move(gameObject,backMoveToPos,1).setOnComplete ( () => {
+			if (SceneManager.Instance.GetScene() == Scene.Helix)
+				SceneManager.Instance.PushScene(Scene.Browse);
+			
+			_velocity = Vector3.zero;
+		});
+		
+		Utils.SendMessageToAll("OnCommunityChange");
 	}
 
 	void HandleForwardCommmunityTransitions()

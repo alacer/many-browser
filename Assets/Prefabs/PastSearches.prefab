@@ -751,6 +751,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2d425086acd2407e9f15fc614f6f400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: Past Searches
+  Type: 0
   FadeInOnAwake: 1
 --- !u!1001 &100100000
 Prefab:

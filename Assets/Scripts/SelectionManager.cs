@@ -34,7 +34,6 @@ public class SelectionManager : MonoBehaviour {
 			LeaveSelectedObj();
 		else if (spread > 0)
 		{
-			Debug.Log("doing forward transition");
 			StartCoroutine ( DoForwardCommunityTransition() );
 		}
 
@@ -56,7 +55,7 @@ public class SelectionManager : MonoBehaviour {
 
 			yield return new WaitForSeconds(2);
 
-			Debug.Log("leaving object");
+
 
 			LeaveSelectedObj();
 		}
@@ -88,7 +87,7 @@ public class SelectionManager : MonoBehaviour {
 		{
 			if (SceneManager.IsInHelixOrBrowse())
 				OnSelectObj(hit.transform);
-			Debug.Log("hit obj: " + hit.transform.name);
+
 			//	hit.transform.localScale *= .5f;
 		}
 		
@@ -114,7 +113,6 @@ public class SelectionManager : MonoBehaviour {
 
 		obj.SendMessage("OnSelected",SendMessageOptions.DontRequireReceiver);
 
-		Debug.Log("selected obj stop");
 	//	_velocity = Vector3.zero;
 		LeanTween.cancel(gameObject);
 	}
@@ -147,7 +145,7 @@ public class SelectionManager : MonoBehaviour {
 		FadeOutOverlay();
 
 		Community.CurrentCommunity.FadeIn(animTime);
-		Debug.Log("leaving selected");
+
 		SceneManager.Instance.OnSceneTransition(SceneManager.Instance.GetLastScene());
 		
 		_selectedObj.SendMessage("OnUnselected",SendMessageOptions.DontRequireReceiver);

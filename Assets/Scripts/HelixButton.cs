@@ -20,7 +20,7 @@ public class HelixButton : MonoBehaviour {
 		foreach(UIButton button in _allButtons)
 		{
 
-			button.normalSprite = button.hoverSprite;
+			button.normalSprite = button.disabledSprite;
 
 		}
 
@@ -35,7 +35,7 @@ public class HelixButton : MonoBehaviour {
 		{
 			if (button != _button)
 			{
-				button.normalSprite = button.hoverSprite;
+				button.normalSprite = button.disabledSprite;
 			
 //				button.target.spriteName = button.normalSprite;
 				
@@ -68,30 +68,32 @@ public class HelixButton : MonoBehaviour {
 
 	public void OnTapAvailability()
 	{
+		Debug.Log("sorting by availability");
+
 		SortBy("Availability",SortOrder.Asending);
 	}
 
-	IEnumerator UpdateColors()
-	{
-		yield return new WaitForSeconds(.5f);
-
-		foreach (UIButton button in _allButtons)
-		{
-			if (_button == button)
-			{
-				Debug.Log("setting button pressed: " + button.gameObject.name);
-				_button.normalSprite = _button.hoverSprite;
-			//	_button.target.spriteName = _button.normalSprite;
-			}
-			else
-			{
-				Debug.Log("setting button released: " + button.gameObject.name);
-				_button.normalSprite = _button.pressedSprite;
-			//	_button.target.spriteName = _button.normalSprite;
-			}
-			
-		}
-	}
+//	IEnumerator UpdateColors()
+//	{
+//		yield return new WaitForSeconds(.5f);
+//
+//		foreach (UIButton button in _allButtons)
+//		{
+//			if (_button == button)
+//			{
+//				Debug.Log("setting button pressed: " + button.gameObject.name);
+//				_button.normalSprite = _button.disabledSprite;
+//			//	_button.target.spriteName = _button.normalSprite;
+//			}
+//			else
+//			{
+//				Debug.Log("setting button released: " + button.gameObject.name);
+//				_button.normalSprite = _button.hoverSprite;
+//			//	_button.target.spriteName = _button.normalSprite;
+//			}
+//			
+//		}
+//	}
 
 
 

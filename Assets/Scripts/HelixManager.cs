@@ -264,7 +264,7 @@ public class HelixManager : Community {
 	{
 
 		Vector3 vel = Vector3.zero;
-		if (InputManager.Instance.GetTouchWorldPos() != Vector3.zero && InputManager.Instance.GetLastTouchWorldPos() != Vector3.zero)
+		if (InputManager.Instance.IsFingerMoving() && InputManager.Instance.GetTouchWorldPos() != Vector3.zero && InputManager.Instance.GetLastTouchWorldPos() != Vector3.zero)
 		{
 			Vector3 worldPos = InputManager.Instance.GetTouchWorldPos();
 			Vector3 lastWorldPos = InputManager.Instance.GetLastTouchWorldPos();

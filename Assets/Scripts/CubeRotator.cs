@@ -112,7 +112,7 @@ public class CubeRotator : MonoBehaviour {
 	void OnUnselect()
 	{
 
-		Debug.Log("cube rototor unselect");
+
 		FadeButtonPanel(0,0);
 		TweenAlpha.Begin(_backPanel,0,0);
 		TweenAlpha.Begin(_leftPanel,0,0);

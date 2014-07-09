@@ -15,6 +15,8 @@ public class ImageSearch : MonoBehaviour {
 	List<Dictionary<string,object>> _dataList = new List<Dictionary<string, object>>();
 	bool _searching;
 	string _search;
+	string _currentKeywordTrail;
+	string _lastLabel = string.Empty;
 
 	void Awake()
 	{
@@ -36,8 +38,26 @@ public class ImageSearch : MonoBehaviour {
 	public void OnSubmit()
 	{
 		string text = NGUIText.StripSymbols(GetComponent<UIInput>().value);
+
+		if (_currentKeywordTrail != null && _currentKeywordTrail != string.Empty && text.Contains(_currentKeywordTrail))
+		{
+
+			text = text.Remove(0,_currentKeywordTrail.Length);
+		}
 		Search(text);
 	}
+
+//	void OnSceneChange(Scene scene)
+//	{
+//		if (scene == Scene.Selected)
+//		{
+//			_lastLabel = GetComponent<UIInput>().value;
+//			GetComponent<UIInput>().value = string.Empty;
+//
+//		}
+//		else if (_lastLabel != string.Empty)
+//			GetComponent<UIInput>().value = _lastLabel;
+//	}
 
 	void OnCommunityChange()
 	{
@@ -55,7 +75,6 @@ public class ImageSearch : MonoBehaviour {
 
 		while (community != null)
 		{
-			Debug.Log("adding com: " + community.Name);
 			keywords.Add(community.Name);
 			community = community.BackCommunity;
 
@@ -72,6 +91,7 @@ public class ImageSearch : MonoBehaviour {
 		if (labelText == string.Empty)
 			labelText = "#NOW";
 
+		_currentKeywordTrail = labelText;
 		GetComponent<UIInput>().label.text = labelText;
 		GetComponent<UIInput>().value = labelText;
 	}
