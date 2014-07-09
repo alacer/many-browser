@@ -45,9 +45,12 @@ public class WiggleAndMoveChildren : MonoBehaviour {
 			}
 			else
 			{
-				LeanTween.rotateAround(obj,Vector3.forward, 10, .3f).setOnComplete( () => {
-					LeanTween.rotateAround(obj,Vector3.forward, -10, .3f);
+				LeanTween.rotate(obj,new Vector3(0,0,10), .3f).setOnComplete( () => {
+					LeanTween.rotate(obj,Vector3.zero, .3f);
 				});
+
+
+				
 			}
 		}
 

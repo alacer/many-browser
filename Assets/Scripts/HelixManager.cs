@@ -99,20 +99,24 @@ public class HelixManager : Community {
 	
 	IEnumerator FormHelixRoutine(string sort)
 	{
-		bool wasAlreadyInHelix = SceneManager.Instance.GetScene() == Scene.Helix;
-		
-		if (!wasAlreadyInHelix)
-			transform.position = CameraManager.Instance.GetForwardTransitionTargetPos(10) + Vector3.forward * 5;
 
-		_targetPos = transform.position;
-		_targetRotation = transform.rotation;
 		
 		Debug.Log("in form helix");
 		while (SceneManager.Instance.GetScene() == Scene.InTransition)
 		{
 			yield return new WaitForSeconds(.1f);
 		}
+
+		bool wasAlreadyInHelix = SceneManager.Instance.GetScene() == Scene.Helix;
 		
+		if (!wasAlreadyInHelix)
+			transform.position = CameraManager.Instance.GetForwardTransitionTargetPos(10) + Vector3.forward * 5;
+		
+		_targetPos = transform.position;
+		_targetRotation = transform.rotation;
+
+
+
 		if (SelectionManager.Instance.IsSelected())
 		{
 			float time = SelectionManager.Instance.LeaveSelectedObj();
@@ -215,6 +219,8 @@ public class HelixManager : Community {
 
 		yield return new WaitForSeconds (animateToHelixTime);
 		SceneManager.Instance.PushScene(Scene.Helix);
+
+
 		yield return null;
 
 	}
