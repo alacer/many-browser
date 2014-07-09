@@ -41,122 +41,122 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: c39516abeb7984c4b9cc7ea9b70b9fff, type: 2}
   mSprites:
   - name: back icon
-    x: 112
-    y: 1623
-    width: 129
-    height: 133
+    x: 113
+    y: 1729
+    width: 165
+    height: 172
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 18
-    paddingRight: 18
-    paddingTop: 25
-    paddingBottom: 14
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: back icon-o
-    x: 112
-    y: 1489
-    width: 129
-    height: 133
+    x: 113
+    y: 1555
+    width: 165
+    height: 172
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 18
-    paddingRight: 18
-    paddingTop: 25
-    paddingBottom: 14
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: close
-    x: 673
-    y: 1806
-    width: 62
-    height: 96
+    x: 537
+    y: 1774
+    width: 51
+    height: 81
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 56
-    paddingRight: 56
-    paddingTop: 19
-    paddingBottom: 22
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: close-o
-    x: 736
-    y: 1806
-    width: 62
-    height: 96
+    x: 484
+    y: 1774
+    width: 51
+    height: 81
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 56
-    paddingRight: 56
-    paddingTop: 19
-    paddingBottom: 22
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: communities
-    x: 112
+    x: 113
     y: 1903
-    width: 206
+    width: 217
     height: 145
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 6
-    paddingRight: 5
+    paddingLeft: 0
+    paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
   - name: communities-o
-    x: 319
+    x: 332
     y: 1903
-    width: 206
+    width: 217
     height: 145
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 6
-    paddingRight: 5
+    paddingLeft: 0
+    paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
   - name: contacts
-    x: 526
+    x: 721
     y: 1903
-    width: 162
+    width: 168
     height: 145
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 3
-    paddingRight: 3
+    paddingLeft: 0
+    paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
   - name: contacts-o
-    x: 689
+    x: 551
     y: 1903
-    width: 162
+    width: 168
     height: 145
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 3
-    paddingRight: 3
+    paddingLeft: 0
+    paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
   - name: divider
-    x: 900
-    y: 1885
-    width: 108
-    height: 17
+    x: 280
+    y: 1857
+    width: 174
+    height: 44
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 33
-    paddingRight: 33
-    paddingTop: 13
-    paddingBottom: 14
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: drawer_bg
     x: 0
     y: 1024
@@ -171,60 +171,60 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: new members
-    x: 112
-    y: 1081
-    width: 97
-    height: 135
+    x: 113
+    y: 1035
+    width: 79
+    height: 114
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 38
-    paddingRight: 39
-    paddingTop: 22
-    paddingBottom: 17
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: new members-o
-    x: 263
-    y: 1767
-    width: 97
-    height: 135
+    x: 194
+    y: 1035
+    width: 79
+    height: 114
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 38
-    paddingRight: 39
-    paddingTop: 22
-    paddingBottom: 17
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: rate
-    x: 361
-    y: 1783
-    width: 84
-    height: 119
+    x: 349
+    y: 1759
+    width: 67
+    height: 96
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 45
-    paddingRight: 45
-    paddingTop: 15
-    paddingBottom: 15
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: rate-o
-    x: 446
-    y: 1783
-    width: 84
-    height: 119
+    x: 280
+    y: 1759
+    width: 67
+    height: 96
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 45
-    paddingRight: 45
-    paddingTop: 15
-    paddingBottom: 15
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: settings
-    x: 112
-    y: 1757
+    x: 113
+    y: 1261
     width: 150
     height: 145
     borderLeft: 0
@@ -236,8 +236,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: settings-o
-    x: 852
-    y: 1903
+    x: 113
+    y: 1408
     width: 150
     height: 145
     borderLeft: 0
@@ -249,34 +249,34 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: share
-    x: 531
-    y: 1794
-    width: 70
-    height: 108
+    x: 418
+    y: 1768
+    width: 64
+    height: 87
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 49
-    paddingRight: 55
-    paddingTop: 15
-    paddingBottom: 20
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: share-o
-    x: 602
-    y: 1794
-    width: 70
-    height: 108
+    x: 214
+    y: 1172
+    width: 64
+    height: 87
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 49
-    paddingRight: 55
-    paddingTop: 15
-    paddingBottom: 20
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: SortIconAvail
-    x: 210
-    y: 1107
+    x: 590
+    y: 1801
     width: 51
     height: 54
     borderLeft: 0
@@ -288,8 +288,8 @@ MonoBehaviour:
     paddingTop: 1
     paddingBottom: 1
   - name: SortIconAvail-o
-    x: 210
-    y: 1162
+    x: 643
+    y: 1801
     width: 51
     height: 54
     borderLeft: 0
@@ -301,8 +301,8 @@ MonoBehaviour:
     paddingTop: 1
     paddingBottom: 1
   - name: SortIconBuyer
-    x: 112
-    y: 1031
+    x: 696
+    y: 1806
     width: 51
     height: 49
     borderLeft: 0
@@ -314,8 +314,8 @@ MonoBehaviour:
     paddingTop: 1
     paddingBottom: 2
   - name: SortIconBuyer-o
-    x: 164
-    y: 1031
+    x: 749
+    y: 1806
     width: 51
     height: 49
     borderLeft: 0
@@ -327,8 +327,8 @@ MonoBehaviour:
     paddingTop: 1
     paddingBottom: 2
   - name: SortIconExpert
-    x: 799
-    y: 1854
+    x: 802
+    y: 1807
     width: 50
     height: 48
     borderLeft: 0
@@ -340,8 +340,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: SortIconExpert-o
-    x: 799
-    y: 1805
+    x: 854
+    y: 1807
     width: 50
     height: 48
     borderLeft: 0
@@ -353,8 +353,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: SortIconPop
-    x: 850
-    y: 1856
+    x: 802
+    y: 1759
     width: 49
     height: 46
     borderLeft: 0
@@ -366,8 +366,8 @@ MonoBehaviour:
     paddingTop: 1
     paddingBottom: 1
   - name: SortIconPop-o
-    x: 850
-    y: 1809
+    x: 854
+    y: 1759
     width: 49
     height: 46
     borderLeft: 0
@@ -379,8 +379,8 @@ MonoBehaviour:
     paddingTop: 1
     paddingBottom: 1
   - name: SortIconPrice
-    x: 216
-    y: 1037
+    x: 456
+    y: 1858
     width: 31
     height: 43
     borderLeft: 0
@@ -392,8 +392,8 @@ MonoBehaviour:
     paddingTop: 1
     paddingBottom: 3
   - name: SortIconPrice-o
-    x: 900
-    y: 1841
+    x: 489
+    y: 1858
     width: 31
     height: 43
     borderLeft: 0
@@ -405,31 +405,31 @@ MonoBehaviour:
     paddingTop: 1
     paddingBottom: 3
   - name: view discussion
-    x: 112
-    y: 1217
-    width: 119
-    height: 135
+    x: 113
+    y: 1151
+    width: 99
+    height: 108
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 28
-    paddingRight: 27
-    paddingTop: 26
-    paddingBottom: 19
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: view discussion-o
-    x: 112
-    y: 1353
-    width: 119
-    height: 135
+    x: 891
+    y: 1940
+    width: 99
+    height: 108
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 28
-    paddingRight: 27
-    paddingTop: 26
-    paddingBottom: 19
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   mPixelSize: 1
   mReplacement: {fileID: 0}
   mCoordinates: 0
