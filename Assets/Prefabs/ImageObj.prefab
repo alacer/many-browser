@@ -241,6 +241,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultImage: {fileID: 0}
+  PageContentMaterial: {fileID: 2100000, guid: 15855c25e114749f899d7141671a2e39, type: 2}
+  BlendShader: {fileID: 4800000, guid: d8d317e80f45941b5bb3371aea67ef1d, type: 3}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300000}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}

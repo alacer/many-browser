@@ -217,9 +217,12 @@ public class HelixManager : Community {
 
 		}
 
+
+
 		yield return new WaitForSeconds (animateToHelixTime);
 		SceneManager.Instance.PushScene(Scene.Helix);
 
+		SetZoomOutPos();
 
 		yield return null;
 
@@ -227,7 +230,6 @@ public class HelixManager : Community {
 
 	void SetZoomOutPos()
 	{
-
 
 		float midYPos = transform.position.y - (_maxHelixY / 2.0f);
 

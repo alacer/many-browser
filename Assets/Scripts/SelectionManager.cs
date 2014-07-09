@@ -34,12 +34,12 @@ public class SelectionManager : MonoBehaviour {
 			LeaveSelectedObj();
 		else if (spread > 0)
 		{
-			StartCoroutine ( DoForwardCommunityTransition() );
+			StartCoroutine ( DoSelectedObjForwardTransition() );
 		}
 
 	}
 
-	protected virtual IEnumerator DoForwardCommunityTransition()
+	protected virtual IEnumerator DoSelectedObjForwardTransition()
 	{
 
 		ImageObj obj = _selectedObj.GetComponent<ImageObj>();
@@ -55,10 +55,11 @@ public class SelectionManager : MonoBehaviour {
 
 			yield return new WaitForSeconds(2);
 
-
-
 			LeaveSelectedObj();
 		}
+		else
+			StartCoroutine( obj.DoZoomIn() );
+
 		yield return null;
 	}
 
@@ -129,7 +130,7 @@ public class SelectionManager : MonoBehaviour {
 
 	public float LeaveSelectedObj(bool inForwardCommunityTransition)
 	{
-		if (_selectedObj == null)
+		if (_selectedObj == null || LeanTween.isTweening(_selectedObj.gameObject))
 			return 0;
 
 		float animTime = .3f;

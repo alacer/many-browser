@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class ImageObj : MonoBehaviour {
 
 	public Texture2D DefaultImage;
+	public Material PageContentMaterial;
+	public Shader BlendShader;
 	public GameObject CommunityPrefab;
 	public Renderer ImageRenderer;
 	public Texture2D WhiteTexture;
@@ -119,6 +121,37 @@ public class ImageObj : MonoBehaviour {
 		return community;
 	}
 
+	public IEnumerator DoZoomIn()
+	{
+		float animTime = .3f;
+		LeanTween.move(gameObject,transform.position + Vector3.back * .05f,animTime);
+
+//		ImageRenderer.materials[0].shader = BlendShader;
+//		ImageRenderer.materials[0].SetTexture(
+
+//		Material startMat = _boxMaterials[0];
+//		Material lerpMat = _boxMaterials[0];
+//
+//		float numFrames = 5;
+//		for (float i=1; i <= numFrames; i++)
+//		{
+//			float percent = i / numFrames;
+//			Debug.Log("percent: " + percent);
+//
+//			lerpMat.Lerp(startMat,PageContentMaterial,percent );
+//			ImageRenderer.materials = new Material[] { lerpMat };
+//
+//			yield return new WaitForSeconds(animTime / numFrames);
+//		}
+		yield return new WaitForSeconds(animTime);
+
+		Material[] newMats = _boxMaterials;
+		newMats[0] = PageContentMaterial;
+		ImageRenderer.materials = newMats;
+
+		yield return null;
+	}
+
 	public void DoCommunityBackTransition()
 	{
 		if (SceneManager.Instance.GetScene() == Scene.InTransition)
@@ -222,6 +255,7 @@ public class ImageObj : MonoBehaviour {
 
 	void OnUnselected()
 	{
+		_boxMaterials[0] = _planeMaterials[0];
 		ImageRenderer.materials = _planeMaterials;
 		ScaleToAspect(.3f);
 		if (SceneManager.Instance.GetTransitioningToScene() == Scene.Helix)

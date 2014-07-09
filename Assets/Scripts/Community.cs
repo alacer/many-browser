@@ -14,6 +14,7 @@ public class Community : MonoBehaviour {
 	public string Name;
 	public CommunityType Type;
 	public bool FadeInOnAwake = true;
+	public GameObject BackgroundLabel;
  
 	public Vector3 HitPlaneOffset;
 	public Vector3 RelativeZoomedOutCameraPos = new Vector3(0,0,-5);
@@ -26,12 +27,18 @@ public class Community : MonoBehaviour {
 		get { return _currentCommunity; }
 		set 
 		{ 
+			if (_currentCommunity != null &&  _currentCommunity.BackgroundLabel != null)
+				_currentCommunity.FadeBackgroundLabel(0,1);
+
 
 			_currentCommunity = value; 
 			GameObject hitPlane = GameObject.Find("HitPlane");
 			Vector3 pos = hitPlane.transform.position;
 			pos.z = _currentCommunity.transform.position.z;
 			hitPlane.transform.position = pos + _currentCommunity.HitPlaneOffset;
+
+			if (_currentCommunity.BackgroundLabel != null)
+				_currentCommunity.FadeBackgroundLabel(1,1);
 
 		}
 
@@ -73,6 +80,36 @@ public class Community : MonoBehaviour {
 				
 			}
 		}
+	}
+
+	public void FadeBackgroundLabel(float alpha, float fadeTime)
+	{
+		StartCoroutine(FadeBackgroundLabelRoutine( alpha,fadeTime));
+	}
+
+	IEnumerator FadeBackgroundLabelRoutine(float alpha, float fadeTime)
+	{
+
+		TextMesh mesh = BackgroundLabel.GetComponent<TextMesh>();
+
+		float cycleTime = .05f;
+		float timeLeft = fadeTime;
+		float alphaChange = alpha - mesh.color.a;
+		float numCycles = fadeTime / cycleTime;
+		
+		while (timeLeft > 0)
+		{
+			Color c = mesh.color;
+			c.a += alphaChange / numCycles;
+
+			mesh.color = c;
+
+			yield return new WaitForSeconds(cycleTime);
+			timeLeft -= cycleTime;
+		}
+
+			
+
 	}
 
 	public void SetZoomedInCameraPos(Vector3 zoomedInPos)
