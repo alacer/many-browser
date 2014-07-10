@@ -156,7 +156,7 @@ public class InputManager : MonoBehaviour {
 
 		if (Physics.Raycast(ray,out hit, 1000))
 		{
-			if (hit.transform.GetComponent<Draggable>() != null)
+			if (hit.transform.GetComponent<Draggable>() != null && hit.transform.GetComponent<Draggable>().IsDraggable)
 			{
 				_draggableObj = hit.transform.gameObject;
 				_dragTouchStartPos = GetDragTouchPos();

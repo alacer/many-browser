@@ -242,6 +242,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultImage: {fileID: 0}
   PageContentMaterial: {fileID: 2100000, guid: 15855c25e114749f899d7141671a2e39, type: 2}
+  TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
+  OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 4800000, guid: d8d317e80f45941b5bb3371aea67ef1d, type: 3}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300000}

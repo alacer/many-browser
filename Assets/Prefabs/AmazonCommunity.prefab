@@ -1013,7 +1013,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100020}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.1065464, y: 2.81464696, z: 6.90357304}
+  m_LocalPosition: {x: 0, y: 0, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400006}
@@ -1534,7 +1534,7 @@ Renderer:
   - {fileID: 2100000, guid: 2a32dc8eaa6834893bf9fdca73e4748b, type: 2}
   - {fileID: 2100000, guid: 5d3cbf4442710486486110880195f0bd, type: 2}
   - {fileID: 2100000, guid: 5275356f93d424c6db5d149fe88534b2, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a3e5efeeecc270848b5bed5556de38f3, type: 2}
   - {fileID: 2100000, guid: 191a9b3ad3779493b863e644a59a4475, type: 2}
   - {fileID: 2100000, guid: 14cf1bdbed8554008ba7dbb76f4a87a8, type: 2}
   m_SubsetIndices: 
@@ -1644,7 +1644,7 @@ Renderer:
   - {fileID: 2100000, guid: 2a32dc8eaa6834893bf9fdca73e4748b, type: 2}
   - {fileID: 2100000, guid: 5d3cbf4442710486486110880195f0bd, type: 2}
   - {fileID: 2100000, guid: 5275356f93d424c6db5d149fe88534b2, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a3e5efeeecc270848b5bed5556de38f3, type: 2}
   - {fileID: 2100000, guid: 191a9b3ad3779493b863e644a59a4475, type: 2}
   - {fileID: 2100000, guid: 14cf1bdbed8554008ba7dbb76f4a87a8, type: 2}
   m_SubsetIndices: 
@@ -1712,7 +1712,7 @@ Renderer:
   - {fileID: 2100000, guid: 2a32dc8eaa6834893bf9fdca73e4748b, type: 2}
   - {fileID: 2100000, guid: 5d3cbf4442710486486110880195f0bd, type: 2}
   - {fileID: 2100000, guid: 5275356f93d424c6db5d149fe88534b2, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a3e5efeeecc270848b5bed5556de38f3, type: 2}
   - {fileID: 2100000, guid: 191a9b3ad3779493b863e644a59a4475, type: 2}
   - {fileID: 2100000, guid: 14cf1bdbed8554008ba7dbb76f4a87a8, type: 2}
   m_SubsetIndices: 
@@ -1822,7 +1822,7 @@ Renderer:
   - {fileID: 2100000, guid: 2a32dc8eaa6834893bf9fdca73e4748b, type: 2}
   - {fileID: 2100000, guid: 5d3cbf4442710486486110880195f0bd, type: 2}
   - {fileID: 2100000, guid: 5275356f93d424c6db5d149fe88534b2, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a3e5efeeecc270848b5bed5556de38f3, type: 2}
   - {fileID: 2100000, guid: 191a9b3ad3779493b863e644a59a4475, type: 2}
   - {fileID: 2100000, guid: 14cf1bdbed8554008ba7dbb76f4a87a8, type: 2}
   m_SubsetIndices: 
@@ -1890,7 +1890,7 @@ Renderer:
   - {fileID: 2100000, guid: 2a32dc8eaa6834893bf9fdca73e4748b, type: 2}
   - {fileID: 2100000, guid: 5d3cbf4442710486486110880195f0bd, type: 2}
   - {fileID: 2100000, guid: 5275356f93d424c6db5d149fe88534b2, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a3e5efeeecc270848b5bed5556de38f3, type: 2}
   - {fileID: 2100000, guid: 191a9b3ad3779493b863e644a59a4475, type: 2}
   - {fileID: 2100000, guid: 14cf1bdbed8554008ba7dbb76f4a87a8, type: 2}
   m_SubsetIndices: 
@@ -2397,6 +2397,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultImage: {fileID: 2800000, guid: fe42b192f71c2412e87ee168730707dd, type: 3}
+  PageContentMaterial: {fileID: 0}
+  TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
+  OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  BlendShader: {fileID: 0}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300002}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -2469,6 +2473,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultImage: {fileID: 2800000, guid: 01994c09d322949e6a0cb78b25b5c6d2, type: 3}
+  PageContentMaterial: {fileID: 0}
+  TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
+  OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  BlendShader: {fileID: 0}
   CommunityPrefab: {fileID: 100020, guid: 3547b2ac737da485081013a6f6c0a735, type: 2}
   ImageRenderer: {fileID: 2300012}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -2535,6 +2543,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultImage: {fileID: 2800000, guid: 1dd06c146edee4f2e89d67d4f5d0da7b, type: 3}
+  PageContentMaterial: {fileID: 0}
+  TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
+  OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  BlendShader: {fileID: 0}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300018}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -2607,6 +2619,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultImage: {fileID: 2800000, guid: f8a94a67497974208baf6c0b0abc7964, type: 3}
+  PageContentMaterial: {fileID: 0}
+  TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
+  OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  BlendShader: {fileID: 0}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300028}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -2673,6 +2689,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultImage: {fileID: 2800000, guid: c93cffb04021c4cfdafa0b5d591f24e9, type: 3}
+  PageContentMaterial: {fileID: 0}
+  TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
+  OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  BlendShader: {fileID: 0}
   CommunityPrefab: {fileID: 100020, guid: 07f32d0da44994f96aff518d0d2b4a3e, type: 2}
   ImageRenderer: {fileID: 2300034}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -2721,7 +2741,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Amazon
   Type: 0
-  FadeInOnAwake: 1
+  FadeInOnAwake: 0
+  BackgroundLabel: {fileID: 0}
   HitPlaneOffset: {x: 0, y: 0, z: 0}
   RelativeZoomedOutCameraPos: {x: 0, y: 0, z: -8}
 --- !u!114 &11400052

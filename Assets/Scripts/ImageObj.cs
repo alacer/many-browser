@@ -7,6 +7,8 @@ public class ImageObj : MonoBehaviour {
 
 	public Texture2D DefaultImage;
 	public Material PageContentMaterial;
+	public Shader TransparentShader;
+	public Shader OpaqueShader;
 	public Shader BlendShader;
 	public GameObject CommunityPrefab;
 	public Renderer ImageRenderer;
@@ -50,6 +52,9 @@ public class ImageObj : MonoBehaviour {
 		_boxMaterials = ImageRenderer.materials;
 		_planeMaterials = new Material[] { ImageRenderer.materials[0], ImageRenderer.materials[1] };
 		ImageRenderer.materials = _planeMaterials;
+
+//		if (OpaqueShader != null)
+//			ImageRenderer.material.shader = OpaqueShader;
 
 		_imageBox = transform.FindChild("box");
 
@@ -176,14 +181,19 @@ public class ImageObj : MonoBehaviour {
 
 	IEnumerator FadeMaterial(float fadeTime, float alpha, Action onComplete )
 	{
+//		if (TransparentShader != null)
+//			ImageRenderer.material.shader = TransparentShader;
+
 		float cycleTime = .05f;
 		float timeLeft = fadeTime;
 		float alphaChange = alpha - ImageRenderer.materials[0].color.a;
 		float numCycles = fadeTime / cycleTime;
+		Color c = Color.white;
 
+	
 		while (timeLeft > 0)
 		{
-			Color c = ImageRenderer.materials[0].color;
+			c = ImageRenderer.materials[0].color;
 			c.a += alphaChange / numCycles;
 
 			ImageRenderer.materials[0].color = c;
@@ -192,6 +202,14 @@ public class ImageObj : MonoBehaviour {
 			yield return new WaitForSeconds(cycleTime);
 			timeLeft -= cycleTime;
 		}
+
+		c.a = alpha;
+		ImageRenderer.materials[0].color = c;
+		ImageRenderer.materials[1].color = c;
+		SetAlphaOnText(c.a);
+
+//		if (alpha == 1 && OpaqueShader != null)
+//			ImageRenderer.material.shader = OpaqueShader;
 
 		if (onComplete != null)
 			onComplete();
@@ -319,6 +337,8 @@ public class ImageObj : MonoBehaviour {
 	
 	public void SetAlpha(float alpha)
 	{
+//		if (alpha < 1 && TransparentShader != null)
+//			ImageRenderer.material.shader = TransparentShader;
 		Color c = ImageRenderer.material.color;
 		c.a = alpha;
 		ImageRenderer.material.color = c;

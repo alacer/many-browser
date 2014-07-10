@@ -99,6 +99,8 @@ public class SelectionManager : MonoBehaviour {
 		if (SceneManager.Instance.GetScene() == Scene.InTransition || LeanTween.isTweening(Camera.main.gameObject))
 			return;
 
+		if (obj.GetComponent<Draggable>() != null)
+			obj.GetComponent<Draggable>().IsDraggable = false;
 
 		LeanTween.alpha(_overlay,1,.3f);
 		SceneManager.Instance.OnSceneTransition(Scene.Selected);
@@ -142,6 +144,9 @@ public class SelectionManager : MonoBehaviour {
 
 	IEnumerator LeaveSelectedRoutine(float animTime, bool inForwardCommunityTransition)
 	{
+
+		if (_selectedObj.GetComponent<Draggable>() != null)
+			_selectedObj.GetComponent<Draggable>().IsDraggable = true;
 
 		FadeOutOverlay();
 
