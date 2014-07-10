@@ -10,7 +10,7 @@ public class CameraManager : MonoBehaviour {
 	public float MinY;
 	public float MaxZ;
 	public float MinZ;
-	public float Speed = 10;
+	public float DragSpeed = .5f;
 	public float ZoomSpeed = .001f;
 	public float MaxSpeed = 15;
 //	public float OneFingerSwipeSpeed = .5f;
@@ -83,7 +83,7 @@ public class CameraManager : MonoBehaviour {
 //				_velocity = Vector3.zero;
 //			else
 
-			_velocity = InputManager.Instance.GetOneFingerWorldDelta();
+			_velocity = InputManager.Instance.GetOneFingerWorldDelta() * DragSpeed;
 
 		}
 

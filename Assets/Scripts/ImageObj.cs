@@ -139,31 +139,34 @@ public class ImageObj : MonoBehaviour {
 
 	public IEnumerator DoZoomIn()
 	{
-		float animTime = .2f;
+		float animTime = .5f;
 		LeanTween.move(gameObject,transform.position + Vector3.back * .05f,animTime);
 		_zoomedIn = true;
 
-		Texture bookCover = ImageRenderer.materials[0].GetTexture("_MainTex");
-		Texture bookPreview = PageContentMaterial.GetTexture("_MainTex");
-
-//		ImageRenderer.materials[0].shader = BlendShader;
-
-
-//		Material startMat = _boxMaterials[0];
-//		Material lerpMat = _boxMaterials[0];
+//		Texture bookCover = ImageRenderer.materials[0].GetTexture("_MainTex");
+//		Texture bookPreview = PageContentMaterial.GetTexture("_MainTex");
 //
-//		float numFrames = 5;
+//		_boxMaterials[0].shader = BlendShader;
+//
+//		_boxMaterials[0].SetTexture("_TexMat1",bookCover);
+//		_boxMaterials[0].SetTexture("_TexMat2",bookPreview);
+//
+//
+//		float numFrames = 30;
 //		for (float i=1; i <= numFrames; i++)
 //		{
 //			float percent = i / numFrames;
 //			Debug.Log("percent: " + percent);
 //
-//			lerpMat.Lerp(startMat,PageContentMaterial,percent );
-//			ImageRenderer.materials = new Material[] { lerpMat };
+//
+//			_boxMaterials[0].SetFloat("_Blend",percent);
 //
 //			yield return new WaitForSeconds(animTime / numFrames);
 //		}
-		yield return new WaitForSeconds(animTime);
+//
+//		_boxMaterials[0].SetFloat("_Blend",1);
+
+	yield return new WaitForSeconds(animTime);
 
 		if (PageContentMaterial != null)
 		{

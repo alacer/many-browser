@@ -1,6 +1,6 @@
 ﻿Shader "Myshaders/ChangeMaterial" {
     Properties {
-        _Tint ("Tint Color", Color) = (.9, .9, .9, 1.0)
+        _Tint ("Tint Color", Color) = (1, 1, 1, 1.0)
         _TexMat1 ("Base (RGB)", 2D) = "white" {}
         _TexMat2 ("Base (RGB)", 2D) = "white" {}
         _Blend ("Blend", Range(0.0,1.0)) = 0.0
@@ -26,6 +26,6 @@
             SetTexture [_TexMat2] { combine previous +- primary, previous * primary }
         }
     }
-    FallBack " Diffuse", 1
+    FallBack "Unlit/Transparent", 1
 }
 }
