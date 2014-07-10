@@ -407,7 +407,9 @@ public class ImageObj : MonoBehaviour {
 		if (key == "Price")
 		{
 			decimal d = new decimal((float)_data[key]);
-			Text.text = "" +  decimal.Round(d,2).ToString ();
+			string text = "" +  decimal.Round(d,2).ToString ();
+			Text.text =  text;
+			Debug.Log("setting price: " + text);
 		}
 		else if (key == "Popularity")
 		{

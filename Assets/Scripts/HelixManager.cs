@@ -217,8 +217,6 @@ public class HelixManager : Community {
 
 		}
 
-
-
 		yield return new WaitForSeconds (animateToHelixTime);
 		SceneManager.Instance.PushScene(Scene.Helix);
 
