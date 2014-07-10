@@ -52,7 +52,7 @@ public class ImageObj : MonoBehaviour {
 	{
 		if (IsCommunityItem)
 		{
-			_boxMaterials = ReplacementCommunityMaterials;
+			ImageRenderer.materials = ReplacementCommunityMaterials;
 		}
 
 		CubeRotator.SetActive(false);
