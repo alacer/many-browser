@@ -23,6 +23,7 @@ public class CameraManager : MonoBehaviour {
 
 	Transform _hitPlane;
 	Scene _currentScene;
+	bool _backOutToKartua;
 
 	public static CameraManager Instance;
 
@@ -130,10 +131,7 @@ public class CameraManager : MonoBehaviour {
 			// move to zoomed out view if we are at or behind zoomed in pos
 			if (transform.position.z < Community.CurrentCommunity.GetZoomedInPos().z) 
 			{
-				_velocity.z = 0;
-				LeanTween.move(gameObject,Community.CurrentCommunity.GetZoomedInPos(),.3f).setOnComplete ( () => {
-					_velocity = Vector3.zero;
-				});
+				ZoomToDefaultPos();
 			}
 			else
 				HandleForwardCommmunityTransitions();
@@ -144,9 +142,7 @@ public class CameraManager : MonoBehaviour {
 			// if the camera is further in than the zoomed in pos just zoom out to it
 			if (transform.position.z > Community.CurrentCommunity.GetZoomedInPos().z)
 			{
-				LeanTween.move(gameObject,Community.CurrentCommunity.GetZoomedInPos(),.3f).setOnComplete ( () => {
-					_velocity = Vector3.zero;
-				});
+				ZoomToDefaultPos ();
 
 				return;
 			}
@@ -158,38 +154,31 @@ public class CameraManager : MonoBehaviour {
 			if (transform.position.z <= zoomOutPos.z) // are we already at zoomed out pos
 				DoBackTransition();
 			else 
-				LeanTween.move(gameObject,zoomOutPos,.3f).setOnComplete ( () => {
-					_velocity = Vector3.zero;
-				});
+				ZoomOut();
 		}
 
 
 	}
 
-//	void HandleBackwardCommunityTransitions()
-//	{
-//		if (Community.CurrentCommunity.BackCommunity == null)
-//			return;
-//
-//
-//		ImageObj backItem = Community.CurrentCommunity.BackCommunityItem;
-//		float backwardZTransitionPoint = (backItem != null) ? 
-//			backItem.transform.position.z + 1 : Community.CurrentCommunity.BackCommunity.transform.transform.position.z + 2;
-//
-//
-//
-//
-//		if (transform.position.z < backwardZTransitionPoint)
-//		{
-//			DoBackTransition();
-//
-//		}
-//
-//	}
+	void ZoomToDefaultPos()
+	{
+		_velocity.z = 0;
+		LeanTween.move(gameObject,Community.CurrentCommunity.GetZoomedInPos(),.3f).setOnComplete ( () => {
+			_velocity = Vector3.zero;
+		});
+	}
 
+	void ZoomOut()
+	{
+		Vector3 zoomOutPos = Community.CurrentCommunity.GetZoomedOutCameraPos();
+		LeanTween.move(gameObject,zoomOutPos,.3f).setOnComplete ( () => {
+			_velocity = Vector3.zero;
+		});
+	}
+	
 	public void DoBackTransition()
 	{
-		if (Community.CurrentCommunity.BackCommunity == null)
+		if (Community.CurrentCommunity.BackCommunity == null || LeanTween.isTweening(gameObject))
 			return;
 
 		ImageObj backItem = Community.CurrentCommunity.BackCommunityItem;
@@ -214,15 +203,26 @@ public class CameraManager : MonoBehaviour {
 		LeanTween.move(gameObject,backMoveToPos,1).setOnComplete ( () => {
 			if (SceneManager.Instance.GetScene() == Scene.Helix)
 				SceneManager.Instance.PushScene(Scene.Browse);
-			
+
+
 			_velocity = Vector3.zero;
+			if (_backOutToKartua && Community.CurrentCommunity.BackCommunity != null)
+				DoBackTransition();
+			else
+			{
+				_backOutToKartua = false;
+				ZoomToDefaultPos();
+			}
 		});
 		
 		Utils.SendMessageToAll("OnCommunityChange");
 	}
+	
 
 	void HandleForwardCommmunityTransitions()
 	{
+		if (LeanTween.isTweening(gameObject))
+			return;
 
 		Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2.0f,Screen.height/2.0f));
 		//	Debug.DrawRay(ray.origin,ray.direction*1000);
@@ -246,7 +246,7 @@ public class CameraManager : MonoBehaviour {
 
 	public void DoForwardTransitionOnObj(ImageObj obj)
 	{
-		if (obj.CanGoThrough() == false)
+		if (obj.CanGoThrough() == false || LeanTween.isTweening(gameObject))
 			return;
 
 		if (obj is PastSearchObj)
@@ -328,6 +328,16 @@ public class CameraManager : MonoBehaviour {
 		Community.CurrentCommunity.SetZoomedInCameraPos(targetPos);
 
 		Utils.SendMessageToAll("OnCommunityChange");
+	}
+
+	public void OnCommunityButtonTouch()
+	{
+		Debug.Log("backing out");
+		_backOutToKartua = true;
+		if (Community.CurrentCommunity.BackCommunity == null)
+			ZoomToDefaultPos();
+		else
+			DoBackTransition();
 	}
 
 	public Vector3 GetForwardTransitionTargetPos(float distPastCommunity)

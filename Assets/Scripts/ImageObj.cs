@@ -148,9 +148,12 @@ public class ImageObj : MonoBehaviour {
 //		}
 		yield return new WaitForSeconds(animTime);
 
-		Material[] newMats = _boxMaterials;
-		newMats[0] = PageContentMaterial;
-		ImageRenderer.materials = newMats;
+		if (PageContentMaterial != null)
+		{
+			Material[] newMats = _boxMaterials;
+			newMats[0] = PageContentMaterial;
+			ImageRenderer.materials = newMats;
+		}
 
 		yield return null;
 	}

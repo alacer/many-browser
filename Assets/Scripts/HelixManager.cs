@@ -233,7 +233,6 @@ public class HelixManager : Community {
 
 		float midYPos = transform.position.y - (_maxHelixY / 2.0f);
 
-		Debug.Log (" pos: " + transform.position.y + " max: " + _maxHelixY + " mid y: " + midYPos);
 
 		Community.CurrentCommunity.SetZoomedOutYPos(midYPos);
 	}
@@ -254,13 +253,13 @@ public class HelixManager : Community {
 		
 		if (magnitude > 0)
 		{
-			Debug.Log("vel: " + _velocity);
+	
 
 
 //			_targetPos += new Vector3(0,_velocity.y,0);
 //			_targetRotation = _targetRotation * Quaternion.AngleAxis(_velocity.x,Vector3.up);
 
-			Debug.Log("target pos: " + _targetPos);
+
 			transform.position += new Vector3(0,_velocity.y,0);
 			if (_velocity.y != 0)
 				SetZoomOutPos();
