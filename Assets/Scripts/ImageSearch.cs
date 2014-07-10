@@ -20,6 +20,7 @@ public class ImageSearch : MonoBehaviour {
 
 	void Awake()
 	{
+
 		Instance = this;
 	}
 

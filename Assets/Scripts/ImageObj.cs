@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class ImageObj : MonoBehaviour {
 
 	public Texture2D DefaultImage;
+	public bool IsCommunityItem = false;
+	public Material[] ReplacementCommunityMaterials;
 	public Material PageContentMaterial;
 	public Shader TransparentShader;
 	public Shader OpaqueShader;
@@ -48,6 +50,11 @@ public class ImageObj : MonoBehaviour {
 
 	void Awake()
 	{
+		if (IsCommunityItem)
+		{
+			_boxMaterials = ReplacementCommunityMaterials;
+		}
+
 		CubeRotator.SetActive(false);
 		_boxMaterials = ImageRenderer.materials;
 		_planeMaterials = new Material[] { ImageRenderer.materials[0], ImageRenderer.materials[1] };
