@@ -76,7 +76,7 @@ public class CubeRotator : MonoBehaviour {
 
 				Debug.Log("forward: " + forward);
 
-				if (forward == Vector3.forward)
+				if (forward == Vector3.forward && transform.parent.GetComponent<ImageObj>().IsCommunityItem == false)
 					TweenAlpha.Begin(_backPanel,.3f,1);
 
 

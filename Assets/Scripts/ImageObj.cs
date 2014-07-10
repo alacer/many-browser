@@ -90,7 +90,9 @@ public class ImageObj : MonoBehaviour {
 			return;
 
 		ImageRenderer.material.mainTexture = tex;
-		ImageRenderer.materials[1].mainTexture = ImageRenderer.material.mainTexture;
+
+		if (IsCommunityItem == false)
+			ImageRenderer.materials[1].mainTexture = ImageRenderer.material.mainTexture;
 		
 		float aspectRatio = (float)tex.width / (float)tex.height;
 
@@ -141,8 +143,11 @@ public class ImageObj : MonoBehaviour {
 		LeanTween.move(gameObject,transform.position + Vector3.back * .05f,animTime);
 		_zoomedIn = true;
 
+		Texture bookCover = ImageRenderer.materials[0].GetTexture("_MainTex");
+		Texture bookPreview = PageContentMaterial.GetTexture("_MainTex");
+
 //		ImageRenderer.materials[0].shader = BlendShader;
-//		ImageRenderer.materials[0].SetTexture(
+
 
 //		Material startMat = _boxMaterials[0];
 //		Material lerpMat = _boxMaterials[0];
@@ -256,7 +261,8 @@ public class ImageObj : MonoBehaviour {
 	protected virtual void OnSelected()
 	{
 		ImageRenderer.materials = _boxMaterials;
-		ImageRenderer.materials[1].mainTexture = WhiteTexture;
+		if (IsCommunityItem == false)
+			ImageRenderer.materials[1].mainTexture = WhiteTexture;
 		Text.gameObject.SetActive(false);
 
 		float animTime = .3f;
