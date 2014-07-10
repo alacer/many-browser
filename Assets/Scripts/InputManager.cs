@@ -24,7 +24,9 @@ public class InputManager : MonoBehaviour {
 	float _timeSinceMouseDown;
 	float _clickTime = .1f;
 
-	GameObject _touchStartObj = null;
+	GameObject _draggableObj = null;
+	Vector3 _dragTouchStartPos;
+	Vector3 _dragTouchOffset;
 	bool _hasLiftedFingersSinceLastSwipe = true;
 
 	public static InputManager Instance;
@@ -112,6 +114,13 @@ public class InputManager : MonoBehaviour {
 				_oneFingerTotalWorldDelta = _oneFingerTouchWorldStartPos -  worldTouchPos;
 //				Debug.Log("delta: " + _oneFingerTotalWorldDelta + " start: " + _oneFingerTouchStartPos + " pos: " + worldTouchPos);
 				_oneFingerTotalWorldDelta.z = 0;
+
+				if (IsDraggingObject())
+				{
+					Vector3 newPos = GetDragTouchPos() + _dragTouchOffset;
+					newPos.z = _draggableObj.transform.position.z;
+					_draggableObj.transform.position = newPos;
+				}
 			}
 			else // on touch began
 			{
@@ -119,7 +128,7 @@ public class InputManager : MonoBehaviour {
 				_oneFingerTouchWorldStartPos = GetTouchWorldPos();
 				_touchDelta = Vector3.zero;
 				_oneFingerTotalWorldDelta = Vector3.zero;
-				SetTouchStartObj();
+				HandleTouchDraggable();
 			}
 
 			_lastTouchPos =  GetTouchPos(0) ;
@@ -127,13 +136,19 @@ public class InputManager : MonoBehaviour {
 		else // not touching with one finger
 		{
 			_touchDelta = Vector3.zero;
-			_touchStartObj = null;
+			_draggableObj = null;
 		}
 		
 		_lastTouchCount = GetTouchCount();
 	}
 
-	void SetTouchStartObj()
+	Vector3 GetDragTouchPos()
+	{
+		return Camera.main.ScreenToWorldPoint(new Vector3( GetTouchPos(0).x,GetTouchPos(0).y, 
+		                                      _draggableObj.transform.position.z - Camera.main.transform.position.z ) );
+	}
+
+	void HandleTouchDraggable()
 	{
 		Ray ray = Camera.main.ScreenPointToRay(GetTouchPos(0));
 
@@ -141,7 +156,12 @@ public class InputManager : MonoBehaviour {
 
 		if (Physics.Raycast(ray,out hit, 1000))
 		{
-			_touchStartObj = hit.transform.gameObject;
+			if (hit.transform.GetComponent<Draggable>() != null)
+			{
+				_draggableObj = hit.transform.gameObject;
+				_dragTouchStartPos = GetDragTouchPos();
+				_dragTouchOffset = _draggableObj.transform.position - _dragTouchStartPos;
+			}
 
 		}
 
@@ -151,9 +171,9 @@ public class InputManager : MonoBehaviour {
 		return _touchStartPos;
 	}
 
-	public GameObject GetTouchStartObj()
+	public bool IsDraggingObject()
 	{
-		return _touchStartObj;
+		return _draggableObj != null;
 	}
 
 	Vector3 ScreenToWorldPos(Vector3 screenPos)

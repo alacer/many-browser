@@ -24,7 +24,6 @@ public class CameraManager : MonoBehaviour {
 	Transform _hitPlane;
 	Scene _currentScene;
 
-
 	public static CameraManager Instance;
 
 
@@ -76,25 +75,14 @@ public class CameraManager : MonoBehaviour {
 			return;
 
 		// get one finger swipe velocity
-		if (InputManager.Instance.IsTouchingWithOneFinger() && _currentScene == Scene.Browse)
+		if (InputManager.Instance.IsTouchingWithOneFinger() && _currentScene == Scene.Browse && InputManager.Instance.IsDraggingObject() == false)
 		{
 
 //			if (InputManager.Instance.HasFingerStoppedMoving())
 //				_velocity = Vector3.zero;
 //			else
-			GameObject touchStartObj = InputManager.Instance.GetTouchStartObj();
 
-		//	Debug.Log("start obj: " + touchStartObj.name + Community.CurrentCommunity.Type);
-
-			if (Community.CurrentCommunity.Type == CommunityType.Kartua && touchStartObj != null && touchStartObj.tag == "ImageObj")
-			{
-				Vector2 startTouchPos = InputManager.Instance.GetTouchStartPos();
-				Vector2 touchPos = InputManager.Instance.GetTouchPos(0);
-
-
-			}
-			else
-				_velocity = InputManager.Instance.GetOneFingerWorldDelta();
+			_velocity = InputManager.Instance.GetOneFingerWorldDelta();
 
 		}
 
