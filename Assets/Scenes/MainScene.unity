@@ -3084,7 +3084,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 182161779}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -.554122925, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1549500094}
@@ -11900,7 +11900,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 693007665}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 511.96875, y: 384, z: 0}
+  m_LocalPosition: {x: 550.59375, y: 384, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1635197657}
@@ -23221,7 +23221,7 @@ MonoBehaviour:
   MinY: -1.10000002
   MaxZ: 1.79999995
   MinZ: -20
-  Speed: .5
+  DragSpeed: .5
   ZoomSpeed: .00499999989
   MaxSpeed: .200000003
   Friction: .00300000003
@@ -25203,7 +25203,7 @@ MonoBehaviour:
   MinY: -1.10000002
   MaxZ: 3
   MinZ: -20
-  Speed: .5
+  DragSpeed: .200000003
   ZoomSpeed: .00999999978
   MaxSpeed: .800000012
   Friction: .00899999961
@@ -31175,7 +31175,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1335264446}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -511.96875, y: 384, z: 0}
+  m_LocalPosition: {x: -550.59375, y: 384, z: 0}
   m_LocalScale: {x: .999935985, y: .999935985, z: .999935985}
   m_Children:
   - {fileID: 555402747}
