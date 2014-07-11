@@ -95,12 +95,34 @@ public class Community : MonoBehaviour {
 
 	}
 
-	public ImageObj FindObjWithName(string name)
+	string Simplify(string term)
 	{
+		return term.ToLower().Replace("#",string.Empty);
+	}
+
+	public ImageObj FindObjWithName(string search)
+	{
+		search = Simplify(search);
+
+		// first try to find exact matches
 		foreach (ImageObj obj in _allObjs)
 		{
-			if (obj.SearchName != "" && name.ToLower().Contains(obj.SearchName.ToLower()))
+			string objName = Simplify(obj.SearchName);
+
+			if (obj.SearchName != "" && search == objName)
 			    return obj;
+		}
+
+		// now try to find sub names
+		foreach (ImageObj obj in _allObjs)
+		{
+			string[] subNames = Simplify(obj.SearchName).Split(new string[] { "・", " " },System.StringSplitOptions.RemoveEmptyEntries);
+
+			foreach (string subName in subNames)
+			{
+				if (obj.SearchName != "" && search == subName)
+					return obj;
+			}
 		}
 
 		return null;

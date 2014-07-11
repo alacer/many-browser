@@ -105,13 +105,13 @@ public class CameraManager : MonoBehaviour {
 
 			// (transform.position + _velocity).z > _hitPlane.position.z)
 			 
+			HandleCommunityTransitions();
 
 			transform.position += _velocity;
 
 
-			LimitPositionToBounds();
 
-			HandleCommunityTransitions();
+			LimitPositionToBounds();
 
 				
 	//		ApplyBounds();
@@ -122,6 +122,9 @@ public class CameraManager : MonoBehaviour {
 
 	void LimitPositionToBounds()
 	{
+		if (LeanTween.isTweening(gameObject))
+			return;
+
 		Vector3 pos = transform.position;
 
 

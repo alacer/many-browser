@@ -69,7 +69,8 @@ public class ImageObj : MonoBehaviour {
 		_imageBox.localScale = new Vector3(.001f,_imageBox.localScale.y,_imageBox.localScale.z);
 		_startXScale = _imageBox.localScale.x;
 
-		Text.gameObject.SetActive(false);
+		if (Text != null)
+			Text.gameObject.SetActive(false);
 
 		if (DefaultImage != null)
 		{
@@ -267,7 +268,9 @@ public class ImageObj : MonoBehaviour {
 		ImageRenderer.materials = _boxMaterials;
 		if (IsCommunityItem == false)
 			ImageRenderer.materials[1].mainTexture = WhiteTexture;
-		Text.gameObject.SetActive(false);
+
+		if (Text != null)
+			Text.gameObject.SetActive(false);
 
 		float animTime = .3f;
 		Vector3 newPos = Camera.main.ViewportToWorldPoint(new Vector3(.5f,.5f,1.8f));
@@ -300,7 +303,8 @@ public class ImageObj : MonoBehaviour {
 		ImageRenderer.materials = _planeMaterials;
 		ScaleToAspect(.3f);
 		if (SceneManager.Instance.GetTransitioningToScene() == Scene.Helix)
-			Text.gameObject.SetActive(true);
+			if (Text != null)
+				Text.gameObject.SetActive(true);
 
 		CubeRotator.SendMessage("OnUnselect");
 		CubeRotator.SetActive(false);
@@ -396,11 +400,14 @@ public class ImageObj : MonoBehaviour {
 	
 	public void HideText()
 	{
-		Text.gameObject.SetActive(false);
+		if (Text != null)
+			Text.gameObject.SetActive(false);
 	}
 	
 	public void SetText(string key)
 	{
+		if (Text == null)
+			return;
 		//		Debug.Log("setting key: " + key);
 		
 		Text.gameObject.SetActive(true);
