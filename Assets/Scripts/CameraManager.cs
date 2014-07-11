@@ -53,8 +53,6 @@ public class CameraManager : MonoBehaviour {
 
 	void OnTwoFingerSpread(float spread)
 	{
-
-
 		_velocity = GetForward()*spread * ZoomSpeed;
 
 	}
@@ -102,11 +100,17 @@ public class CameraManager : MonoBehaviour {
 				_velocity.y = 0;
 			}
 
+
 			// stop right before we go through the hit plane
-			if (_velocity.z > 0 && (transform.position + _velocity).z > _hitPlane.position.z)
-				_velocity.z = 0;
+
+			// (transform.position + _velocity).z > _hitPlane.position.z)
+			 
 
 			transform.position += _velocity;
+
+
+			LimitPositionToBounds();
+
 			HandleCommunityTransitions();
 
 				
@@ -116,14 +120,37 @@ public class CameraManager : MonoBehaviour {
 
 	}
 
+	void LimitPositionToBounds()
+	{
+		Vector3 pos = transform.position;
+
+
+		if (_velocity.z > 0 && transform.position.z > Community.CurrentCommunity.MaxZ)
+			pos.z = Community.CurrentCommunity.MaxZ;
+		else if (_velocity.z < 0 && transform.position.z < Community.CurrentCommunity.MinZ)
+			pos.z = Community.CurrentCommunity.MinZ;
+		
+		if (_velocity.x > 0 && transform.position.x > Community.CurrentCommunity.MaxX)
+			pos.x = Community.CurrentCommunity.MaxX;
+		else if (_velocity.x < 0 && transform.position.x < Community.CurrentCommunity.MinX)
+			pos.x = Community.CurrentCommunity.MinX;
+
+		if (_velocity.y > 0 && transform.position.y > Community.CurrentCommunity.MaxY)
+			pos.y = Community.CurrentCommunity.MaxY;
+		else if (_velocity.y < 0 && transform.position.y < Community.CurrentCommunity.MinY)
+			pos.y = Community.CurrentCommunity.MinY;
+
+
+
+		transform.position = pos;
+	}
+
 #region CommunityTransitions
 
 	void HandleCommunityTransitions()
 	{
 		if (_velocity.z == 0 || LeanTween.isTweening(gameObject))
 			return;
-
-
 
 		if (_velocity.z > 0) // going forward
 		{
@@ -146,8 +173,6 @@ public class CameraManager : MonoBehaviour {
 
 				return;
 			}
-
-
 
 			Vector3 zoomOutPos = Community.CurrentCommunity.GetZoomedOutCameraPos();
 

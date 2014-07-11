@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum CommunityType
 {
@@ -15,11 +16,19 @@ public class Community : MonoBehaviour {
 	public CommunityType Type;
 	public bool FadeInOnAwake = true;
 	public GameObject BackgroundLabel;
- 
+
 	public Vector3 HitPlaneOffset;
 	public Vector3 RelativeZoomedOutCameraPos = new Vector3(0,0,-5);
 	Vector3 _zoomedInPos;
 
+	public float MaxX = float.MinValue;
+	public float MinX = float.MaxValue;
+	public float MaxY = float.MinValue;
+	public float MinY = float.MaxValue;
+	public float MaxZ = float.MinValue;
+	public float MinZ= float.MaxValue;
+
+	List<ImageObj> _allObjs = new List<ImageObj>();
 	static Community _currentCommunity;
 
 	public static Community CurrentCommunity
@@ -39,6 +48,8 @@ public class Community : MonoBehaviour {
 
 			if (_currentCommunity.BackgroundLabel != null)
 				_currentCommunity.FadeBackgroundLabel(1,1);
+
+			_currentCommunity.UpdateBounds();
 
 		}
 
@@ -66,20 +77,34 @@ public class Community : MonoBehaviour {
 		if (CurrentCommunity == null)
 			CurrentCommunity = this;
 
-		if (FadeInOnAwake)
+		for (int i=0; i < transform.childCount; i++)
 		{
-			for (int i=0; i < transform.childCount; i++)
-			{
-				ImageObj obj = transform.GetChild(i).GetComponent<ImageObj>();
+			ImageObj obj = transform.GetChild(i).GetComponent<ImageObj>();
+			_allObjs.Add (obj);
 
+			if (FadeInOnAwake)
+			{
 				if (obj.gameObject.activeSelf == true)
 				{
 					obj.SetAlpha(0);
 					obj.FadeIn(1);
 				}
-				
 			}
+			
 		}
+
+	}
+
+	public ImageObj FindObjWithName(string name)
+	{
+		foreach (ImageObj obj in _allObjs)
+		{
+			if (obj.SearchName != "" && name.ToLower().Contains(obj.SearchName.ToLower()))
+			    return obj;
+		}
+
+		return null;
+
 	}
 
 	public void FadeBackgroundLabel(float alpha, float fadeTime)
@@ -109,7 +134,6 @@ public class Community : MonoBehaviour {
 		}
 
 			
-
 	}
 
 	public void SetZoomedInCameraPos(Vector3 zoomedInPos)
@@ -157,6 +181,30 @@ public class Community : MonoBehaviour {
 			if (obj != null && obj.gameObject.activeSelf == true)
 				obj.FadeIn(animTime);
 		}
+	}
+
+	void UpdateBounds()
+	{
+		for (int i=0; i < CurrentCommunity.transform.childCount; i++)
+		{
+			Vector3 pos = CurrentCommunity.transform.GetChild(i).position;
+
+			if (pos.x > MaxX)
+				MaxX = pos.x;
+			else if (pos.x < MinX)
+				MinX = pos.x;
+
+			if (pos.y > MaxY)
+				MaxY = pos.y;
+			else if (pos.y < MinY)
+				MinY = pos.y;
+
+			if (pos.z > MaxZ)
+				MaxZ = pos.z;
+			else if (pos.z < MinZ)
+				MinZ = pos.z;
+		}
+
 	}
 
 	public IEnumerator FadeOutAndRemove()

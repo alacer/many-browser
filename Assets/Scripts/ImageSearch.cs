@@ -27,38 +27,29 @@ public class ImageSearch : MonoBehaviour {
 	void Start()
 	{
 		SceneManager.Instance.PushScene(Scene.Browse);
-	//	ImageSearch.Instance.Search("book");//women studies");
-			
+					
 	}
 
-//	void OnPress(bool pressed)
-//	{
-//		GetComponent<UIInput>().label.text = "";
-//	}
 
 	public void OnSubmit()
 	{
 		string text = NGUIText.StripSymbols(GetComponent<UIInput>().value);
 
+		// remove trail first if needed 
 		if (_currentKeywordTrail != null && _currentKeywordTrail != string.Empty && text.Contains(_currentKeywordTrail))
 		{
-
 			text = text.Remove(0,_currentKeywordTrail.Length);
 		}
-		Search(text);
+
+		ImageObj obj = Community.CurrentCommunity.FindObjWithName(text);
+		if (obj != null)
+		{
+			StartCoroutine( SelectionManager.Instance.OnObjectSearch(obj.transform) );
+		}
+		else
+			Search(text);
 	}
 
-//	void OnSceneChange(Scene scene)
-//	{
-//		if (scene == Scene.Selected)
-//		{
-//			_lastLabel = GetComponent<UIInput>().value;
-//			GetComponent<UIInput>().value = string.Empty;
-//
-//		}
-//		else if (_lastLabel != string.Empty)
-//			GetComponent<UIInput>().value = _lastLabel;
-//	}
 
 	void OnCommunityChange()
 	{
@@ -69,8 +60,6 @@ public class ImageSearch : MonoBehaviour {
 	public void UpdateKeywordTrail()
 	{
 		Community community = Community.CurrentCommunity;
-
-//		Debug.Log("current community: " + community.Name + " back com: " + community.BackCommunity.Name);
 
 		List<string> keywords = new List<string>();
 

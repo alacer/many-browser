@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class ImageObj : MonoBehaviour {
 
+	public string SearchName;
 	public Texture2D DefaultImage;
 	public bool IsCommunityItem = false;
 	public Material[] ReplacementCommunityMaterials;
@@ -403,40 +404,44 @@ public class ImageObj : MonoBehaviour {
 		//		Debug.Log("setting key: " + key);
 		
 		Text.gameObject.SetActive(true);
-		
-		if (key == "Price")
-		{
-			decimal d = new decimal((float)_data[key]);
-			string text = "" +  decimal.Round(d,2).ToString ();
-			Text.text =  text;
-			Debug.Log("setting price: " + text);
-		}
-		else if (key == "Popularity")
-		{
-			//			float val = (float)_data[key];
-			//			string text = ((int)(1.0f/val)).ToString();
-			Text.text = "";
-		}
-		else if (key == "ExpertRating" || key == "BuyerRating")
-		{
-			float val = (float)_data[key];
-			
-			string stars = "";
-			
-			for (int i=0; i < (int)val; i++)
-				stars = stars + "";
-			
-			float last = val - Mathf.Floor(val);
-			//		Debug.Log("last: " + last);
-			if (last > .33f)
-				stars = stars + "";
-			
-			Text.text = stars;
-		}
-		else if (key == "Availability")
-		{
-			Text.text = "";//((int)(float)_data[key]).ToString();
-		}
+
+		Text.GetComponent<SortText>().SetText(key,_data);
+	
+
+
+//		if (key == "Price")
+//		{
+//			decimal d = new decimal((float)_data[key]);
+//			string text = "" +  decimal.Round(d,2).ToString ();
+//			Text.text =  text;
+//			Debug.Log("setting price: " + text);
+//		}
+//		else if (key == "Popularity")
+//		{
+//			//			float val = (float)_data[key];
+//			//			string text = ((int)(1.0f/val)).ToString();
+//			Text.text = "";
+//		}
+//		else if (key == "ExpertRating" || key == "BuyerRating")
+//		{
+//			float val = (float)_data[key];
+//			
+//			string stars = "";
+//			
+//			for (int i=0; i < (int)val; i++)
+//				stars = stars + "";
+//			
+//			float last = val - Mathf.Floor(val);
+//			//		Debug.Log("last: " + last);
+//			if (last > .33f)
+//				stars = stars + "";
+//			
+//			Text.text = stars;
+//		}
+//		else if (key == "Availability")
+//		{
+//			Text.text = "";//((int)(float)_data[key]).ToString();
+//		}
 	}
 	
 	public T GetData<T>(string key)

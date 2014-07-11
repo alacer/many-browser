@@ -53,7 +53,7 @@ public class SelectionManager : MonoBehaviour {
 				_selectedObj.parent = null;
 
 
-			yield return new WaitForSeconds(2);
+			yield return new WaitForSeconds(1);
 
 			LeaveSelectedObj();
 		}
@@ -93,9 +93,23 @@ public class SelectionManager : MonoBehaviour {
 		}
 		
 	}
-	
-	void OnSelectObj(Transform obj)
+
+	public IEnumerator OnObjectSearch(Transform obj)
 	{
+		if (_selectedObj != null)
+		{
+			LeaveSelectedObj();
+
+			yield return new WaitForSeconds(.5f);
+		}
+
+		OnSelectObj(obj);
+	}
+	
+	public void OnSelectObj(Transform obj)
+	{
+
+
 		if (SceneManager.Instance.GetScene() == Scene.InTransition || LeanTween.isTweening(Camera.main.gameObject))
 			return;
 
