@@ -29296,7 +29296,7 @@ MonoBehaviour:
   MinY: -1.10000002
   MaxZ: 3
   MinZ: -20
-  DragSpeed: .5
+  DragSpeed: .0799999982
   ZoomSpeed: .00999999978
   MaxSpeed: .800000012
   Friction: .00899999961

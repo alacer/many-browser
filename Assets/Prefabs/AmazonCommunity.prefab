@@ -14071,7 +14071,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SearchName: 
+  SearchName: "\u672C\u306E\u30D2\u30C3\u30C8\u5546\u54C1"
   DefaultImage: {fileID: 2800000, guid: fe42b192f71c2412e87ee168730707dd, type: 3}
   IsCommunityItem: 1
   ReplacementCommunityMaterials:
@@ -14156,7 +14156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SearchName: "\u4EE5\u524D\u306E\u691C\u7D22\u7D50\u679C"
+  SearchName: "\u691C\u7D22\u5C65\u6B74"
   DefaultImage: {fileID: 2800000, guid: 01994c09d322949e6a0cb78b25b5c6d2, type: 3}
   IsCommunityItem: 1
   ReplacementCommunityMaterials:
@@ -14320,7 +14320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SearchName: 
+  SearchName: "Kindle\u30BB\u30EC\u30AF\u30C825"
   DefaultImage: {fileID: 2800000, guid: f8a94a67497974208baf6c0b0abc7964, type: 3}
   IsCommunityItem: 1
   ReplacementCommunityMaterials:
