@@ -2395,15 +2395,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SearchName: 
   DefaultImage: {fileID: 2800000, guid: d3a3c409caab64c0aa6ff6932a698418, type: 3}
-  PageContentMaterial: {fileID: 0}
+  IsCommunityItem: 0
+  ReplacementCommunityMaterials: []
+  PageContentMaterial: {fileID: 2100000, guid: 15855c25e114749f899d7141671a2e39, type: 2}
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300002}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
-  Text: {fileID: 10200000}
+  Text: {fileID: 0}
   MoveSpeed: 1
   RotateDistance: 3
   MinDistToCamera: 1
@@ -2471,15 +2474,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SearchName: 
   DefaultImage: {fileID: 2800000, guid: beb98261b115f4e1fba966ea69127573, type: 3}
-  PageContentMaterial: {fileID: 0}
+  IsCommunityItem: 0
+  ReplacementCommunityMaterials: []
+  PageContentMaterial: {fileID: 2100000, guid: 15855c25e114749f899d7141671a2e39, type: 2}
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300012}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
-  Text: {fileID: 10200002}
+  Text: {fileID: 0}
   MoveSpeed: 1
   RotateDistance: 3
   MinDistToCamera: 1
@@ -2541,15 +2547,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SearchName: 
   DefaultImage: {fileID: 2800000, guid: 30c5754d7fdf54b379a077a2089398b7, type: 3}
-  PageContentMaterial: {fileID: 0}
+  IsCommunityItem: 0
+  ReplacementCommunityMaterials: []
+  PageContentMaterial: {fileID: 2100000, guid: 15855c25e114749f899d7141671a2e39, type: 2}
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300018}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
-  Text: {fileID: 10200004}
+  Text: {fileID: 0}
   MoveSpeed: 1
   RotateDistance: 3
   MinDistToCamera: 1
@@ -2617,15 +2626,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SearchName: 
   DefaultImage: {fileID: 2800000, guid: 2b42e6e03a2914e9293c3f71905b95ef, type: 3}
-  PageContentMaterial: {fileID: 0}
+  IsCommunityItem: 0
+  ReplacementCommunityMaterials: []
+  PageContentMaterial: {fileID: 2100000, guid: 15855c25e114749f899d7141671a2e39, type: 2}
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300028}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
-  Text: {fileID: 10200006}
+  Text: {fileID: 0}
   MoveSpeed: 1
   RotateDistance: 3
   MinDistToCamera: 1
@@ -2687,15 +2699,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7e9d57648a94b76bba749ec436c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SearchName: 
   DefaultImage: {fileID: 2800000, guid: 219d1d00762964650b69c2e6c50a8cf0, type: 3}
-  PageContentMaterial: {fileID: 0}
+  IsCommunityItem: 0
+  ReplacementCommunityMaterials: []
+  PageContentMaterial: {fileID: 2100000, guid: 15855c25e114749f899d7141671a2e39, type: 2}
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300034}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
-  Text: {fileID: 10200008}
+  Text: {fileID: 0}
   MoveSpeed: 1
   RotateDistance: 3
   MinDistToCamera: 1
@@ -2744,6 +2759,12 @@ MonoBehaviour:
   BackgroundLabel: {fileID: 0}
   HitPlaneOffset: {x: 0, y: 0, z: 0}
   RelativeZoomedOutCameraPos: {x: 0, y: 0, z: -8}
+  MaxX: -3.40282347e+38
+  MinX: 3.40282347e+38
+  MaxY: -3.40282347e+38
+  MinY: 3.40282347e+38
+  MaxZ: -3.40282347e+38
+  MinZ: 3.40282347e+38
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

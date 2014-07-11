@@ -141,7 +141,7 @@ public class ImageObj : MonoBehaviour {
 
 	public IEnumerator DoZoomIn()
 	{
-		float animTime = .5f;
+		float animTime = .3f;
 		LeanTween.move(gameObject,transform.position + Vector3.back * .05f,animTime);
 		_zoomedIn = true;
 
