@@ -21,13 +21,13 @@ public class CameraManager : MonoBehaviour {
 	Vector3 _moveDir;
 	Vector3 _velocity;
 
+
 	Transform _hitPlane;
 	Scene _currentScene;
 	bool _backOutToKartua;
 
 	public static CameraManager Instance;
-
-
+	
 	// Use this for initialization
 	void Awake () {
 		Instance = this;
@@ -81,7 +81,7 @@ public class CameraManager : MonoBehaviour {
 //				_velocity = Vector3.zero;
 //			else
 
-			_velocity = InputManager.Instance.GetOneFingerWorldDelta() * DragSpeed;
+			_velocity = InputManager.Instance.GetOneFingerTotalWorldDelta() * DragSpeed;
 
 		}
 

@@ -28,6 +28,7 @@ public class ImageSearch : MonoBehaviour {
 	{
 		SceneManager.Instance.PushScene(Scene.Browse);
 					
+		UpdateKeywordTrail();
 	}
 
 
@@ -35,11 +36,15 @@ public class ImageSearch : MonoBehaviour {
 	{
 		string text = NGUIText.StripSymbols(GetComponent<UIInput>().value);
 
+
+
 		// remove trail first if needed 
 		if (_currentKeywordTrail != null && _currentKeywordTrail != string.Empty && text.Contains(_currentKeywordTrail))
 		{
-			text = text.Remove(0,_currentKeywordTrail.Length);
+			text = text.Remove(0,_currentKeywordTrail.Length+1);
 		}
+
+		Debug.Log("trail: " + _currentKeywordTrail + " search: " + text);
 
 		ImageObj obj = Community.CurrentCommunity.FindObjWithName(text);
 		if (obj != null)

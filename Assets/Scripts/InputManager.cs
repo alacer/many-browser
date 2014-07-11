@@ -254,7 +254,7 @@ public class InputManager : MonoBehaviour {
 		return true;
 	}
 
-	public Vector3 GetOneFingerWorldDelta()
+	public Vector3 GetOneFingerTotalWorldDelta()
 	{
 		return _oneFingerTotalWorldDelta;
 	}
@@ -288,6 +288,15 @@ public class InputManager : MonoBehaviour {
 			return _touchDelta.magnitude > 0;
 		else
 			return Input.touches[0].phase == TouchPhase.Moved;
+	}
+
+	public bool IsFingerStationary()
+	{
+		if (Application.isEditor)
+			return _touchDelta.magnitude == 0;
+		else
+			return Input.touches[0].phase == TouchPhase.Stationary;
+
 	}
 
 	public Vector2 GetTouchPos(int fingerIndex)

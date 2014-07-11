@@ -28,7 +28,7 @@ public class Community : MonoBehaviour {
 	public float MaxZ = float.MinValue;
 	public float MinZ= float.MaxValue;
 
-	List<ImageObj> _allObjs = new List<ImageObj>();
+	List<ImageObj> _allImageObjs = new List<ImageObj>();
 	static Community _currentCommunity;
 
 	public static Community CurrentCommunity
@@ -46,8 +46,9 @@ public class Community : MonoBehaviour {
 			pos.z = _currentCommunity.transform.position.z;
 			hitPlane.transform.position = pos + _currentCommunity.HitPlaneOffset;
 
+
 			if (_currentCommunity.BackgroundLabel != null)
-				_currentCommunity.FadeBackgroundLabel(1,1);
+				_currentCommunity.FadeBackgroundLabel(.1f,1);
 
 			_currentCommunity.UpdateBounds();
 
@@ -80,7 +81,7 @@ public class Community : MonoBehaviour {
 		for (int i=0; i < transform.childCount; i++)
 		{
 			ImageObj obj = transform.GetChild(i).GetComponent<ImageObj>();
-			_allObjs.Add (obj);
+			_allImageObjs.Add (obj);
 
 			if (FadeInOnAwake)
 			{
@@ -97,6 +98,14 @@ public class Community : MonoBehaviour {
 
 	string Simplify(string term)
 	{
+		if (term.Length == 0)
+			return string.Empty;
+
+
+		term = term.TrimStart (' ');
+		term = term.TrimEnd(' ');
+
+
 		return term.ToLower().Replace("#",string.Empty);
 	}
 
@@ -105,7 +114,7 @@ public class Community : MonoBehaviour {
 		search = Simplify(search);
 
 		// first try to find exact matches
-		foreach (ImageObj obj in _allObjs)
+		foreach (ImageObj obj in _allImageObjs)
 		{
 			string objName = Simplify(obj.SearchName);
 
@@ -114,7 +123,7 @@ public class Community : MonoBehaviour {
 		}
 
 		// now try to find sub names
-		foreach (ImageObj obj in _allObjs)
+		foreach (ImageObj obj in _allImageObjs)
 		{
 			string[] subNames = Simplify(obj.SearchName).Split(new string[] { "・", " " },System.StringSplitOptions.RemoveEmptyEntries);
 

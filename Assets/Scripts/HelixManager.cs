@@ -14,8 +14,7 @@ public class HelixManager : Community {
 	public float MaxAngularSpeed = 2;
 	public float HelixRadius = 3f;
 	public float SpeedMultiplier = 2;
-	public float MaxZ;
-	public float MinZ;
+
 	public float Friction = 0.003f;
 
 	float _maxHelixY;
@@ -23,6 +22,8 @@ public class HelixManager : Community {
 
 	Vector3 _velocity;
 	Vector3 _topObjPos;
+
+	Vector3 _lastWorldPos;
 
 	Vector3 _targetPos;
 	Quaternion _targetRotation;
@@ -242,11 +243,12 @@ public class HelixManager : Community {
 
 		if (InputManager.Instance.IsTouchingWithOneFinger())
 		{
-			_velocity = GetHelixVelocity();
+
+			_velocity =  GetHelixVelocity();
 		}
 
 		// apply velocity and friction
-		float magnitude = LimitVelocity();
+		float magnitude =  LimitVelocity();
 		
 		
 		if (magnitude > 0)
@@ -281,26 +283,37 @@ public class HelixManager : Community {
 
 	Vector3 GetHelixVelocity()
 	{
+		Vector3 worldPos = InputManager.Instance.GetTouchWorldPos();
 
-		Vector3 vel = Vector3.zero;
+//
+//
+//		if (worldPos == _lastWorldPos)
+//			return _velocity;
+
+		Vector3 vel = _velocity;
+
 		if (InputManager.Instance.IsFingerMoving() && InputManager.Instance.GetTouchWorldPos() != Vector3.zero && InputManager.Instance.GetLastTouchWorldPos() != Vector3.zero)
 		{
-			Vector3 worldPos = InputManager.Instance.GetTouchWorldPos();
-			Vector3 lastWorldPos = InputManager.Instance.GetLastTouchWorldPos();
-			float yVel = lastWorldPos.y - worldPos.y;
 
-			Vector3 lastPos = lastWorldPos - transform.position;
+			float yVel = _lastWorldPos.y - worldPos.y;
+
+			Vector3 lastPos = _lastWorldPos - transform.position;
 			Vector3 currentPos = worldPos - transform.position;
 			lastPos.y = 0;
 			currentPos.y = 0;
 			float dir = (Vector3.Cross(lastPos,currentPos).y > 0) ? 1 : -1;
 			float angleDelta = Vector3.Angle(lastPos,currentPos);
 
-			angleDelta = Mathf.Min(angleDelta,MaxAngularSpeed);
+		//	angleDelta = Mathf.Min(angleDelta,MaxAngularSpeed);
 			vel = new Vector3( angleDelta * dir , -yVel, 0);
 
 		}
+		else if (InputManager.Instance.IsFingerStationary())
+			vel = Vector3.zero;
 
+	//	Debug.Log("vel: " + vel);
+
+		_lastWorldPos = InputManager.Instance.GetTouchWorldPos();
 		return vel;
 	}
 
