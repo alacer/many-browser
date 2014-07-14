@@ -41,7 +41,7 @@ public class ImageSearch : MonoBehaviour {
 		// remove trail first if needed 
 		if (_currentKeywordTrail != null && _currentKeywordTrail != string.Empty && text.Contains(_currentKeywordTrail))
 		{
-			text = text.Remove(0,_currentKeywordTrail.Length+1);
+			text = text.Remove(0,_currentKeywordTrail.Length);
 		}
 
 		Debug.Log("trail: " + _currentKeywordTrail + " search: " + text);
@@ -151,7 +151,6 @@ public class ImageSearch : MonoBehaviour {
 
 		bool gotError = false;
 
-		Debug.Log("searching for: " + search);
 		// if it's in the cache just use the cache
 		if (PlayerPrefs.HasKey(search))
 		{

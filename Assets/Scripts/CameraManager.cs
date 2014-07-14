@@ -198,6 +198,9 @@ public class CameraManager : MonoBehaviour {
 
 	void ZoomOut()
 	{
+		if (SceneManager.Instance.GetScene() == Scene.Helix)
+			GameObject.Find("Billboard Ad").GetComponent<Animator>().SetTrigger("TriggerAnimation");
+
 		Vector3 zoomOutPos = Community.CurrentCommunity.GetZoomedOutCameraPos();
 		LeanTween.move(gameObject,zoomOutPos,.3f).setOnComplete ( () => {
 			_velocity = Vector3.zero;
@@ -213,9 +216,6 @@ public class CameraManager : MonoBehaviour {
 		Vector3 backMoveToPos = (backItem != null) ? 
 			backItem.transform.position + Vector3.back : Community.CurrentCommunity.BackCommunity.transform.position + Vector3.back * 2;
 
-
-		if (SceneManager.Instance.GetScene() == Scene.Helix)
-			GameObject.Find("Advertisement").SendMessage("Show");
 		
 		_velocity = Vector3.zero;
 		

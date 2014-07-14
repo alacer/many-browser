@@ -309,7 +309,8 @@ public class ImageObj : MonoBehaviour {
 		CubeRotator.SendMessage("OnUnselect");
 		CubeRotator.SetActive(false);
 		ScaleToPlane(.3f);
-		ImageRenderer.materials[1].mainTexture = ImageRenderer.material.mainTexture;
+		if (IsCommunityItem == false)
+			ImageRenderer.materials[1].mainTexture = ImageRenderer.material.mainTexture;
 
 	}
 	
