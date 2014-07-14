@@ -70,7 +70,19 @@ public class InputManager : MonoBehaviour {
 		{
 //				Debug.Log("time since mouse down: " + _timeSinceMouseDown);
 			if (_timeSinceMouseDown <= _clickTime && _touchDelta.magnitude < 5)
+			{
 				Utils.SendMessageToAll("OnSingleTap",Input.mousePosition);
+
+				Ray ray = Camera.main.ScreenPointToRay(GetTouchPos(0));
+				
+				RaycastHit hit;
+				
+				if (Physics.Raycast(ray,out hit, 1000))
+				{
+					hit.transform.gameObject.SendMessage("OnTap",SendMessageOptions.DontRequireReceiver);
+
+				}
+			}
 
 		}
 
