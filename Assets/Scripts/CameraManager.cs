@@ -111,7 +111,7 @@ public class CameraManager : MonoBehaviour {
 
 
 			if (Community.CurrentCommunity is SpinningShape == false)
-				LimitPositionToBounds();
+			LimitPositionToBounds();
 
 				
 	//		ApplyBounds();
@@ -313,8 +313,6 @@ public class CameraManager : MonoBehaviour {
 		});
 
 		yield return new WaitForSeconds(.3f);
-
-
 
 		while (SceneManager.Instance.GetScene() != Scene.Helix)
 		{

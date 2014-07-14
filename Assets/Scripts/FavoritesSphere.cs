@@ -4,16 +4,19 @@ using System.Collections;
 public class FavoritesSphere : SpinningShape {
 
 	public GameObject FavoriteObjPrefab;
+	string[] _urls;
 
 	void Start()
 	{
+
+		_urls = PlayerPrefsX.GetStringArray("FavoritesUrls");
 
 		AddFavoriteObjs();
 	}
 
 	void AddFavoriteObjs()
 	{
-		float numObjs = 20;
+		float numObjs = _urls.Length;
 
 		Vector3 center = transform.position;
 		Vector3 dir = Vector3.right;

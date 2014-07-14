@@ -75,12 +75,18 @@ public class InputManager : MonoBehaviour {
 
 				Ray ray = Camera.main.ScreenPointToRay(GetTouchPos(0));
 				
-				RaycastHit hit;
+				RaycastHit[] hits;
 				
-				if (Physics.Raycast(ray,out hit, 1000))
-				{
-					hit.transform.gameObject.SendMessage("OnTap",SendMessageOptions.DontRequireReceiver);
+				hits = Physics.RaycastAll(ray, 1000);
 
+				foreach(RaycastHit hit in hits)
+				{
+					if (hit.transform.GetComponent<Tappable>() != null)
+					{
+					//	Debug.Log("first hit: " + hit.transform.name);
+						hit.transform.gameObject.SendMessage("OnTap",SendMessageOptions.DontRequireReceiver);
+						break;
+					}
 				}
 			}
 
@@ -198,9 +204,12 @@ public class InputManager : MonoBehaviour {
 		{
 			Scene currentScene = SceneManager.Instance.GetScene();
 
-			if (( ( currentScene == Scene.Browse || currentScene == Scene.Selected) && hit.transform.name == "HitPlane" ) || 
-			    ( Community.CurrentCommunity is SpinningShape && (hit.transform.name == "HelixHitCylinder" || hit.transform.name == "FavoritesSphere")))
+			if ( hit.transform.name == "HitPlane" )
+			{
+
+				Debug.Log("touching: " + hit.transform.name);
 				return hit.point;
+			}
 		}
 		
 		return Vector3.zero;

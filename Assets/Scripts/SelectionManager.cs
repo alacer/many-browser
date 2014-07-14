@@ -69,10 +69,10 @@ public class SelectionManager : MonoBehaviour {
 		if (_selectedObj != null)
 		{
 	
-			LeaveSelectedObj();
+		//	LeaveSelectedObj();
 			return;
 		}
-
+	
 
 		Ray ray = Camera.main.ScreenPointToRay(screenPos);
 		Debug.DrawRay(ray.origin,ray.direction*1000);
@@ -116,6 +116,7 @@ public class SelectionManager : MonoBehaviour {
 		if (obj.GetComponent<Draggable>() != null)
 			obj.GetComponent<Draggable>().IsDraggable = false;
 
+		_overlay.collider.enabled = true;
 		LeanTween.alpha(_overlay,1,.3f);
 		SceneManager.Instance.OnSceneTransition(Scene.Selected);
 		_selectedObj = obj;
@@ -136,6 +137,7 @@ public class SelectionManager : MonoBehaviour {
 
 	public void FadeOutOverlay()
 	{
+		_overlay.collider.enabled = false;
 		LeanTween.alpha(_overlay,0,.3f);
 	}
 
@@ -161,6 +163,7 @@ public class SelectionManager : MonoBehaviour {
 
 		if (_selectedObj.GetComponent<Draggable>() != null)
 			_selectedObj.GetComponent<Draggable>().IsDraggable = true;
+
 
 		FadeOutOverlay();
 

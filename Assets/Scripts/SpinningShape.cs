@@ -18,18 +18,18 @@ public class SpinningShape : Community {
 
 	protected void FixedUpdate()
 	{
-
 		if (Community.CurrentCommunity is SpinningShape == false) // SceneManager.Instance.GetScene() != Scene.Helix)
 			return;
 		
 		if (InputManager.Instance.IsTouchingWithOneFinger())
 		{
-			
+
 			_velocity =  GetVelocity();
+
 		}
 		
 		// apply velocity and friction
-		float magnitude =  LimitVelocity();
+		float magnitude = LimitVelocity();
 		
 		
 		if (magnitude > 0)
@@ -62,7 +62,6 @@ public class SpinningShape : Community {
 		
 		if (InputManager.Instance.IsFingerMoving() && InputManager.Instance.GetTouchWorldPos() != Vector3.zero && InputManager.Instance.GetLastTouchWorldPos() != Vector3.zero)
 		{
-			
 			float yVel = _lastWorldPos.y - worldPos.y;
 			
 			Vector3 lastPos = _lastWorldPos - transform.position;

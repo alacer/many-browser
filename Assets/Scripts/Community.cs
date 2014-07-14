@@ -16,6 +16,7 @@ public class Community : MonoBehaviour {
 	public CommunityType Type;
 	public bool FadeInOnAwake = true;
 	public GameObject BackgroundLabel;
+	public string TouchObjName = "HitPlane";
 
 	public Vector3 HitPlaneOffset;
 	public Vector3 RelativeZoomedOutCameraPos = new Vector3(0,0,-5);

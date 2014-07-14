@@ -8,11 +8,13 @@ public class ImageObj : MonoBehaviour {
 	public string SearchName;
 	public Texture2D DefaultImage;
 	public bool IsCommunityItem = false;
+
 	public Material[] ReplacementCommunityMaterials;
 	public Material PageContentMaterial;
 	public Shader TransparentShader;
 	public Shader OpaqueShader;
 	public Shader BlendShader;
+	public float CommunityZDepth = 4;
 	public GameObject CommunityPrefab;
 	public Renderer ImageRenderer;
 	public Texture2D WhiteTexture;
@@ -129,7 +131,7 @@ public class ImageObj : MonoBehaviour {
 		CubeRotator.SendMessage("DoFastRotateToFront",SendMessageOptions.DontRequireReceiver);
 		SceneManager.Instance.SetTransitioning(true);
 
-		GameObject community = (GameObject)Instantiate(CommunityPrefab,new Vector3(finalCameraPos.x, 0, finalCameraPos.z + 4),Quaternion.identity);
+		GameObject community = (GameObject)Instantiate(CommunityPrefab,new Vector3(finalCameraPos.x, 0, finalCameraPos.z + CommunityZDepth),Quaternion.identity);
 
 		StartCoroutine(FadeMaterial(.5f,0,() => {
 

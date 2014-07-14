@@ -100,6 +100,7 @@ MonoBehaviour:
   Type: 1
   FadeInOnAwake: 1
   BackgroundLabel: {fileID: 0}
+  TouchObjName: HelixHitCylinder
   HitPlaneOffset: {x: 0, y: 0, z: 0}
   RelativeZoomedOutCameraPos: {x: 0, y: 0, z: -10}
   MaxX: -3.40282347e+38
@@ -108,11 +109,11 @@ MonoBehaviour:
   MinY: 3.40282347e+38
   MaxZ: 0
   MinZ: 0
-  imageObjPrefab: {fileID: 100000, guid: d68434dd6d1174e3d9af7882b5a5a09d, type: 2}
+  Friction: .00300000003
   MaxAngularSpeed: 2
+  imageObjPrefab: {fileID: 100000, guid: d68434dd6d1174e3d9af7882b5a5a09d, type: 2}
   HelixRadius: 3
   SpeedMultiplier: 2
-  Friction: .00300000003
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
