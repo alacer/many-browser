@@ -672,63 +672,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 29434107}
   m_Mesh: {fileID: 4300002, guid: 4b669b183183c497ba640f4f13b0f1a1, type: 3}
---- !u!1 &33461051
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 33461055}
-  - 33: {fileID: 33461054}
-  - 23: {fileID: 33461052}
-  m_Layer: 0
-  m_Name: GridCenter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!23 &33461052
-Renderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 33461051}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortingLayerID: 0
---- !u!33 &33461054
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 33461051}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &33461055
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 33461051}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.82847285, y: -.0578975677, z: 3.73955202}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 516789542}
-  m_Father: {fileID: 1039169244}
 --- !u!1 &37593914
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,6 +755,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 477614382}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -1155,6 +1099,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1209011576}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -4116,6 +4061,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 100020, guid: fb4c52dc344e14425ba53b76b0acb076, type: 2}
   ImageRenderer: {fileID: 257688448}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -4234,7 +4180,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 182161779}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.03125, y: 1.11955261, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1549500094}
@@ -4483,6 +4429,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1425736422}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -6889,6 +6836,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 675245804}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -6982,6 +6930,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1771589880}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -7326,6 +7275,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 829017964}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -7547,7 +7497,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 320030563}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -384, z: 0}
+  m_LocalPosition: {x: 1.03125, y: -384, z: 0}
   m_LocalScale: {x: .999935985, y: .999935985, z: .999935985}
   m_Children:
   - {fileID: 414282036}
@@ -7823,6 +7773,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 100020, guid: fb4c52dc344e14425ba53b76b0acb076, type: 2}
   ImageRenderer: {fileID: 1824148035}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -8619,6 +8570,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 745116231}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -8902,6 +8854,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1470783393}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -9227,6 +9180,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1392355522}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -9403,6 +9357,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 40228332}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -9508,6 +9463,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 128747152}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -10069,6 +10025,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 710265845}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -10204,6 +10161,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1137584198}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -10382,6 +10340,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1009013710}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -10755,63 +10714,6 @@ Light:
   m_ShadowAngle: 0
   m_IndirectIntensity: 1
   m_AreaSize: {x: 1, y: 1}
---- !u!1 &458008206
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 458008207}
-  - 33: {fileID: 458008209}
-  - 23: {fileID: 458008208}
-  m_Layer: 0
-  m_Name: HelixBottom
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &458008207
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 458008206}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .0399112701, y: .5, z: 6.96811438}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 938213210}
-  m_Father: {fileID: 1039169244}
---- !u!23 &458008208
-Renderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 458008206}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortingLayerID: 0
---- !u!33 &458008209
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 458008206}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &458258645
 GameObject:
   m_ObjectHideFlags: 0
@@ -11538,76 +11440,6 @@ Transform:
   m_Children:
   - {fileID: 1763804386}
   m_Father: {fileID: 2141565317}
---- !u!1 &516789541
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 516789542}
-  - 33: {fileID: 516789545}
-  - 64: {fileID: 516789544}
-  - 23: {fileID: 516789543}
-  m_Layer: 0
-  m_Name: HitPlane
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &516789542
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 516789541}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 119.783401, y: 119.783401, z: 119.783401}
-  m_Children: []
-  m_Father: {fileID: 33461055}
---- !u!23 &516789543
-Renderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 516789541}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortingLayerID: 0
---- !u!64 &516789544
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 516789541}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!33 &516789545
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 516789541}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &525648304
 GameObject:
   m_ObjectHideFlags: 0
@@ -13350,6 +13182,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1505858812}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -15130,6 +14963,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2095974487}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -15355,6 +15189,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 818414700}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -16002,7 +15837,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 693007665}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 511.96875, y: 384, z: 0}
+  m_LocalPosition: {x: 451.125, y: 384, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1635197657}
@@ -18101,6 +17936,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 662972985}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -19453,6 +19289,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1765779886}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -19997,6 +19834,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 817080907}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -21688,6 +21526,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 76180658}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -22032,6 +21871,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1669107078}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -23329,6 +23169,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 690061164}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -25665,76 +25506,6 @@ ParticleSystem:
     subEmitterCollision1: {fileID: 0}
     subEmitterDeath: {fileID: 0}
     subEmitterDeath1: {fileID: 0}
---- !u!1 &938213209
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 938213210}
-  - 33: {fileID: 938213213}
-  - 136: {fileID: 938213212}
-  - 23: {fileID: 938213211}
-  m_Layer: 0
-  m_Name: HelixHitCylinder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &938213210
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 938213209}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1000, z: 5}
-  m_Children: []
-  m_Father: {fileID: 458008207}
---- !u!23 &938213211
-Renderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 938213209}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortingLayerID: 0
---- !u!136 &938213212
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 938213209}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: .5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!33 &938213213
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 938213209}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &945189966
 GameObject:
   m_ObjectHideFlags: 0
@@ -25818,6 +25589,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 261995849}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -26071,7 +25843,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 963109217}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 384, z: 0}
+  m_LocalPosition: {x: 1.03125, y: 384, z: 0}
   m_LocalScale: {x: .999935985, y: .999935985, z: .999935985}
   m_Children:
   - {fileID: 73307782}
@@ -26404,6 +26176,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 577595902}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -28050,173 +27823,6 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 45c5c72c9e1bf4aea922f1abbc86d88e, type: 2}
   mSpriteName: share
   mFillCenter: 1
---- !u!1 &1039169239
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1039169244}
-  - 20: {fileID: 1039169243}
-  - 92: {fileID: 1039169242}
-  - 124: {fileID: 1039169241}
-  - 81: {fileID: 1039169240}
-  - 45: {fileID: 1039169246}
-  - 114: {fileID: 1039169245}
-  - 114: {fileID: 1039169247}
-  - 111: {fileID: 1039169248}
-  m_Layer: 0
-  m_Name: Main Camera
-  m_TagString: MainCamera
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!81 &1039169240
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1039169239}
-  m_Enabled: 1
---- !u!124 &1039169241
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1039169239}
-  m_Enabled: 1
---- !u!92 &1039169242
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1039169239}
-  m_Enabled: 1
---- !u!20 &1039169243
-Camera:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1039169239}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: .154411793, g: .154411793, b: .154411793, a: .0196078438}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: .300000012
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: -1
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_HDR: 0
-  m_OcclusionCulling: 0
---- !u!4 &1039169244
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1039169239}
-  m_LocalRotation: {x: .339915574, y: 0, z: 0, w: .940456033}
-  m_LocalPosition: {x: 0, y: 61.7326965, z: -73.3298645}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 33461055}
-  - {fileID: 458008207}
-  - {fileID: 1663772475}
-  m_Father: {fileID: 0}
---- !u!114 &1039169245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1039169239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ede6af9b697484cd7813d032333907aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SkipIntro: 1
-  MaxX: 15.6000004
-  MinX: -21.2999992
-  MaxY: .939999998
-  MinY: -1.10000002
-  MaxZ: 1.79999995
-  MinZ: -20
-  DragSpeed: .5
-  ZoomSpeed: .00499999989
-  MaxSpeed: .200000003
-  Friction: .00300000003
---- !u!45 &1039169246
-Skybox:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1039169239}
-  m_Enabled: 0
-  m_CustomSkybox: {fileID: 2100000, guid: 42c4672825ceb406c96051c2a7df57ef, type: 2}
---- !u!114 &1039169247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1039169239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a92b5d748695fd44aac9feef17ba415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventType: 1
-  eventReceiverMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  debug: 0
-  useMouse: 1
-  useTouch: 1
-  allowMultiTouch: 1
-  useKeyboard: 1
-  useController: 1
-  stickyTooltip: 1
-  tooltipDelay: 1
-  mouseDragThreshold: 4
-  mouseClickThreshold: 10
-  touchDragThreshold: 40
-  touchClickThreshold: 40
-  rangeDistance: -1
-  scrollAxisName: Mouse ScrollWheel
-  verticalAxisName: Vertical
-  horizontalAxisName: Horizontal
-  submitKey0: 13
-  submitKey1: 330
-  cancelKey0: 27
-  cancelKey1: 331
---- !u!111 &1039169248
-Animation:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1039169239}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 0e17ef922cd494f5f890a5fdb89869b7, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 0e17ef922cd494f5f890a5fdb89869b7, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!1 &1039707953
 GameObject:
   m_ObjectHideFlags: 0
@@ -28624,6 +28230,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1320597524}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -28717,6 +28324,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 454259301}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -30042,6 +29650,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2144112998}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -30587,6 +30196,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 29434109}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -31311,6 +30921,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2069564017}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -31490,6 +31101,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 105303485}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -31823,6 +31435,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1515056104}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -31916,6 +31529,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1311720032}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -32365,6 +31979,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1585172655}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -32523,6 +32138,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 100020, guid: fb4c52dc344e14425ba53b76b0acb076, type: 2}
   ImageRenderer: {fileID: 1412891466}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -32773,6 +32389,7 @@ MonoBehaviour:
   Type: 2
   FadeInOnAwake: 0
   BackgroundLabel: {fileID: 1521043395}
+  TouchObjName: HitPlane
   HitPlaneOffset: {x: 0, y: 0, z: 4}
   RelativeZoomedOutCameraPos: {x: 0, y: 0, z: -17}
   MaxX: -3.40282347e+38
@@ -33138,6 +32755,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1250237852}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -33243,6 +32861,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1938560559}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -35599,6 +35218,8 @@ GameObject:
   - 33: {fileID: 1280611011}
   - 64: {fileID: 1280611010}
   - 23: {fileID: 1280611009}
+  - 114: {fileID: 1280611012}
+  - 114: {fileID: 1280611013}
   m_Layer: 0
   m_Name: Overlay
   m_TagString: Untagged
@@ -35658,6 +35279,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1280611007}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1280611012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1280611007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 246202d4dc5674df695a3e605568d48c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1280611013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1280611007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124e7501bfd234469bff6c1aa89e8e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1282202940
 GameObject:
   m_ObjectHideFlags: 0
@@ -35869,6 +35512,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 100020, guid: fb4c52dc344e14425ba53b76b0acb076, type: 2}
   ImageRenderer: {fileID: 1914229481}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -35962,6 +35606,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 368611399}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -36342,6 +35987,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1598147146}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -37807,7 +37453,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1335264446}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -511.96875, y: 384, z: 0}
+  m_LocalPosition: {x: -451.3125, y: 384, z: 0}
   m_LocalScale: {x: .999935985, y: .999935985, z: .999935985}
   m_Children:
   - {fileID: 555402747}
@@ -38795,6 +38441,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 100020, guid: fb4c52dc344e14425ba53b76b0acb076, type: 2}
   ImageRenderer: {fileID: 336268099}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -39583,6 +39230,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 610088611}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -39945,6 +39593,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1765430538}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -40769,6 +40418,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 488128400}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -41894,6 +41544,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1010502978}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -42301,6 +41952,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 395343537}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -42526,6 +42178,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1267919888}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -42885,6 +42538,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 100000, guid: 34e3a6e4e04c247d59d6105504310577, type: 2}
   ImageRenderer: {fileID: 883078215}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -42992,6 +42646,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1503215464}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -43240,6 +42895,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 533183132}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -44495,6 +44151,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 66300520}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -44505,76 +44162,6 @@ MonoBehaviour:
   CubeXScale: 87
   CubeRotator: {fileID: 852269518}
   MaxWidthScale: 100
---- !u!1 &1663772474
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1663772475}
-  - 33: {fileID: 1663772478}
-  - 64: {fileID: 1663772477}
-  - 23: {fileID: 1663772476}
-  m_Layer: 0
-  m_Name: Overlay
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1663772475
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1663772474}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.78530359, y: 2.81078243, z: 2.73472285}
-  m_LocalScale: {x: 1055.66809, y: 1055.66809, z: 1055.66809}
-  m_Children: []
-  m_Father: {fileID: 1039169244}
---- !u!23 &1663772476
-Renderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1663772474}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 2100000, guid: d49b745b21a964a53b1bfdd076ad6e75, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortingLayerID: 0
---- !u!64 &1663772477
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1663772474}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!33 &1663772478
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1663772474}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1666139574
 GameObject:
   m_ObjectHideFlags: 0
@@ -44999,7 +44586,8 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
-  CommunityPrefab: {fileID: 0}
+  CommunityZDepth: 12
+  CommunityPrefab: {fileID: 100000, guid: 34e3a6e4e04c247d59d6105504310577, type: 2}
   ImageRenderer: {fileID: 1511140335}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
   Text: {fileID: 1169708457}
@@ -45344,6 +44932,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 548956597}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -45479,6 +45068,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2012186848}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -46576,6 +46166,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1916712952}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -47731,6 +47322,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 258243802}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -49517,6 +49109,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1225539125}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -49946,6 +49539,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 210953444}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -51240,6 +50834,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 4800000, guid: d8d317e80f45941b5bb3371aea67ef1d, type: 3}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 242179736}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -51506,8 +51101,9 @@ MonoBehaviour:
   Type: 1
   FadeInOnAwake: 1
   BackgroundLabel: {fileID: 0}
+  TouchObjName: FavoritesSphere(Clone)
   HitPlaneOffset: {x: 0, y: 0, z: 0}
-  RelativeZoomedOutCameraPos: {x: 0, y: 0, z: -10}
+  RelativeZoomedOutCameraPos: {x: 0, y: 0, z: 20}
   MaxX: -3.40282347e+38
   MinX: 3.40282347e+38
   MaxY: -3.40282347e+38
@@ -52850,6 +52446,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1998429091}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -53327,6 +52924,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 150801406}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -53408,6 +53006,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1345965355}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -53639,6 +53238,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 309819387}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -53784,6 +53384,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 271451196}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -56950,6 +56551,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 22126639}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -57261,6 +56863,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1144122144}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -57380,6 +56983,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1823640083}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -57650,6 +57254,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 0}
   OpaqueShader: {fileID: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 1335617196}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}

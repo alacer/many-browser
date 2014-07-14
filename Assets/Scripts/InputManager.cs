@@ -81,9 +81,10 @@ public class InputManager : MonoBehaviour {
 
 				foreach(RaycastHit hit in hits)
 				{
+					Debug.Log("first hit: " + hit.transform.name);
 					if (hit.transform.GetComponent<Tappable>() != null)
 					{
-					//	Debug.Log("first hit: " + hit.transform.name);
+
 						hit.transform.gameObject.SendMessage("OnTap",SendMessageOptions.DontRequireReceiver);
 						break;
 					}
@@ -204,7 +205,7 @@ public class InputManager : MonoBehaviour {
 		{
 			Scene currentScene = SceneManager.Instance.GetScene();
 
-			if ( hit.transform.name == "HitPlane" )
+			if ( hit.transform.name == Community.CurrentCommunity.TouchObjName && SceneManager.Instance.GetScene() != Scene.Selected)
 			{
 
 				Debug.Log("touching: " + hit.transform.name);
