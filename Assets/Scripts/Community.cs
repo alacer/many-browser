@@ -216,6 +216,7 @@ public class Community : MonoBehaviour {
 
 	void UpdateBounds()
 	{
+
 		for (int i=0; i < CurrentCommunity.transform.childCount; i++)
 		{
 			Vector3 pos = CurrentCommunity.transform.GetChild(i).position;

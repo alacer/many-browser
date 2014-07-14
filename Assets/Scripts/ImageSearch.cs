@@ -16,7 +16,7 @@ public class ImageSearch : MonoBehaviour {
 	bool _searching;
 	string _search;
 	string _currentKeywordTrail;
-	string _lastLabel = string.Empty;
+
 
 	void Awake()
 	{

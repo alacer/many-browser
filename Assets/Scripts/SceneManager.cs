@@ -7,6 +7,7 @@ public enum Scene
 	Browse,
 	Helix,
 	Selected,
+	Sphere,
 	InTransition
 
 }

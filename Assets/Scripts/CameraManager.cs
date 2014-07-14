@@ -94,7 +94,7 @@ public class CameraManager : MonoBehaviour {
 		{
 
 			// do helix movement if we are in the helix
-			if (_currentScene == Scene.Helix)
+			if (Community.CurrentCommunity is SpinningShape)
 			{
 				_velocity.x = 0;
 				_velocity.y = 0;
@@ -110,8 +110,8 @@ public class CameraManager : MonoBehaviour {
 			transform.position += _velocity;
 
 
-
-			LimitPositionToBounds();
+			if (Community.CurrentCommunity is SpinningShape == false)
+				LimitPositionToBounds();
 
 				
 	//		ApplyBounds();

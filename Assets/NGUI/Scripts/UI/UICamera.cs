@@ -573,6 +573,7 @@ public class UICamera : MonoBehaviour
 
 	static public bool Raycast (Vector3 inPos)
 	{
+
 		for (int i = 0; i < list.size; ++i)
 		{
 			UICamera cam = list.buffer[i];
@@ -582,6 +583,7 @@ public class UICamera : MonoBehaviour
 
 			// Convert to view space
 			currentCamera = cam.cachedCamera;
+	
 			Vector3 pos = currentCamera.ScreenToViewportPoint(inPos);
 			if (float.IsNaN(pos.x) || float.IsNaN(pos.y)) continue;
 

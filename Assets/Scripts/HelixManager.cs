@@ -8,25 +8,16 @@ public enum SortOrder
 	Desending
 }
 
-public class HelixManager : Community {
+public class HelixManager : SpinningShape {
 
 	public GameObject imageObjPrefab;
-	public float MaxAngularSpeed = 2;
+
 	public float HelixRadius = 3f;
 	public float SpeedMultiplier = 2;
 
-	public float Friction = 0.003f;
 
-	float _maxHelixY;
-	float _minHelixY;
-
-	Vector3 _velocity;
 	Vector3 _topObjPos;
 
-	Vector3 _lastWorldPos;
-
-	Vector3 _targetPos;
-	Quaternion _targetRotation;
 
 	List<ImageObj> _allObjs = new List<ImageObj>();
 
@@ -161,7 +152,7 @@ public class HelixManager : Community {
 			{
 				if (i == _allObjs.Count-1)
 				{
-					_maxHelixY = _minHelixY + (_minHelixY - pos.y);
+					_maxY = _minY + (_minY - pos.y);
 					
 				}
 				
@@ -169,7 +160,7 @@ public class HelixManager : Community {
 				{
 					_topObjPos = pos;
 					
-					_minHelixY = pos.y;
+					_minY = pos.y;
 					
 				}
 			}
@@ -227,122 +218,6 @@ public class HelixManager : Community {
 
 	}
 
-	void SetZoomOutPos()
-	{
-
-		float midYPos = transform.position.y - (_maxHelixY / 2.0f);
-
-
-		Community.CurrentCommunity.SetZoomedOutYPos(midYPos);
-	}
-
-	void FixedUpdate()
-	{
-		 if (SceneManager.Instance.GetScene() != Scene.Helix)
-			return;
-
-		if (InputManager.Instance.IsTouchingWithOneFinger())
-		{
-
-			_velocity =  GetHelixVelocity();
-		}
-
-		// apply velocity and friction
-		float magnitude =  LimitVelocity();
-		
-		
-		if (magnitude > 0)
-		{
-	
-
-
-//			_targetPos += new Vector3(0,_velocity.y,0);
-//			_targetRotation = _targetRotation * Quaternion.AngleAxis(_velocity.x,Vector3.up);
-
-
-			transform.position += new Vector3(0,_velocity.y,0);
-			if (_velocity.y != 0)
-				SetZoomOutPos();
-
-			transform.RotateAround(transform.position,Vector3.up,_velocity.x);
-
-
-			// clamp bounds
-			if (transform.position.y > GetHelixMaxY())
-				transform.position = new Vector3(transform.position.x, GetHelixMaxY(), transform.position.z);
-			else if (transform.position.y < GetHelixMinY())
-				transform.position = new Vector3(transform.position.x, GetHelixMinY(), transform.position.z);
-		
-		}
-
-	//	transform.rotation = Quaternion.Lerp(transform.rotation,_targetRotation,Time.deltaTime*SpeedMultiplier);
-	//	transform.position = Vector3.Lerp(transform.position,_targetPos,Time.deltaTime * SpeedMultiplier);
-
-		ApplyFriction(magnitude);
-	}
-
-	Vector3 GetHelixVelocity()
-	{
-		Vector3 worldPos = InputManager.Instance.GetTouchWorldPos();
-
-//
-//
-//		if (worldPos == _lastWorldPos)
-//			return _velocity;
-
-		Vector3 vel = _velocity;
-
-		if (InputManager.Instance.IsFingerMoving() && InputManager.Instance.GetTouchWorldPos() != Vector3.zero && InputManager.Instance.GetLastTouchWorldPos() != Vector3.zero)
-		{
-
-			float yVel = _lastWorldPos.y - worldPos.y;
-
-			Vector3 lastPos = _lastWorldPos - transform.position;
-			Vector3 currentPos = worldPos - transform.position;
-			lastPos.y = 0;
-			currentPos.y = 0;
-			float dir = (Vector3.Cross(lastPos,currentPos).y > 0) ? 1 : -1;
-			float angleDelta = Vector3.Angle(lastPos,currentPos);
-
-		//	angleDelta = Mathf.Min(angleDelta,MaxAngularSpeed);
-			vel = new Vector3( angleDelta * dir , -yVel, 0);
-
-		}
-		else if (InputManager.Instance.IsFingerStationary())
-			vel = Vector3.zero;
-
-	//	Debug.Log("vel: " + vel);
-
-		_lastWorldPos = InputManager.Instance.GetTouchWorldPos();
-		return vel;
-	}
-
-	void ApplyFriction(float magnitude)
-	{
-		// apply friction
-		magnitude -= Friction ;
-		magnitude = Mathf.Max(0,magnitude);
-		_velocity = _velocity.normalized * magnitude;
-	}
-
-
-	float LimitVelocity()
-	{		
-		float magnitude =_velocity.magnitude;
-		float maxSpeed = MaxAngularSpeed;
-		
-		
-		if (magnitude > maxSpeed)
-		{
-			_velocity = _velocity.normalized * maxSpeed;
-			magnitude = maxSpeed;
-		}
-		
-		return magnitude;
-		
-	}
-
-
 
 
 	public Vector3 GetTopObjPos()
@@ -350,16 +225,7 @@ public class HelixManager : Community {
 		return _topObjPos;
 	}
 
-	public float GetHelixMaxY()
-	{
-		return _maxHelixY;
-	}
 	
-	public float GetHelixMinY()
-	{
-		return _minHelixY;
-	}
-
 
 	public void SortObjsBy(string sort, SortOrder order)
 	{

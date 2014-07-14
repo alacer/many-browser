@@ -187,7 +187,7 @@ public class InputManager : MonoBehaviour {
 			Scene currentScene = SceneManager.Instance.GetScene();
 
 			if (( ( currentScene == Scene.Browse || currentScene == Scene.Selected) && hit.transform.name == "HitPlane" ) || 
-			    ( currentScene == Scene.Helix && hit.transform.name == "HelixHitCylinder" ))
+			    ( Community.CurrentCommunity is SpinningShape && (hit.transform.name == "HelixHitCylinder" || hit.transform.name == "FavoritesSphere")))
 				return hit.point;
 		}
 		
