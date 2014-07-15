@@ -6,14 +6,18 @@ public class FavoritesButton : Tappable {
 
 	public void OnTap()
 	{
+		ImageObj obj = transform.parent.parent.GetComponent<ImageObj>();
 
-		string url =  transform.parent.parent.GetComponent<ImageObj>().GetData<string>("Url");
-		string largeImageUrl = transform.parent.parent.GetComponent<ImageObj>().GetData<string>("LargeUrl");
-		Debug.Log("got tapped " + url);
+		string url =  obj.GetData<string>("Url");
+		string largeImageUrl = obj.GetData<string>("LargeUrl");
+
+		PlayerPrefs.SetInt("IsFavorite" + url,1);
+
+		obj.UpdateFavoritesButton();
 
 		if (largeImageUrl != null && largeImageUrl != string.Empty)
 		{
-			PlayerPrefs.SetString(url,largeImageUrl);
+			PlayerPrefs.SetString("LargeImage" + url,largeImageUrl);
 		}
 
 		string[] urls =  PlayerPrefsX.GetStringArray("FavoritesUrls");

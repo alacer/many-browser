@@ -86,6 +86,8 @@ public class ImageObj : MonoBehaviour {
 	public void InitData(Dictionary<string,object> data)
 	{
 		_data = data;
+
+
 	}
 
 	public void Initialize(Texture2D tex)
@@ -94,6 +96,7 @@ public class ImageObj : MonoBehaviour {
 			return;
 
 		ImageRenderer.material.mainTexture = tex;
+
 
 		if (IsCommunityItem == false)
 			ImageRenderer.materials[1].mainTexture = ImageRenderer.material.mainTexture;
@@ -114,12 +117,13 @@ public class ImageObj : MonoBehaviour {
 		transform.localScale = scale;
 		
 		_aspectScale = scale;
+
 	}
 
 	public void SetTexture(string url)
 	{
 		var textureCache = WebTextureCache.InstantiateGlobal ();
-		if (PlayerPrefs.HasKey(url))
+		if (PlayerPrefs.HasKey("LargeImage" + url))
 		{
 			Debug.Log("got large url: " + PlayerPrefs.GetString(url));
 			_data["LargeUrl"] = PlayerPrefs.GetString(url);
@@ -285,12 +289,22 @@ public class ImageObj : MonoBehaviour {
 		UpdateRoation();
 
 	}
+
+	public void UpdateFavoritesButton()
+	{
+		if (PlayerPrefs.GetInt("IsFavorite" + GetData<string>("Url"),0) == 1)
+			ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/Action-FavActive", typeof(Texture2D)) );
+		else
+			ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/actionItems", typeof(Texture2D)) );
+	}
 	
 	protected virtual void OnSelected()
 	{
 		ImageRenderer.materials = _boxMaterials;
 		if (IsCommunityItem == false)
 			ImageRenderer.materials[1].mainTexture = WhiteTexture;
+
+		UpdateFavoritesButton();
 
 		if (Text != null)
 			Text.gameObject.SetActive(false);
