@@ -31,6 +31,8 @@ public class CameraManager : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		Instance = this;
+	//	PlayerPrefs.DeleteAll();
+
 		Application.targetFrameRate = 60;
 		LeanTween.init(3000);
 		_hitPlane = GameObject.Find("HitPlane").transform;

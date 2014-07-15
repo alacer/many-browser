@@ -84,7 +84,7 @@ MonoBehaviour:
   MinZ: 3.40282347e+38
   Friction: .00300000003
   MaxAngularSpeed: 2
-  FavoriteObjPrefab: {fileID: 100000, guid: e91150e189b3a4d6e82a2362b3bcfd88, type: 2}
+  FavoriteObjPrefab: {fileID: 100000, guid: d68434dd6d1174e3d9af7882b5a5a09d, type: 2}
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

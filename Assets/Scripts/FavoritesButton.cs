@@ -9,13 +9,15 @@ public class FavoritesButton : Tappable {
 		ImageObj obj = transform.parent.parent.GetComponent<ImageObj>();
 		string url =  obj.GetData<string>("Url");
 		string largeImageUrl = obj.GetData<string>("LargeUrl");
-		bool isAlreadyFavorite = PlayerPrefs.GetInt("IsFavorite",0) == 1;
+		bool isAlreadyFavorite = PlayerPrefs.GetInt("IsFavorite" + url,0) == 1;
+
+		Debug.Log("is favorite: " + isAlreadyFavorite);
 
 		// if it's already a favorite just deselect
 		if (isAlreadyFavorite)
 		{
-			PlayerPrefs.SetInt("IsFavorite" + url,1);
-			obj.UpdateFavoritesButton();
+			PlayerPrefs.SetInt("IsFavorite" + url,0);
+			obj.UpdateFavoritesButton(url);
 
 			List<string> allUrls = new List<string>( PlayerPrefsX.GetStringArray("FavoritesUrls") );
 
@@ -30,22 +32,22 @@ public class FavoritesButton : Tappable {
 				}
 			}
 
-
 			PlayerPrefsX.SetStringArray("FavoritesUrls",allUrls.ToArray());
 
 			return;
 		}
 
-
-
 		PlayerPrefs.SetInt("IsFavorite" + url,1);
 
-		obj.UpdateFavoritesButton();
+		obj.UpdateFavoritesButton(url);
 
 		if (largeImageUrl != null && largeImageUrl != string.Empty)
 		{
 			PlayerPrefs.SetString("LargeImage" + url,largeImageUrl);
 		}
+
+	
+	
 
 		string[] urls =  PlayerPrefsX.GetStringArray("FavoritesUrls");
 		if (urls == null || urls.Length == 0)
@@ -65,6 +67,7 @@ public class FavoritesButton : Tappable {
 
 		}
 
+		PlayerPrefs.SetString("Description" + url,obj.GetData<string>("Description"));
 
 	}
 }

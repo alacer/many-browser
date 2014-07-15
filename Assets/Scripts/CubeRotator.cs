@@ -13,13 +13,18 @@ public class CubeRotator : MonoBehaviour {
 	float _lastSpeed;
 	GameObject _backPanel;
 	GameObject _leftPanel;
+	GameObject _FavoritesButton;
 
 	bool _fingerLiftedAfterSwipe = true;
 
 
 	void Start()
 	{
-
+		if (CubeTransform.FindChild("FavoritesButton") != null)
+		{
+			_FavoritesButton = CubeTransform.FindChild("FavoritesButton").gameObject;
+			_FavoritesButton.collider.enabled = false;
+		}
 		_backPanel = GameObject.Find("BackPanel");
 		_leftPanel = GameObject.Find("ActionButtonPanel");
 
@@ -74,10 +79,14 @@ public class CubeRotator : MonoBehaviour {
 			LeanTween.rotateY(CubeTransform.gameObject,CubeTransform.rotation.eulerAngles.y + (dir * 90),animTime).setOnComplete( () => 
 			{
 
-				Debug.Log("forward: " + forward);
-
 				if (forward == Vector3.forward && transform.parent.GetComponent<ImageObj>().IsCommunityItem == false)
 					TweenAlpha.Begin(_backPanel,.3f,1);
+
+				if (_FavoritesButton != null)
+				{
+					_FavoritesButton.collider.enabled = (forward == Vector3.left);
+					Debug.Log("favorites: " + _FavoritesButton.collider.enabled);
+				}
 
 
 				_fingerLiftedAfterSwipe = false;

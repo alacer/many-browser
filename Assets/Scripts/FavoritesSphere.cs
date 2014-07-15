@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class FavoritesSphere : SpinningShape {
 
@@ -46,7 +47,14 @@ public class FavoritesSphere : SpinningShape {
 			obj.transform.parent = transform;
 			obj.transform.forward = (transform.position - pos).normalized;
 
+			Dictionary<string,object> dict = new Dictionary<string, object>();
+			dict["Url"] = _urls[i];
+			dict["LargeUrl"] = PlayerPrefs.GetString("LargeImage" + _urls[i]);
+			dict["Description"] = PlayerPrefs.GetString("Description" + _urls[i]);
+
 			obj.SendMessage("SetTexture",_urls[i]);
+			obj.SendMessage("InitData",dict);
+
 		}
 
 

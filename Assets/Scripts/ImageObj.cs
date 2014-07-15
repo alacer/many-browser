@@ -290,12 +290,17 @@ public class ImageObj : MonoBehaviour {
 
 	}
 
-	public void UpdateFavoritesButton()
+	public void UpdateFavoritesButton(string url)
 	{
-		if (_data.ContainsKey("Url") == false)
+		if (_data.ContainsKey("Url") == false || ImageRenderer.materials.Length < 5)
+		{
+			Debug.Log("update fail contains: " + _data.ContainsKey("Url") + " mat length: " + ImageRenderer.materials.Length);
 			return;
+		}
 
-		if (PlayerPrefs.GetInt("IsFavorite" + GetData<string>("Url"),0) == 1)
+		Debug.Log("setting favorite: " + (PlayerPrefs.GetInt("IsFavorite" + url,0) == 1));
+
+		if (PlayerPrefs.GetInt("IsFavorite" + url,0) == 1)
 			ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/Action-FavActive", typeof(Texture2D)) );
 		else
 			ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/actionItems", typeof(Texture2D)) );
@@ -307,7 +312,8 @@ public class ImageObj : MonoBehaviour {
 		if (IsCommunityItem == false)
 			ImageRenderer.materials[1].mainTexture = WhiteTexture;
 
-		UpdateFavoritesButton();
+		if (_data.ContainsKey("Url"))
+			UpdateFavoritesButton(GetData<string>("Url"));
 
 		if (Text != null)
 			Text.gameObject.SetActive(false);
