@@ -7,9 +7,36 @@ public class FavoritesButton : Tappable {
 	public void OnTap()
 	{
 		ImageObj obj = transform.parent.parent.GetComponent<ImageObj>();
-
 		string url =  obj.GetData<string>("Url");
 		string largeImageUrl = obj.GetData<string>("LargeUrl");
+		bool isAlreadyFavorite = PlayerPrefs.GetInt("IsFavorite",0) == 1;
+
+		// if it's already a favorite just deselect
+		if (isAlreadyFavorite)
+		{
+			PlayerPrefs.SetInt("IsFavorite" + url,1);
+			obj.UpdateFavoritesButton();
+
+			List<string> allUrls = new List<string>( PlayerPrefsX.GetStringArray("FavoritesUrls") );
+
+			for (int i=allUrls.Count-1; i >= 0; i--)
+			{
+				string removeUrl = allUrls[i];
+
+				if (url == removeUrl)
+				{
+					allUrls.RemoveAt(i);
+					break;
+				}
+			}
+
+
+			PlayerPrefsX.SetStringArray("FavoritesUrls",allUrls.ToArray());
+
+			return;
+		}
+
+
 
 		PlayerPrefs.SetInt("IsFavorite" + url,1);
 

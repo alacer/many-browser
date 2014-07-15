@@ -292,6 +292,9 @@ public class ImageObj : MonoBehaviour {
 
 	public void UpdateFavoritesButton()
 	{
+		if (_data.ContainsKey("Url") == false)
+			return;
+
 		if (PlayerPrefs.GetInt("IsFavorite" + GetData<string>("Url"),0) == 1)
 			ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/Action-FavActive", typeof(Texture2D)) );
 		else
@@ -353,7 +356,7 @@ public class ImageObj : MonoBehaviour {
 	
 	void OnGotLargeTexture(string url, Dictionary<string,object> data , Texture2D largeTex )
 	{
-		if (!_zoomedIn)
+		if (!_zoomedIn && largeTex != null)
 			ImageRenderer.material.mainTexture = largeTex;
 	}
 	
