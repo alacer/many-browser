@@ -37,7 +37,7 @@ public class CameraManager : MonoBehaviour {
 
 		_forward = Quaternion.AngleAxis(transform.rotation.y,Vector3.up) * Vector3.forward;
 		
-		if (SkipIntro)
+		if (SkipIntro && Application.isEditor)
 			animation["CameraAnim"].speed = 10;
 
 

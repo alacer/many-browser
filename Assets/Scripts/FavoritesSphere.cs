@@ -11,6 +11,7 @@ public class FavoritesSphere : SpinningShape {
 
 		_urls = PlayerPrefsX.GetStringArray("FavoritesUrls");
 
+		Debug.Log("urls length: " + _urls.Length);
 		AddFavoriteObjs();
 	}
 
@@ -44,6 +45,8 @@ public class FavoritesSphere : SpinningShape {
 			GameObject obj = (GameObject)Instantiate(FavoriteObjPrefab,pos,rotation);
 			obj.transform.parent = transform;
 			obj.transform.forward = (transform.position - pos).normalized;
+
+			obj.SendMessage("SetTexture",_urls[i]);
 		}
 
 

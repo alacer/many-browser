@@ -27,7 +27,7 @@ public class ImageObj : MonoBehaviour {
 	public float MaxWidthScale = 1.2f;
 
 
-	Dictionary<string,object> _data;
+	Dictionary<string,object> _data = new Dictionary<string, object>();
 
 	bool _isFacingCamera;
 	
@@ -115,6 +115,27 @@ public class ImageObj : MonoBehaviour {
 		
 		_aspectScale = scale;
 	}
+
+	public void SetTexture(string url)
+	{
+		var textureCache = WebTextureCache.InstantiateGlobal ();
+		if (PlayerPrefs.HasKey(url))
+		{
+			Debug.Log("got large url: " + PlayerPrefs.GetString(url));
+			_data["LargeUrl"] = PlayerPrefs.GetString(url);
+		}
+
+		StartCoroutine( textureCache.GetTexture (url, null, OnGotTexture) );
+
+	}
+	
+	void OnGotTexture(string url, Dictionary<string,object> data, Texture2D tex)
+	{
+
+		Initialize(tex);
+		
+	}
+
 
 #region community transitions
 
@@ -466,7 +487,7 @@ public class ImageObj : MonoBehaviour {
 
 	public bool HasData()
 	{
-		return _data != null;
+		return _data != null && _data.Keys.Count > 1;
 	}
 	
 

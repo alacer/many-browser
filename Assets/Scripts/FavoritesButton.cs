@@ -8,11 +8,20 @@ public class FavoritesButton : Tappable {
 	{
 
 		string url =  transform.parent.parent.GetComponent<ImageObj>().GetData<string>("Url");
+		string largeImageUrl = transform.parent.parent.GetComponent<ImageObj>().GetData<string>("LargeUrl");
 		Debug.Log("got tapped " + url);
+
+		if (largeImageUrl != null && largeImageUrl != string.Empty)
+		{
+			PlayerPrefs.SetString(url,largeImageUrl);
+		}
 
 		string[] urls =  PlayerPrefsX.GetStringArray("FavoritesUrls");
 		if (urls == null || urls.Length == 0)
+		{
 			urls = new string[] { url };
+			PlayerPrefsX.SetStringArray("FavoritesUrls",urls);
+		}
 		else
 		{
 			List<string> urlList = new List<string>(urls);
