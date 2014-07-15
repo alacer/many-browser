@@ -1,0 +1,190 @@
+fileFormatVersion: 2
+guid: 432a99ee17fb84e46b464b3ad4b45320
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: action_alert
+    100002: action_cart
+    100004: action_close
+    100006: action_fb
+    100008: action_gPlus
+    100010: action_photo
+    100012: action_pin
+    100014: action_reviews
+    100016: action_save_favorite
+    100018: action_send_pp
+    100020: action_share_arrow
+    100022: action_tweet
+    100024: //RootNode
+    100026: plus
+    100028: Actions_Group
+    100030: white_hide_plane
+    400000: action_alert
+    400002: action_cart
+    400004: action_close
+    400006: action_fb
+    400008: action_gPlus
+    400010: action_photo
+    400012: action_pin
+    400014: action_reviews
+    400016: action_save_favorite
+    400018: action_send_pp
+    400020: action_share_arrow
+    400022: action_tweet
+    400024: //RootNode
+    400026: plus
+    400028: Actions_Group
+    400030: white_hide_plane
+    2300000: action_alert
+    2300002: action_cart
+    2300004: action_close
+    2300006: action_fb
+    2300008: action_gPlus
+    2300010: action_photo
+    2300012: action_pin
+    2300014: action_reviews
+    2300016: action_save_favorite
+    2300018: action_send_pp
+    2300020: action_share_arrow
+    2300022: action_tweet
+    2300024: plus
+    2300026: white_hide_plane
+    3300000: action_alert
+    3300002: action_cart
+    3300004: action_close
+    3300006: action_fb
+    3300008: action_gPlus
+    3300010: action_photo
+    3300012: action_pin
+    3300014: action_reviews
+    3300016: action_save_favorite
+    3300018: action_send_pp
+    3300020: action_share_arrow
+    3300022: action_tweet
+    3300024: plus
+    3300026: white_hide_plane
+    4300000: action_cart
+    4300002: action_save_favorite
+    4300004: action_close
+    4300006: action_send_pp
+    4300008: action_alert
+    4300010: action_reviews
+    4300012: action_share_arrow
+    4300014: action_gPlus
+    4300016: action_pin
+    4300018: action_fb
+    4300020: action_tweet
+    4300022: action_photo
+    4300024: plus
+    4300026: white_hide_plane
+    7400000: open
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: open
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 34
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: action_alert
+        weight: 1
+      - path: action_cart
+        weight: 1
+      - path: action_close
+        weight: 1
+      - path: action_fb
+        weight: 1
+      - path: action_gPlus
+        weight: 1
+      - path: action_photo
+        weight: 1
+      - path: action_pin
+        weight: 1
+      - path: action_reviews
+        weight: 1
+      - path: action_save_favorite
+        weight: 1
+      - path: action_send_pp
+        weight: 1
+      - path: action_share_arrow
+        weight: 1
+      - path: action_tweet
+        weight: 1
+      - path: plus
+        weight: 1
+      - path: white_hide_plane
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
