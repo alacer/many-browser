@@ -13,18 +13,14 @@ public class CubeRotator : MonoBehaviour {
 	float _lastSpeed;
 	GameObject _backPanel;
 	GameObject _leftPanel;
-	GameObject _FavoritesButton;
+
 
 	bool _fingerLiftedAfterSwipe = true;
 
 
 	void Start()
 	{
-		if (CubeTransform.FindChild("FavoritesButton") != null)
-		{
-			_FavoritesButton = CubeTransform.FindChild("FavoritesButton").gameObject;
-			_FavoritesButton.collider.enabled = false;
-		}
+
 		_backPanel = GameObject.Find("BackPanel");
 		_leftPanel = GameObject.Find("ActionButtonPanel");
 
@@ -82,10 +78,11 @@ public class CubeRotator : MonoBehaviour {
 				if (forward == Vector3.forward && transform.parent.GetComponent<ImageObj>().IsCommunityItem == false)
 					TweenAlpha.Begin(_backPanel,.3f,1);
 
-				if (_FavoritesButton != null)
+	
+				if (CubeTransform.FindChild("FavoritesButton(Clone)") != null)
 				{
-					_FavoritesButton.collider.enabled = (forward == Vector3.left);
-					Debug.Log("favorites: " + _FavoritesButton.collider.enabled);
+					CubeTransform.FindChild("FavoritesButton(Clone)").collider.enabled = (forward == Vector3.left);
+				
 				}
 
 

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,11 +7,26 @@ public class FavoritesButton : Tappable {
 	public void OnTap()
 	{
 		ImageObj obj = transform.parent.parent.GetComponent<ImageObj>();
-		string url =  obj.GetData<string>("Url");
-		string largeImageUrl = obj.GetData<string>("LargeUrl");
+		string url=null;
+		string largeImageUrl=null;
+
+		if (obj.IsCommunityItem)
+		{
+			// if we are in the favorites sphere already then the url was already set
+			if (obj.HasData("Url"))
+				url = obj.GetData<string>("Url");
+			else // otherwise compose it
+				url = "Textures/" + Community.CurrentCommunity.Name + "/" +  obj.DefaultImage.name;
+		}
+		else
+		{
+			url =  obj.GetData<string>("Url");
+			largeImageUrl = obj.GetData<string>("LargeUrl");
+		}
+
+
 		bool isAlreadyFavorite = PlayerPrefs.GetInt("IsFavorite" + url,0) == 1;
 
-		Debug.Log("is favorite: " + isAlreadyFavorite);
 
 		// if it's already a favorite just deselect
 		if (isAlreadyFavorite)
@@ -37,7 +52,10 @@ public class FavoritesButton : Tappable {
 			return;
 		}
 
+		Debug.Log("saving favorite: " + url);
+
 		PlayerPrefs.SetInt("IsFavorite" + url,1);
+		PlayerPrefs.Save();
 
 		obj.UpdateFavoritesButton(url);
 
@@ -47,8 +65,6 @@ public class FavoritesButton : Tappable {
 		}
 
 	
-	
-
 		string[] urls =  PlayerPrefsX.GetStringArray("FavoritesUrls");
 		if (urls == null || urls.Length == 0)
 		{
@@ -67,7 +83,8 @@ public class FavoritesButton : Tappable {
 
 		}
 
-		PlayerPrefs.SetString("Description" + url,obj.GetData<string>("Description"));
+		if (obj.HasData("Description"))
+			PlayerPrefs.SetString("Description" + url,obj.GetData<string>("Description"));
 
 	}
 }
