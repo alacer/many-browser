@@ -79,7 +79,9 @@ ModelImporter:
     4300026: white_hide_plane
     7400000: open
     7400002: close
+    7400004: hold
     9500000: //RootNode
+    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -88,7 +90,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     optimizeGameObjects: 0
-    animationCompression: 0
+    animationCompression: 1
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
@@ -98,7 +100,7 @@ ModelImporter:
     - serializedVersion: 16
       name: open
       takeName: Take 001
-      firstFrame: 1
+      firstFrame: 4
       lastFrame: 34
       wrapMode: 0
       orientationOffsetY: 0
@@ -207,6 +209,62 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: hold
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 2
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: action_alert
+        weight: 1
+      - path: action_cart
+        weight: 1
+      - path: action_close
+        weight: 1
+      - path: action_fb
+        weight: 1
+      - path: action_gPlus
+        weight: 1
+      - path: action_photo
+        weight: 1
+      - path: action_pin
+        weight: 1
+      - path: action_reviews
+        weight: 1
+      - path: action_save_favorite
+        weight: 1
+      - path: action_send_pp
+        weight: 1
+      - path: action_share_arrow
+        weight: 1
+      - path: action_tweet
+        weight: 1
+      - path: plus
+        weight: 1
+      - path: white_hide_plane
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -242,6 +300,6 @@ ModelImporter:
     feetSpacing: 0
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 1
   additionalBone: 0
   userData: 
