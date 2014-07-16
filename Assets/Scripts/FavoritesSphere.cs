@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class FavoritesSphere : SpinningShape {
 
-	public GameObject FavoriteObjPrefab;
+	public GameObject HelixObjPrefab;
+	public GameObject CommunityObjPrefab;
 	string[] _urls;
 
 	void Start()
@@ -33,6 +35,10 @@ public class FavoritesSphere : SpinningShape {
 		// Create lists of new positions and rotations
 		for (int i=0; i < numObjs; i++)
 		{
+			string url = _urls[i];
+			Debug.Log("loading obj url: " + url);
+			bool isCommunityItem = (Resources.Load(url) != null);
+
 			dir = Quaternion.AngleAxis(Random.Range(-1,2)*10,Vector3.right) * Vector3.back;
 
 			dir = Quaternion.AngleAxis(angle,Vector3.up) * dir;
@@ -41,12 +47,25 @@ public class FavoritesSphere : SpinningShape {
 			
 			Vector3 pos = center + (radius * dir);
 			rotation = Quaternion.LookRotation(-dir.normalized);
-			
-			GameObject obj = (GameObject)Instantiate(FavoriteObjPrefab,pos,rotation);
+
+
+			GameObject prefab = (isCommunityItem) ? CommunityObjPrefab : HelixObjPrefab;
+			GameObject obj = (GameObject)Instantiate(prefab,pos,rotation);
 			obj.transform.parent = transform;
 			obj.transform.forward = (transform.position - pos).normalized;
 
-			obj.SendMessage("SetTexture",_urls[i]);
+			Dictionary<string,object> dict = new Dictionary<string, object>();
+			dict["Url"] = _urls[i];
+			if (PlayerPrefs.HasKey("LargeImage" + url))
+				dict["LargeUrl"] = PlayerPrefs.GetString("LargeImage" + url);
+			   	
+			if (PlayerPrefs.HasKey("Description" + url))
+				dict["Description"] = PlayerPrefs.GetString("Description" + url);
+
+
+			obj.SendMessage("SetTexture",url);
+			obj.SendMessage("InitData",dict);
+
 		}
 
 

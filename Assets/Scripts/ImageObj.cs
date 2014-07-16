@@ -58,6 +58,17 @@ public class ImageObj : MonoBehaviour {
 			ImageRenderer.materials = ReplacementCommunityMaterials;
 		}
 
+		if (transform.Find("box").FindChild("FavoritesButton") == null)
+		{
+			GameObject favoritesButton = (GameObject) Instantiate( Resources.Load("Prefabs/FavoritesButton") );
+			favoritesButton.transform.parent = transform.Find("box").transform;
+
+			favoritesButton.transform.localPosition = Vector3.zero;
+			favoritesButton.transform.localRotation = Quaternion.identity;
+			favoritesButton.transform.localScale = Vector3.one;
+			favoritesButton.collider.enabled = false;
+		}
+
 		CubeRotator.SetActive(false);
 		_boxMaterials = ImageRenderer.materials;
 		_planeMaterials = new Material[] { ImageRenderer.materials[0], ImageRenderer.materials[1] };
@@ -115,13 +126,21 @@ public class ImageObj : MonoBehaviour {
 		}
 
 		transform.localScale = scale;
-		
 		_aspectScale = scale;
 
 	}
 
 	public void SetTexture(string url)
 	{
+		// if it's a community item then the url is just the path in "resources"
+		if (IsCommunityItem)
+		{
+			Texture2D tex = (Texture2D) Resources.Load(url,typeof(Texture2D));
+			Initialize(tex);
+		//	ImageRenderer.material.mainTexture = (Texture2D) Resources.Load(url,typeof(Texture2D));
+			return;
+		}
+
 		var textureCache = WebTextureCache.InstantiateGlobal ();
 		if (PlayerPrefs.HasKey("LargeImage" + url))
 		{
@@ -290,12 +309,17 @@ public class ImageObj : MonoBehaviour {
 
 	}
 
-	public void UpdateFavoritesButton()
+	public void UpdateFavoritesButton(string url)
 	{
-		if (_data.ContainsKey("Url") == false)
+		if (ImageRenderer.materials.Length < 5)
+		{
+			Debug.Log( " mat length: " + ImageRenderer.materials.Length);
 			return;
+		}
 
-		if (PlayerPrefs.GetInt("IsFavorite" + GetData<string>("Url"),0) == 1)
+		Debug.Log("setting favorite: " + (PlayerPrefs.GetInt("IsFavorite" + url,0) == 1));
+
+		if (PlayerPrefs.GetInt("IsFavorite" + url,0) == 1)
 			ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/Action-FavActive", typeof(Texture2D)) );
 		else
 			ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/actionItems", typeof(Texture2D)) );
@@ -307,7 +331,8 @@ public class ImageObj : MonoBehaviour {
 		if (IsCommunityItem == false)
 			ImageRenderer.materials[1].mainTexture = WhiteTexture;
 
-		UpdateFavoritesButton();
+		if (_data.ContainsKey("Url"))
+			UpdateFavoritesButton(GetData<string>("Url"));
 
 		if (Text != null)
 			Text.gameObject.SetActive(false);
@@ -338,9 +363,11 @@ public class ImageObj : MonoBehaviour {
 	}
 
 	void OnUnselected()
-	{
+	{	
+
 		_boxMaterials[0] = _planeMaterials[0];
 		ImageRenderer.materials = _planeMaterials;
+		Debug.Log("aspect : " + _aspectScale + " _cube: " + _cubeScale);
 		ScaleToAspect(.3f);
 		if (SceneManager.Instance.GetTransitioningToScene() == Scene.Helix)
 			if (Text != null)
@@ -502,6 +529,10 @@ public class ImageObj : MonoBehaviour {
 		return (T)_data[key];
 	}
 
+	public bool HasData(string key)
+	{
+		return (_data != null && _data.ContainsKey(key));
+	}
 	public bool HasData()
 	{
 		return _data != null && _data.Keys.Count > 1;

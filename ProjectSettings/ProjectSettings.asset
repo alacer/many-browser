@@ -73,7 +73,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  iPhoneBundleIdentifier: com.sweetactiongames.manybrowser
+  iPhoneBundleIdentifier: com.alacergroup.manybrowser
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
   productGUID: f738f1304dba14fb391261c4b9704bef
