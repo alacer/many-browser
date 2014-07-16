@@ -117,7 +117,11 @@ public class SelectionManager : MonoBehaviour {
 			obj.GetComponent<Draggable>().IsDraggable = false;
 
 		_overlay.collider.enabled = true;
-		LeanTween.alpha(_overlay,1,.3f);
+
+		Utils.Instance.FadeMaterial(_overlay.renderer.material,.3f,1);
+
+	//	LeanTween.alpha(_overlay,1,1);
+		_overlay.renderer.material.mainTexture = obj.GetComponent<ImageObj>().ImageRenderer.material.mainTexture;
 		SceneManager.Instance.OnSceneTransition(Scene.Selected);
 		_selectedObj = obj;
 		
@@ -138,7 +142,9 @@ public class SelectionManager : MonoBehaviour {
 	public void FadeOutOverlay()
 	{
 		_overlay.collider.enabled = false;
-		LeanTween.alpha(_overlay,0,.3f);
+		Utils.Instance.FadeMaterial(_overlay.renderer.material,.3f,0);
+//		TweenAlpha.Begin(_overlay,.3f,1);
+//		LeanTween.alpha(_overlay,0,.3f);
 	}
 
 	public float LeaveSelectedObj()

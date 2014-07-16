@@ -319,10 +319,10 @@ public class ImageObj : MonoBehaviour {
 
 		Debug.Log("setting favorite: " + (PlayerPrefs.GetInt("IsFavorite" + url,0) == 1));
 
-		if (PlayerPrefs.GetInt("IsFavorite" + url,0) == 1)
-			ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/Action-FavActive", typeof(Texture2D)) );
-		else
-			ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/actionItems", typeof(Texture2D)) );
+//		if (PlayerPrefs.GetInt("IsFavorite" + url,0) == 1)
+//			ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/Action-FavActive", typeof(Texture2D)) );
+//		else
+//			ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/actionItems", typeof(Texture2D)) );
 	}
 	
 	protected virtual void OnSelected()
