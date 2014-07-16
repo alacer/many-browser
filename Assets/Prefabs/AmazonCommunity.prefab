@@ -294,6 +294,8 @@ GameObject:
   - 4: {fileID: 400036}
   - 33: {fileID: 3300008}
   - 23: {fileID: 2300012}
+  - 114: {fileID: 11400056}
+  - 65: {fileID: 6500062}
   m_Layer: 0
   m_Name: box
   m_TagString: Untagged
@@ -786,6 +788,8 @@ GameObject:
   - 4: {fileID: 400086}
   - 33: {fileID: 3300026}
   - 23: {fileID: 2300034}
+  - 114: {fileID: 11400054}
+  - 65: {fileID: 6500010}
   m_Layer: 0
   m_Name: box
   m_TagString: Untagged
@@ -13108,6 +13112,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.41999996, y: 1.50999999, z: .100000001}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &6500010
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100090}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .010207721, y: .0102077248, z: .00985830743}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &6500012
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -13407,6 +13423,18 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.41999996, y: 1.50999999, z: .100000001}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &6500062
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100032}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .0102077248, y: .0102077248, z: .00985831115}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!102 &10200000
 TextMesh:
@@ -14085,6 +14113,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300002}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -14170,6 +14199,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 100020, guid: 3547b2ac737da485081013a6f6c0a735, type: 2}
   ImageRenderer: {fileID: 2300012}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -14249,6 +14279,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300018}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -14334,6 +14365,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300028}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -14413,6 +14445,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 100020, guid: 07f32d0da44994f96aff518d0d2b4a3e, type: 2}
   ImageRenderer: {fileID: 2300034}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -14463,6 +14496,7 @@ MonoBehaviour:
   Type: 0
   FadeInOnAwake: 0
   BackgroundLabel: {fileID: 0}
+  TouchObjName: HitPlane
   HitPlaneOffset: {x: 0, y: 0, z: 3}
   RelativeZoomedOutCameraPos: {x: 0, y: 0, z: -8}
   MaxX: -3.40282347e+38
@@ -14480,6 +14514,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 793daa8e116bc4b47bfc941114eda020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11400054
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b52d56dcadd64809b42ae614fa17588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11400056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b52d56dcadd64809b42ae614fa17588, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11400064
@@ -14554,6 +14610,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300054}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -14636,6 +14693,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300062}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -14671,6 +14729,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300064}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -14800,6 +14859,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300078}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -14835,6 +14895,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300080}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -14964,6 +15025,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300094}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -14999,6 +15061,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300096}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -15128,6 +15191,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300110}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -15163,6 +15227,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300112}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -15292,6 +15357,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300126}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -15327,6 +15393,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300128}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -15456,6 +15523,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300142}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -15491,6 +15559,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300144}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -15620,6 +15689,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300158}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -15655,6 +15725,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300160}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -15784,6 +15855,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300174}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -15819,6 +15891,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300176}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -15948,6 +16021,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300190}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -15983,6 +16057,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300192}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -16065,6 +16140,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300200}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -16194,6 +16270,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300214}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -16276,6 +16353,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300222}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -16358,6 +16436,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300230}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -16440,6 +16519,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300238}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}
@@ -16475,6 +16555,7 @@ MonoBehaviour:
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
   OpaqueShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   BlendShader: {fileID: 0}
+  CommunityZDepth: 4
   CommunityPrefab: {fileID: 0}
   ImageRenderer: {fileID: 2300240}
   WhiteTexture: {fileID: 2800000, guid: a7f66fd49793745e09f476f62cbe4738, type: 3}

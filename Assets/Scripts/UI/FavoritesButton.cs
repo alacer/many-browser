@@ -27,6 +27,7 @@ public class FavoritesButton : Tappable {
 
 		bool isAlreadyFavorite = PlayerPrefs.GetInt("IsFavorite" + url,0) == 1;
 
+		Debug.Log("is already favorite: " + isAlreadyFavorite);
 
 		// if it's already a favorite just deselect
 		if (isAlreadyFavorite)

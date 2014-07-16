@@ -20,6 +20,14 @@ public class SelectionManager : MonoBehaviour {
 		Instance = this;
 	}
 
+	public ImageObj GetSelected()
+	{
+		if (_selectedObj == null)
+			return null;
+
+		return _selectedObj.GetComponent<ImageObj>();
+	}
+
 	public bool IsSelected()
 	{
 		return _selectedObj != null;
@@ -34,9 +42,14 @@ public class SelectionManager : MonoBehaviour {
 			LeaveSelectedObj();
 		else if (spread > 0)
 		{
-			StartCoroutine ( DoSelectedObjForwardTransition() );
+			GoIntoSelected();
 		}
 
+	}
+
+	public void GoIntoSelected()
+	{
+		StartCoroutine ( DoSelectedObjForwardTransition() );
 	}
 
 	protected virtual IEnumerator DoSelectedObjForwardTransition()

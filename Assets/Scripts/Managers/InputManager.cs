@@ -79,15 +79,25 @@ public class InputManager : MonoBehaviour {
 				
 				hits = Physics.RaycastAll(ray, 1000);
 
+				Transform hitTransform = null;
+				float minZ = float.MaxValue;
 				foreach(RaycastHit hit in hits)
 				{
 
-					if (hit.transform.GetComponent<Tappable>() != null)
+					if (hit.transform.GetComponent<Tappable>() != null && hit.transform.position.z < minZ)
 					{
-						Debug.Log("first hit: " + hit.transform.name);
-						hit.transform.gameObject.SendMessage("OnTap",SendMessageOptions.DontRequireReceiver);
-						break;
+						hitTransform = hit.transform;
+						minZ = hitTransform.position.z;
+
+
 					}
+				}
+
+				if (hitTransform != null)
+				{
+					Debug.Log("first hit: " + hitTransform.name);
+
+					hitTransform.gameObject.SendMessage("OnTap",SendMessageOptions.DontRequireReceiver);
 				}
 			}
 

@@ -27,6 +27,8 @@ GameObject:
   - 4: {fileID: 400002}
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
+  - 65: {fileID: 6500006}
+  - 114: {fileID: 11400014}
   m_Layer: 0
   m_Name: box
   m_TagString: Untagged
@@ -367,7 +369,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 76.0865097, y: -18.8937874, z: 7.2995615}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -594,7 +596,7 @@ Transform:
   m_GameObject: {fileID: 100040}
   m_LocalRotation: {x: 0, y: -1.49011594e-08, z: 2.08166791e-16, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .00879252981, y: .00792247429, z: .00987999979}
+  m_LocalScale: {x: .0114971409, y: .00814065151, z: .00987999979}
   m_Children:
   - {fileID: 400038}
   - {fileID: 400036}
@@ -1117,9 +1119,21 @@ BoxCollider:
   m_GameObject: {fileID: 100040}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: .180000007, y: .150000006, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &6500006
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .0102077238, y: .0102077248, z: .00985831022}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!102 &10200000
 TextMesh:
@@ -1156,7 +1170,7 @@ Animation:
   - {fileID: 7400002, guid: 432a99ee17fb84e46b464b3ad4b45320, type: 3}
   - {fileID: 7400004, guid: 432a99ee17fb84e46b464b3ad4b45320, type: 3}
   m_WrapMode: 0
-  m_PlayAutomatically: 1
+  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
 --- !u!114 &11400000
@@ -1173,6 +1187,7 @@ MonoBehaviour:
   SearchName: 
   DefaultImage: {fileID: 0}
   IsCommunityItem: 0
+  FavoritesButtonMesh: {fileID: 100022}
   ReplacementCommunityMaterials: []
   PageContentMaterial: {fileID: 2100000, guid: 15855c25e114749f899d7141671a2e39, type: 2}
   TransparentShader: {fileID: 4800000, guid: 231cb4ed6f3984785b89babfc77f562a, type: 3}
@@ -1256,6 +1271,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 266bdc1a39a864be7be836b7a78aab29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11400014
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b52d56dcadd64809b42ae614fa17588, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &100100000

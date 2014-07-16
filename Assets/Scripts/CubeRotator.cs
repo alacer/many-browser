@@ -21,6 +21,7 @@ public class CubeRotator : MonoBehaviour {
 	void Start()
 	{
 
+		UpdateActionsScale();
 		_backPanel = GameObject.Find("BackPanel");
 		_leftPanel = GameObject.Find("ActionButtonPanel");
 
@@ -38,9 +39,49 @@ public class CubeRotator : MonoBehaviour {
 		_totalAngleChange = Vector3.zero;
 	}
 
+	void UpdateColliders()
+	{
+		Debug.Log("forward: " + forward);
+
+		if (CubeTransform.collider != null)
+			CubeTransform.collider.enabled = (forward == Vector3.back);
+
+
+		if (CubeTransform.FindChild("box_actions") != null && CubeTransform.FindChild("box_actions").collider != null)
+		{
+			Transform actions = CubeTransform.FindChild("box_actions");
+
+			bool enabled = (forward == Vector3.left);
+
+			actions.collider.enabled = enabled;
+
+			if (enabled)
+				UpdateActionsScale();
+
+		}
+
+		if (CubeTransform.FindChild("FavoritesButton(Clone)") != null)
+		{
+			CubeTransform.FindChild("FavoritesButton(Clone)").collider.enabled = (forward == Vector3.left);
+			
+		}
+	}
+
+	void UpdateActionsScale()
+	{
+		Transform actions = CubeTransform.FindChild("box_actions");
+
+		if (actions == null)
+			return;
+		
+		Vector3 scale = actions.lossyScale;
+		actions.parent = null;
+		actions.localScale = scale;
+		actions.parent = CubeTransform;
+	}
+
 	// Update is called once per frame
 	void Update () {
-
 
 		Vector3 touchDelta = InputManager.Instance.GetOneFingerTouchDelta();
 
@@ -53,9 +94,7 @@ public class CubeRotator : MonoBehaviour {
 
 		if (touchDelta.x != 0 && LeanTween.isTweening(CubeTransform.gameObject) == false)
 		{
-	
 			_totalAngleChange += touchDelta;
-
 		}
 
 		// did the just swipe to rotate the box?
@@ -69,6 +108,7 @@ public class CubeRotator : MonoBehaviour {
 			Debug.Log("rotating");
 			float animTime = .3f;
 
+
 			forward = Quaternion.AngleAxis(-dir * 90,Vector3.up) * forward;
 
 			// do the rotation
@@ -78,12 +118,9 @@ public class CubeRotator : MonoBehaviour {
 				if (forward == Vector3.forward && transform.parent.GetComponent<ImageObj>().IsCommunityItem == false)
 					TweenAlpha.Begin(_backPanel,.3f,1);
 
+				UpdateColliders();
 	
-				if (CubeTransform.FindChild("FavoritesButton(Clone)") != null)
-				{
-					CubeTransform.FindChild("FavoritesButton(Clone)").collider.enabled = (forward == Vector3.left);
-				
-				}
+
 
 
 				_fingerLiftedAfterSwipe = false;
@@ -110,6 +147,9 @@ public class CubeRotator : MonoBehaviour {
 
 	void OnSelect()
 	{	
+		forward = Vector3.back;
+		UpdateColliders();
+
 		GameObject.Find("DraggableDescriptionPanel").SendMessage("ResetPosition");
 
 	}
@@ -117,7 +157,6 @@ public class CubeRotator : MonoBehaviour {
 	
 	void OnUnselect()
 	{
-
 
 		FadeButtonPanel(0,0);
 		TweenAlpha.Begin(_backPanel,0,0);

@@ -10,6 +10,11 @@ public class PastSearchObj : ImageObj {
 		SearchTextMesh.text = search;
 	}
 
+//	public override GoInto()
+//	{
+//
+//	}
+
 	public void DoSearch()
 	{
 		ImageSearch.Instance.Search(SearchTextMesh.text,true);

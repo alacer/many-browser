@@ -9,6 +9,7 @@ public class ImageObj : MonoBehaviour {
 	public Texture2D DefaultImage;
 	public bool IsCommunityItem = false;
 
+	public GameObject FavoritesButtonMesh;
 	public Material[] ReplacementCommunityMaterials;
 	public Material PageContentMaterial;
 	public Shader TransparentShader;
@@ -185,44 +186,55 @@ public class ImageObj : MonoBehaviour {
 		return community;
 	}
 
+	public void GoInto()
+	{
+		if (IsCommunity())
+			SelectionManager.Instance.GoIntoSelected();
+		else
+			StartCoroutine(DoZoomIn());
+
+	}
+
 	public IEnumerator DoZoomIn()
 	{
-		float animTime = .3f;
-		LeanTween.move(gameObject,transform.position + Vector3.back * .05f,animTime);
-		_zoomedIn = true;
-
-//		Texture bookCover = ImageRenderer.materials[0].GetTexture("_MainTex");
-//		Texture bookPreview = PageContentMaterial.GetTexture("_MainTex");
-//
-//		_boxMaterials[0].shader = BlendShader;
-//
-//		_boxMaterials[0].SetTexture("_TexMat1",bookCover);
-//		_boxMaterials[0].SetTexture("_TexMat2",bookPreview);
-//
-//
-//		float numFrames = 30;
-//		for (float i=1; i <= numFrames; i++)
-//		{
-//			float percent = i / numFrames;
-//			Debug.Log("percent: " + percent);
-//
-//
-//			_boxMaterials[0].SetFloat("_Blend",percent);
-//
-//			yield return new WaitForSeconds(animTime / numFrames);
-//		}
-//
-//		_boxMaterials[0].SetFloat("_Blend",1);
-
-	yield return new WaitForSeconds(animTime);
-
-		if (PageContentMaterial != null)
+		if (_zoomedIn == false)
 		{
-			Material[] newMats = _boxMaterials;
-			newMats[0] = PageContentMaterial;
-			ImageRenderer.materials = newMats;
-		}
+			float animTime = .3f;
+			LeanTween.move(gameObject,transform.position + Vector3.back * .05f,animTime);
+			_zoomedIn = true;
 
+	//		Texture bookCover = ImageRenderer.materials[0].GetTexture("_MainTex");
+	//		Texture bookPreview = PageContentMaterial.GetTexture("_MainTex");
+	//
+	//		_boxMaterials[0].shader = BlendShader;
+	//
+	//		_boxMaterials[0].SetTexture("_TexMat1",bookCover);
+	//		_boxMaterials[0].SetTexture("_TexMat2",bookPreview);
+	//
+	//
+	//		float numFrames = 30;
+	//		for (float i=1; i <= numFrames; i++)
+	//		{
+	//			float percent = i / numFrames;
+	//			Debug.Log("percent: " + percent);
+	//
+	//
+	//			_boxMaterials[0].SetFloat("_Blend",percent);
+	//
+	//			yield return new WaitForSeconds(animTime / numFrames);
+	//		}
+	//
+	//		_boxMaterials[0].SetFloat("_Blend",1);
+
+			yield return new WaitForSeconds(animTime);
+
+			if (PageContentMaterial != null)
+			{
+				Material[] newMats = _boxMaterials;
+				newMats[0] = PageContentMaterial;
+				ImageRenderer.materials = newMats;
+			}
+		}
 		yield return null;
 	}
 
@@ -319,10 +331,21 @@ public class ImageObj : MonoBehaviour {
 
 		Debug.Log("setting favorite: " + (PlayerPrefs.GetInt("IsFavorite" + url,0) == 1));
 
-//		if (PlayerPrefs.GetInt("IsFavorite" + url,0) == 1)
-//			ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/Action-FavActive", typeof(Texture2D)) );
-//		else
-//			ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/actionItems", typeof(Texture2D)) );
+		if (IsCommunityItem)
+		{
+			if (PlayerPrefs.GetInt("IsFavorite" + url,0) == 1)
+				ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/Action-FavActiveCom", typeof(Texture2D)) );
+			else
+				ImageRenderer.materials[4].mainTexture =  (Texture2D) Instantiate( Resources.Load("Textures/Com-ActionItems", typeof(Texture2D)) );
+		}
+		else
+		{
+			if (PlayerPrefs.GetInt("IsFavorite" + url,0) == 1)
+				FavoritesButtonMesh.renderer.material.mainTexture = (Texture2D) Resources.Load("Textures/Actions/action-favorite-active", typeof(Texture2D) );
+			else
+				FavoritesButtonMesh.renderer.material.mainTexture = (Texture2D) Resources.Load("Textures/Actions/action-favorite", typeof(Texture2D) );
+
+		}
 	}
 	
 	protected virtual void OnSelected()
@@ -373,11 +396,13 @@ public class ImageObj : MonoBehaviour {
 			if (Text != null)
 				Text.gameObject.SetActive(true);
 
-		CubeRotator.SendMessage("OnUnselect");
+		CubeRotator.SendMessage("OnUnselect",SendMessageOptions.DontRequireReceiver);
 		CubeRotator.SetActive(false);
 		ScaleToPlane(.3f);
 		if (IsCommunityItem == false)
 			ImageRenderer.materials[1].mainTexture = ImageRenderer.material.mainTexture;
+
+		_zoomedIn = false;
 
 	}
 	
