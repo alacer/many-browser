@@ -1,0 +1,279 @@
+fileFormatVersion: 2
+guid: 8475b24162a784449a0a0fbd03efcaf9
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: amazon_sign
+    100002: //RootNode
+    100004: chev
+    100006: lights
+    100008: sign2
+    100010: sign3
+    100012: sign_light
+    100014: sign_light1
+    100016: sign_light1 1
+    100018: sign_light10
+    100020: sign_light10 1
+    100022: sign_light11
+    100024: sign_light11 1
+    100026: sign_light12
+    100028: sign_light12 1
+    100030: sign_light13
+    100032: sign_light13 1
+    100034: sign_light14
+    100036: sign_light14 1
+    100038: sign_light15
+    100040: sign_light15 1
+    100042: sign_light16
+    100044: sign_light16 1
+    100046: sign_light2
+    100048: sign_light2 1
+    100050: sign_light3
+    100052: sign_light3 1
+    100054: sign_light4
+    100056: sign_light4 1
+    100058: sign_light4 2
+    100060: sign_light5
+    100062: sign_light5 1
+    100064: sign_light5 2
+    100066: sign_light6
+    100068: sign_light6 1
+    100070: sign_light6 2
+    100072: sign_light7
+    100074: sign_light7 1
+    100076: sign_light7 2
+    100078: sign_light8
+    100080: sign_light8 1
+    100082: sign_light8 2
+    100084: sign_light9
+    100086: sign_light9 1
+    100088: sign_lights
+    100090: sign_lights1
+    100092: sign_lights2
+    400000: amazon_sign
+    400002: //RootNode
+    400004: chev
+    400006: lights
+    400008: sign2
+    400010: sign3
+    400012: sign_light
+    400014: sign_light1
+    400016: sign_light1 1
+    400018: sign_light10
+    400020: sign_light10 1
+    400022: sign_light11
+    400024: sign_light11 1
+    400026: sign_light12
+    400028: sign_light12 1
+    400030: sign_light13
+    400032: sign_light13 1
+    400034: sign_light14
+    400036: sign_light14 1
+    400038: sign_light15
+    400040: sign_light15 1
+    400042: sign_light16
+    400044: sign_light16 1
+    400046: sign_light2
+    400048: sign_light2 1
+    400050: sign_light3
+    400052: sign_light3 1
+    400054: sign_light4
+    400056: sign_light4 1
+    400058: sign_light4 2
+    400060: sign_light5
+    400062: sign_light5 1
+    400064: sign_light5 2
+    400066: sign_light6
+    400068: sign_light6 1
+    400070: sign_light6 2
+    400072: sign_light7
+    400074: sign_light7 1
+    400076: sign_light7 2
+    400078: sign_light8
+    400080: sign_light8 1
+    400082: sign_light8 2
+    400084: sign_light9
+    400086: sign_light9 1
+    400088: sign_lights
+    400090: sign_lights1
+    400092: sign_lights2
+    2300000: amazon_sign
+    2300002: chev
+    2300004: sign2
+    2300006: sign3
+    2300008: sign_light
+    2300010: sign_light1
+    2300012: sign_light1 1
+    2300014: sign_light10
+    2300016: sign_light10 1
+    2300018: sign_light11
+    2300020: sign_light11 1
+    2300022: sign_light12
+    2300024: sign_light12 1
+    2300026: sign_light13
+    2300028: sign_light13 1
+    2300030: sign_light14
+    2300032: sign_light14 1
+    2300034: sign_light15
+    2300036: sign_light15 1
+    2300038: sign_light16
+    2300040: sign_light16 1
+    2300042: sign_light2
+    2300044: sign_light2 1
+    2300046: sign_light3
+    2300048: sign_light3 1
+    2300050: sign_light4
+    2300052: sign_light4 1
+    2300054: sign_light4 2
+    2300056: sign_light5
+    2300058: sign_light5 1
+    2300060: sign_light5 2
+    2300062: sign_light6
+    2300064: sign_light6 1
+    2300066: sign_light6 2
+    2300068: sign_light7
+    2300070: sign_light7 1
+    2300072: sign_light7 2
+    2300074: sign_light8
+    2300076: sign_light8 1
+    2300078: sign_light8 2
+    2300080: sign_light9
+    2300082: sign_light9 1
+    3300000: amazon_sign
+    3300002: chev
+    3300004: sign2
+    3300006: sign3
+    3300008: sign_light
+    3300010: sign_light1
+    3300012: sign_light1 1
+    3300014: sign_light10
+    3300016: sign_light10 1
+    3300018: sign_light11
+    3300020: sign_light11 1
+    3300022: sign_light12
+    3300024: sign_light12 1
+    3300026: sign_light13
+    3300028: sign_light13 1
+    3300030: sign_light14
+    3300032: sign_light14 1
+    3300034: sign_light15
+    3300036: sign_light15 1
+    3300038: sign_light16
+    3300040: sign_light16 1
+    3300042: sign_light2
+    3300044: sign_light2 1
+    3300046: sign_light3
+    3300048: sign_light3 1
+    3300050: sign_light4
+    3300052: sign_light4 1
+    3300054: sign_light4 2
+    3300056: sign_light5
+    3300058: sign_light5 1
+    3300060: sign_light5 2
+    3300062: sign_light6
+    3300064: sign_light6 1
+    3300066: sign_light6 2
+    3300068: sign_light7
+    3300070: sign_light7 1
+    3300072: sign_light7 2
+    3300074: sign_light8
+    3300076: sign_light8 1
+    3300078: sign_light8 2
+    3300080: sign_light9
+    3300082: sign_light9 1
+    4300000: amazon_sign
+    4300002: sign2
+    4300004: sign3
+    4300006: chev
+    4300008: sign_light4
+    4300010: sign_light5
+    4300012: sign_light6
+    4300014: sign_light7
+    4300016: sign_light8
+    4300018: sign_light1
+    4300020: sign_light2
+    4300022: sign_light3
+    4300024: sign_light4
+    4300026: sign_light5
+    4300028: sign_light6
+    4300030: sign_light7
+    4300032: sign_light8
+    4300034: sign_light9
+    4300036: sign_light10
+    4300038: sign_light11
+    4300040: sign_light12
+    4300042: sign_light13
+    4300044: sign_light14
+    4300046: sign_light15
+    4300048: sign_light16
+    4300050: sign_light
+    4300052: sign_light1
+    4300054: sign_light2
+    4300056: sign_light3
+    4300058: sign_light4
+    4300060: sign_light5
+    4300062: sign_light6
+    4300064: sign_light7
+    4300066: sign_light8
+    4300068: sign_light9
+    4300070: sign_light10
+    4300072: sign_light11
+    4300074: sign_light12
+    4300076: sign_light13
+    4300078: sign_light14
+    4300080: sign_light15
+    4300082: sign_light16
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
