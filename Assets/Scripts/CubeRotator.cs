@@ -4,6 +4,7 @@ using System.Collections;
 public class CubeRotator : MonoBehaviour {
 
 	public Transform CubeTransform;
+	public GameObject ActionsPanel;
 	public float _rotationSpeed = 1;
 	public float MinAngleToRotate = 5;
 	Vector3 forward = Vector3.back;
@@ -144,6 +145,8 @@ public class CubeRotator : MonoBehaviour {
 
 	void OnSelect()
 	{	
+		if (ActionsPanel != null)
+			ActionsPanel.SetActive(true);
 		forward = Vector3.back;
 		UpdateColliders();
 
@@ -164,5 +167,7 @@ public class CubeRotator : MonoBehaviour {
 		LeanTween.rotateLocal(CubeTransform.gameObject,_startRotation,.3f);
 		forward = Vector3.back;
 
+		if (ActionsPanel != null)
+			ActionsPanel.SetActive(false);
 	}
 }

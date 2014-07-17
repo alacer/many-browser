@@ -39,7 +39,7 @@ public class SpinningShape : Community {
 				SetZoomOutPos();
 			
 			transform.RotateAround(transform.position,Vector3.up,_velocity.x);
-			
+
 			
 			// clamp bounds
 			if (transform.position.y > GetMaxY())
@@ -52,8 +52,19 @@ public class SpinningShape : Community {
 		
 		ApplyFriction(magnitude);
 	}
-	
-	protected Vector3 GetVelocity()
+
+//	protected virtual float GetAngleDelta()
+//	{
+//		
+//	}
+//
+//	protected virtual Vector3 GetRotationsAxis()
+//	{
+//		return Vector3.up;
+//
+//	}
+
+	protected virtual Vector3 GetVelocity()
 	{
 		Vector3 worldPos = InputManager.Instance.GetTouchWorldPos();
 		
@@ -66,12 +77,25 @@ public class SpinningShape : Community {
 			
 			Vector3 lastPos = _lastWorldPos - transform.position;
 			Vector3 currentPos = worldPos - transform.position;
+
 			lastPos.y = 0;
 			currentPos.y = 0;
+
 			float dir = (Vector3.Cross(lastPos,currentPos).y > 0) ? 1 : -1;
 			float angleDelta = Vector3.Angle(lastPos,currentPos);
-			
-			vel = new Vector3( angleDelta * dir , -yVel, 0);
+
+
+
+			if (this is HelixManager)
+			{
+				vel = new Vector3( angleDelta * dir , -yVel, 0);
+			}
+			else if (this is FavoritesSphere)
+			{
+				vel = new Vector3( angleDelta * dir , -yVel, 0);
+
+			}
+
 			
 		}
 		else if (InputManager.Instance.IsFingerStationary())

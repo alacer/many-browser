@@ -76,7 +76,6 @@ GameObject:
   - 4: {fileID: 400008}
   - 114: {fileID: 11400006}
   - 65: {fileID: 6500000}
-  - 114: {fileID: 11400004}
   m_Layer: 8
   m_Name: CommunityObj
   m_TagString: ImageObj
@@ -253,20 +252,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CubeTransform: {fileID: 400000}
+  ActionsPanel: {fileID: 0}
   _rotationSpeed: .300000012
   MinAngleToRotate: 5
---- !u!114 &11400004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9bb795005c544f35a77d5ee7a0b5f9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsDraggable: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -281,6 +269,7 @@ MonoBehaviour:
   SearchName: home
   DefaultImage: {fileID: 0}
   IsCommunityItem: 1
+  FavoritesButtonMesh: {fileID: 0}
   ReplacementCommunityMaterials:
   - {fileID: 2100000, guid: 2a32dc8eaa6834893bf9fdca73e4748b, type: 2}
   - {fileID: 2100000, guid: 0d9a9de8f1ce043acb9e993b1de3f273, type: 2}

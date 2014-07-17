@@ -361,7 +361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -1227,6 +1227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CubeTransform: {fileID: 400002}
+  ActionsPanel: {fileID: 100040}
   _rotationSpeed: .300000012
   MinAngleToRotate: 5
 --- !u!114 &11400006

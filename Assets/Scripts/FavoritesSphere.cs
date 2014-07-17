@@ -29,6 +29,8 @@ public class FavoritesSphere : SpinningShape {
 		float angle = 0;
 		float heightDelta = .15f;
 
+		float _lastLayer=0;
+
 		Quaternion rotation;
 
 		
@@ -39,7 +41,16 @@ public class FavoritesSphere : SpinningShape {
 
 			bool isCommunityItem = (Resources.Load(url) != null);
 
-			dir = Quaternion.AngleAxis(Random.Range(-1,2)*10,Vector3.right) * Vector3.back;
+			float layer=0;
+			do
+			{
+				layer = Random.Range(-3,4);
+
+			} while (layer == _lastLayer);
+
+			_lastLayer = layer;
+
+			dir = Quaternion.AngleAxis(layer*10,Vector3.right) * Vector3.back;
 
 			dir = Quaternion.AngleAxis(angle,Vector3.up) * dir;
 
