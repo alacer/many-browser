@@ -4388,7 +4388,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 182161779}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -.554122925, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1549500094}
@@ -31030,7 +31030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ede6af9b697484cd7813d032333907aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SkipIntro: 1
+  SkipIntro: 0
   MaxX: 15.6000004
   MinX: -21.2999992
   MaxY: .939999998
@@ -32018,7 +32018,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1156751144
 Animator:
   serializedVersion: 2
@@ -33222,7 +33222,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: ce005043b2b0841bb989a1e2c4bff81a, type: 2}
+  - {fileID: 2100000, guid: 1babd22efabd547eb8a162d358c53de5, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -47590,12 +47590,12 @@ MonoBehaviour:
   mColor: {r: .477941155, g: .477941155, b: .477941155, a: 1}
   mPivot: 0
   mWidth: 241
-  mHeight: 988
+  mHeight: 932
   mDepth: 0
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: .243927121
+  aspectRatio: .258583695
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: 97c7d156f6213402fafee8af6bdee8f9, type: 3}
   mFont: {fileID: 0}
@@ -47659,8 +47659,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 241, y: 988, z: 0}
-  m_Center: {x: 120.5, y: -494, z: 0}
+  m_Size: {x: 241, y: 932, z: 0}
+  m_Center: {x: 120.5, y: -466, z: 0}
 --- !u!1 &1738408603
 GameObject:
   m_ObjectHideFlags: 0
@@ -51937,7 +51937,7 @@ Prefab:
       objectReference: {fileID: 2100000, guid: 7182b061f57b74ac08788a1e35f4de4c, type: 2}
     - target: {fileID: 100000, guid: 18647442ce98843e48c24461b55a1326, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 18647442ce98843e48c24461b55a1326, type: 3}
@@ -53867,6 +53867,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 18647442ce98843e48c24461b55a1326, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1babd22efabd547eb8a162d358c53de5, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 18647442ce98843e48c24461b55a1326, type: 3}
   m_RootGameObject: {fileID: 1218834437}
@@ -59156,7 +59160,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: d933dd6245cde9d4eb7b145a3181de4c, type: 2}
+  - {fileID: 2100000, guid: 461ae38ead8114607a3496cd95e838db, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
