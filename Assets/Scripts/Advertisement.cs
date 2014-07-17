@@ -12,16 +12,16 @@ public class Advertisement : MonoBehaviour {
 
 	public void Show()
 	{
-		if (transform.localPosition != _startPos)
-			return;
-
-		transform.localPosition = _startPos;
-
-		LeanTween.moveLocal(gameObject,Vector3.zero,1).setOnComplete( () => {
-			LeanTween.moveLocal(gameObject,new Vector3(0,100,0),1).setDelay(2).setOnComplete ( () => {
-				transform.localPosition = _startPos;
-			});
-		});
+//		if (transform.localPosition != _startPos)
+//			return;
+//
+//		transform.localPosition = _startPos;
+//
+//		LeanTween.moveLocal(gameObject,Vector3.zero,1).setOnComplete( () => {
+//			LeanTween.moveLocal(gameObject,new Vector3(0,100,0),1).setDelay(2).setOnComplete ( () => {
+//				transform.localPosition = _startPos;
+//			});
+//		});
 
 	}
 }

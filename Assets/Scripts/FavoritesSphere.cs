@@ -36,7 +36,7 @@ public class FavoritesSphere : SpinningShape {
 		for (int i=0; i < numObjs; i++)
 		{
 			string url = _urls[i];
-			Debug.Log("loading obj url: " + url);
+
 			bool isCommunityItem = (Resources.Load(url) != null);
 
 			dir = Quaternion.AngleAxis(Random.Range(-1,2)*10,Vector3.right) * Vector3.back;

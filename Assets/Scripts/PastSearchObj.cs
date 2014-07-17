@@ -38,6 +38,7 @@ public class PastSearchObj : ImageObj {
 
 		CubeRotator.SetActive(false);
 
+
 	}
 
 	public override void ScaleToCube()

@@ -31,7 +31,11 @@ public class CameraManager : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		Instance = this;
-	//	PlayerPrefs.DeleteAll();
+
+		PlayerPrefs.DeleteAll();
+
+		AddFavorites();
+	
 
 		Application.targetFrameRate = 60;
 		LeanTween.init(3000);
@@ -41,6 +45,37 @@ public class CameraManager : MonoBehaviour {
 		
 		if (SkipIntro && Application.isEditor)
 			animation["CameraAnim"].speed = 10;
+
+
+	}
+
+	void AddFavorites()
+	{
+		FavoritesButton.SaveFavorite("Textures/Now/alien_meal");
+		FavoritesButton.SaveFavorite("Textures/Now/amazon");
+		FavoritesButton.SaveFavorite("Textures/Now/camera_3");
+		FavoritesButton.SaveFavorite("Textures/Now/contacts");
+		FavoritesButton.SaveFavorite("Textures/Now/coworkers");
+		FavoritesButton.SaveFavorite("Textures/Now/design project");
+		FavoritesButton.SaveFavorite("Textures/Now/devices");
+		FavoritesButton.SaveFavorite("Textures/Now/family");
+		FavoritesButton.SaveFavorite("Textures/Now/ferris_wheel");
+		FavoritesButton.SaveFavorite("Textures/Now/gopro");
+		FavoritesButton.SaveFavorite("Textures/Now/hamburger");
+		FavoritesButton.SaveFavorite("Textures/Now/healthy meals");
+		FavoritesButton.SaveFavorite("Textures/Now/home");
+		FavoritesButton.SaveFavorite("Textures/Now/home entertainment");
+		FavoritesButton.SaveFavorite("Textures/Now/home monitor");
+		FavoritesButton.SaveFavorite("Textures/Now/imgres-1");
+		FavoritesButton.SaveFavorite("Textures/Now/kid");
+		FavoritesButton.SaveFavorite("Textures/Now/kid gift ideas");
+		FavoritesButton.SaveFavorite("Textures/Now/kids field trip");
+		FavoritesButton.SaveFavorite("Textures/Now/lake");
+		FavoritesButton.SaveFavorite("Textures/Now/meal ideas");
+		FavoritesButton.SaveFavorite("Textures/Now/MIDDLE_HAIR");
+		FavoritesButton.SaveFavorite("Textures/Now/model-004");
+		FavoritesButton.SaveFavorite("Textures/Now/model-007");
+		FavoritesButton.SaveFavorite("Textures/Now/model-008");
 
 
 	}

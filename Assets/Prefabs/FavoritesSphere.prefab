@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa8ba08ff939541a9a4cbdeef0a3df8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Favorites
   Type: 1
   FadeInOnAwake: 1
   BackgroundLabel: {fileID: 0}

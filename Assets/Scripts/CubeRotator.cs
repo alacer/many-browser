@@ -119,9 +119,6 @@ public class CubeRotator : MonoBehaviour {
 					TweenAlpha.Begin(_backPanel,.3f,1);
 
 				UpdateColliders();
-	
-
-
 
 				_fingerLiftedAfterSwipe = false;
 				_totalAngleChange = Vector3.zero;

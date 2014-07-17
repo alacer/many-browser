@@ -4,6 +4,37 @@ using System.Collections.Generic;
 
 public class FavoritesButton : Tappable {
 
+
+	public static void SaveFavorite(string url)
+	{
+
+//		if (Resources.Load(url) == null)
+//			Debug.Log("bad url: " + url);
+
+		PlayerPrefs.SetInt("IsFavorite" + url,1);
+		
+		
+		string[] urls =  PlayerPrefsX.GetStringArray("FavoritesUrls");
+		if (urls == null || urls.Length == 0)
+		{
+			urls = new string[] { url };
+			PlayerPrefsX.SetStringArray("FavoritesUrls",urls);
+		}
+		else
+		{
+			List<string> urlList = new List<string>(urls);
+			
+			if (urlList.Contains(url) == false)
+			{
+				urlList.Add(url);
+				PlayerPrefsX.SetStringArray("FavoritesUrls",urlList.ToArray());
+			}
+			
+		}
+
+	}
+
+
 	public void OnTap()
 	{
 		ImageObj obj = transform.parent.parent.GetComponent<ImageObj>();
@@ -16,10 +47,14 @@ public class FavoritesButton : Tappable {
 			if (obj.HasData("Url"))
 				url = obj.GetData<string>("Url");
 			else // otherwise compose it
+			{
 				url = "Textures/" + Community.CurrentCommunity.Name + "/" +  obj.DefaultImage.name;
+				Debug.Log("saving favorites: " + url);
+			}
 		}
 		else
 		{
+	
 			url =  obj.GetData<string>("Url");
 			largeImageUrl = obj.GetData<string>("LargeUrl");
 		}
@@ -55,33 +90,15 @@ public class FavoritesButton : Tappable {
 
 		Debug.Log("saving favorite: " + url);
 
-		PlayerPrefs.SetInt("IsFavorite" + url,1);
+		SaveFavorite(url);
+
 		PlayerPrefs.Save();
 
 		obj.UpdateFavoritesButton(url);
-
+		
 		if (largeImageUrl != null && largeImageUrl != string.Empty)
 		{
 			PlayerPrefs.SetString("LargeImage" + url,largeImageUrl);
-		}
-
-	
-		string[] urls =  PlayerPrefsX.GetStringArray("FavoritesUrls");
-		if (urls == null || urls.Length == 0)
-		{
-			urls = new string[] { url };
-			PlayerPrefsX.SetStringArray("FavoritesUrls",urls);
-		}
-		else
-		{
-			List<string> urlList = new List<string>(urls);
-
-			if (urlList.Contains(url) == false)
-			{
-				urlList.Add(url);
-				PlayerPrefsX.SetStringArray("FavoritesUrls",urlList.ToArray());
-			}
-
 		}
 
 		if (obj.HasData("Description"))

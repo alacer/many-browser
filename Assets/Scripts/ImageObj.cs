@@ -75,8 +75,6 @@ public class ImageObj : MonoBehaviour {
 		_planeMaterials = new Material[] { ImageRenderer.materials[0], ImageRenderer.materials[1] };
 		ImageRenderer.materials = _planeMaterials;
 
-//		if (OpaqueShader != null)
-//			ImageRenderer.material.shader = OpaqueShader;
 
 		_imageBox = transform.FindChild("box");
 
@@ -91,8 +89,6 @@ public class ImageObj : MonoBehaviour {
 			Initialize(DefaultImage);
 		}
 
-//		for (int i=2; i <= 5; i++)
-//			Destroy( ImageRenderer.materials[i]);
 	}
 
 	public void InitData(Dictionary<string,object> data)
@@ -100,6 +96,14 @@ public class ImageObj : MonoBehaviour {
 		_data = data;
 
 
+	}
+
+	bool IsInFavorites()
+	{
+		if (Community.CurrentCommunity == null)
+			return false;
+
+		return (Community.CurrentCommunity.Name == "Favorites");
 	}
 
 	public void Initialize(Texture2D tex)
@@ -110,7 +114,7 @@ public class ImageObj : MonoBehaviour {
 		ImageRenderer.material.mainTexture = tex;
 
 
-		if (IsCommunityItem == false)
+		if (IsCommunityItem == false || IsInFavorites())
 			ImageRenderer.materials[1].mainTexture = ImageRenderer.material.mainTexture;
 		
 		float aspectRatio = (float)tex.width / (float)tex.height;
@@ -293,7 +297,13 @@ public class ImageObj : MonoBehaviour {
 
 	protected virtual void SetAlphaOnText(float alpha)
 	{
-		// override
+		// override 
+		if (Text == null)
+			return;
+
+		Color c = Text.color;
+		
+		Text.color = new Color(c.r,c.g,c.b,alpha);
 	}
 
 	void UpdateRoation()
@@ -351,7 +361,7 @@ public class ImageObj : MonoBehaviour {
 	protected virtual void OnSelected()
 	{
 		ImageRenderer.materials = _boxMaterials;
-		if (IsCommunityItem == false)
+		if (IsCommunityItem == false || IsInFavorites())
 			ImageRenderer.materials[1].mainTexture = WhiteTexture;
 
 		if (_data.ContainsKey("Url"))
@@ -367,6 +377,8 @@ public class ImageObj : MonoBehaviour {
 		                                                                                                               {
 			SceneManager.Instance.PushScene(Scene.Selected);
 		
+			if (this is PastSearchObj)
+				SelectionManager.Instance.GoIntoSelected();
 		});
 
 		LeanTween.rotateLocal(ImageRenderer.gameObject,new Vector3(0,270,0), animTime).setEase(LeanTweenType.easeOutQuad);
@@ -399,7 +411,7 @@ public class ImageObj : MonoBehaviour {
 		CubeRotator.SendMessage("OnUnselect",SendMessageOptions.DontRequireReceiver);
 		CubeRotator.SetActive(false);
 		ScaleToPlane(.3f);
-		if (IsCommunityItem == false)
+		if (IsCommunityItem == false || IsInFavorites())
 			ImageRenderer.materials[1].mainTexture = ImageRenderer.material.mainTexture;
 
 		_zoomedIn = false;
@@ -473,14 +485,14 @@ public class ImageObj : MonoBehaviour {
 	protected virtual void ScaleToBox(float animTime)
 	{
 	
-		//	transform.localScale = _cubeScale;
+	
 		LeanTween.scale(gameObject,_cubeScale,.1f);
 	}
 	
 	protected virtual void ScaleToAspect(float animTime)
 	{
 
-		//		transform.localScale = _aspectScale;
+	
 		LeanTween.scale(gameObject,_aspectScale,.1f);
 		
 	}
