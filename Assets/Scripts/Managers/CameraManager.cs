@@ -61,7 +61,7 @@ public class CameraManager : MonoBehaviour {
 		FavoritesButton.SaveFavorite("Textures/Now/family");
 		FavoritesButton.SaveFavorite("Textures/Now/ferris_wheel");
 		FavoritesButton.SaveFavorite("Textures/Now/gopro");
-		FavoritesButton.SaveFavorite("Textures/Now/hamburger");
+//		FavoritesButton.SaveFavorite("Textures/Now/hamburger");
 		FavoritesButton.SaveFavorite("Textures/Now/healthy meals");
 		FavoritesButton.SaveFavorite("Textures/Now/home");
 		FavoritesButton.SaveFavorite("Textures/Now/home entertainment");
@@ -74,8 +74,15 @@ public class CameraManager : MonoBehaviour {
 		FavoritesButton.SaveFavorite("Textures/Now/meal ideas");
 		FavoritesButton.SaveFavorite("Textures/Now/MIDDLE_HAIR");
 		FavoritesButton.SaveFavorite("Textures/Now/model-004");
-		FavoritesButton.SaveFavorite("Textures/Now/model-007");
+		FavoritesButton.SaveFavorite("Textures/Now/model-007");	
 		FavoritesButton.SaveFavorite("Textures/Now/model-008");
+		FavoritesButton.SaveFavorite("Textures/Amazon/Categories/AmaCat01");
+		FavoritesButton.SaveFavorite("Textures/Amazon/Categories/AmaCat02");
+		FavoritesButton.SaveFavorite("Textures/Amazon/Categories/AmaCat03");
+		FavoritesButton.SaveFavorite("Textures/Amazon/Categories/AmaCat04");
+		FavoritesButton.SaveFavorite("Textures/Amazon/Categories/AmaCat05");
+		FavoritesButton.SaveFavorite("Textures/Amazon/Categories/AmaCat06");
+
 
 
 	}
@@ -235,8 +242,8 @@ public class CameraManager : MonoBehaviour {
 
 	void ZoomOut()
 	{
-		if (SceneManager.Instance.GetScene() == Scene.Helix)
-			GameObject.Find("Billboard Ad").GetComponent<Animator>().SetTrigger("TriggerAnimation");
+//		if (SceneManager.Instance.GetScene() == Scene.Helix)
+//			GameObject.Find("Billboard Ad").GetComponent<Animator>().SetTrigger("TriggerAnimation");
 
 		Vector3 zoomOutPos = Community.CurrentCommunity.GetZoomedOutCameraPos();
 		LeanTween.move(gameObject,zoomOutPos,.3f).setOnComplete ( () => {

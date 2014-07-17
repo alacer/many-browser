@@ -40,7 +40,7 @@ public class SpinningShape : Community {
 			
 			transform.RotateAround(transform.position,Vector3.up,_velocity.x);
 
-			
+
 			// clamp bounds
 			if (transform.position.y > GetMaxY())
 				transform.position = new Vector3(transform.position.x, GetMaxY(), transform.position.z);
@@ -64,6 +64,36 @@ public class SpinningShape : Community {
 //
 //	}
 
+
+	float GetHorizontalAngleDelta(Vector3 worldPos)
+	{
+		Vector3 lastPos = _lastWorldPos - transform.position;
+		Vector3 currentPos = worldPos - transform.position;
+		
+		lastPos.y = 0;
+		currentPos.y = 0;
+		
+		float dir = (Vector3.Cross(lastPos,currentPos).y > 0) ? 1 : -1;
+		float angleDelta = Vector3.Angle(lastPos,currentPos) * dir;
+
+		return angleDelta;
+	}
+
+	float GetVerticalAngleDelta(Vector3 worldPos)
+	{
+		Vector3 lastPos = _lastWorldPos - transform.position;
+		Vector3 currentPos = worldPos - transform.position;
+
+		lastPos.x = 0;
+		currentPos.x = 0;
+		
+		float dir = (Vector3.Cross(lastPos,currentPos).x > 0) ? 1 : -1;
+		float angleDelta = Vector3.Angle(lastPos,currentPos) * dir;
+		
+		return angleDelta;
+	}
+
+
 	protected virtual Vector3 GetVelocity()
 	{
 		Vector3 worldPos = InputManager.Instance.GetTouchWorldPos();
@@ -75,24 +105,14 @@ public class SpinningShape : Community {
 		{
 			float yVel = _lastWorldPos.y - worldPos.y;
 			
-			Vector3 lastPos = _lastWorldPos - transform.position;
-			Vector3 currentPos = worldPos - transform.position;
 
-			lastPos.y = 0;
-			currentPos.y = 0;
-
-			float dir = (Vector3.Cross(lastPos,currentPos).y > 0) ? 1 : -1;
-			float angleDelta = Vector3.Angle(lastPos,currentPos);
-
-
-
-			if (this is HelixManager)
+//			if (this is HelixManager)
+//			{
+				vel = new Vector3( GetHorizontalAngleDelta(worldPos) , -yVel, 0);
+//			}
+			if (this is FavoritesSphere)
 			{
-				vel = new Vector3( angleDelta * dir , -yVel, 0);
-			}
-			else if (this is FavoritesSphere)
-			{
-				vel = new Vector3( angleDelta * dir , -yVel, 0);
+				vel.x *= .5f;// = new Vector3( GetHorizontalAngleDelta(worldPos), GetVerticalAngleDelta(worldPos), 0);
 
 			}
 
