@@ -36,7 +36,7 @@ public class ImageObj : MonoBehaviour {
 	
 	Vector3 _totalZMovement;
 
-	Vector3 _aspectScale;
+	Vector3 _bookScale;
 
 	Vector3 _cubeScale;
 	Vector3 _savedPos;
@@ -131,7 +131,7 @@ public class ImageObj : MonoBehaviour {
 		}
 
 		transform.localScale = scale;
-		_aspectScale = scale;
+		_bookScale = scale;
 
 	}
 
@@ -180,7 +180,7 @@ public class ImageObj : MonoBehaviour {
 		CubeRotator.SendMessage("DoFastRotateToFront",SendMessageOptions.DontRequireReceiver);
 		SceneManager.Instance.SetTransitioning(true);
 
-		GameObject community = (GameObject)Instantiate(CommunityPrefab,new Vector3(finalCameraPos.x, 0, finalCameraPos.z + CommunityZDepth),Quaternion.identity);
+		GameObject community = (GameObject)Instantiate(CommunityPrefab,new Vector3(finalCameraPos.x, finalCameraPos.y, finalCameraPos.z + CommunityZDepth),Quaternion.identity);
 
 		StartCoroutine(FadeMaterial(.5f,0,() => {
 
@@ -325,7 +325,7 @@ public class ImageObj : MonoBehaviour {
 	}
 
 
-	void Update()
+	protected virtual void Update()
 	{
 		UpdateRoation();
 
@@ -333,13 +333,15 @@ public class ImageObj : MonoBehaviour {
 
 	public void UpdateFavoritesButton(string url)
 	{
+
+
 		if (ImageRenderer.materials.Length < 5)
 		{
 			Debug.Log( " mat length: " + ImageRenderer.materials.Length);
 			return;
 		}
 
-		Debug.Log("setting favorite: " + (PlayerPrefs.GetInt("IsFavorite" + url,0) == 1));
+		Debug.Log("setting favorite or url: " + url + " : " + (PlayerPrefs.GetInt("IsFavorite" + url,0) == 1));
 
 		if (IsCommunityItem)
 		{
@@ -357,6 +359,11 @@ public class ImageObj : MonoBehaviour {
 
 		}
 	}
+
+	public string GetResourceUrl()
+	{
+		return "Textures/" + Community.CurrentCommunity.Name + "/" + ImageRenderer.material.mainTexture.name;
+	}
 	
 	protected virtual void OnSelected()
 	{
@@ -366,6 +373,11 @@ public class ImageObj : MonoBehaviour {
 
 		if (_data.ContainsKey("Url"))
 			UpdateFavoritesButton(GetData<string>("Url"));
+		else
+		{
+
+			UpdateFavoritesButton(GetResourceUrl());
+		}
 
 		if (Text != null)
 			Text.gameObject.SetActive(false);
@@ -402,8 +414,8 @@ public class ImageObj : MonoBehaviour {
 
 		_boxMaterials[0] = _planeMaterials[0];
 		ImageRenderer.materials = _planeMaterials;
-		Debug.Log("aspect : " + _aspectScale + " _cube: " + _cubeScale);
-		ScaleToAspect(.3f);
+		Debug.Log("aspect : " + _bookScale + " _cube: " + _cubeScale);
+		ScaleToBook(.3f);
 		if (SceneManager.Instance.GetTransitioningToScene() == Scene.Helix)
 			if (Text != null)
 				Text.gameObject.SetActive(true);
@@ -473,6 +485,7 @@ public class ImageObj : MonoBehaviour {
 
 	public virtual void ScaleToCube()
 	{
+		Debug.Log("scaling to cube");
 		LeanTween.scaleX(_imageBox.gameObject,CubeXScale,.3f);
 	}
 	
@@ -485,15 +498,17 @@ public class ImageObj : MonoBehaviour {
 	protected virtual void ScaleToBox(float animTime)
 	{
 	
-	
+		Debug.Log("scaling to box");
+
 		LeanTween.scale(gameObject,_cubeScale,.1f);
 	}
 	
-	protected virtual void ScaleToAspect(float animTime)
+	protected virtual void ScaleToBook(float animTime)
 	{
 
-	
-		LeanTween.scale(gameObject,_aspectScale,.1f);
+		Debug.Log("scaling to book");
+
+		LeanTween.scale(gameObject,_bookScale,.1f);
 		
 	}
 

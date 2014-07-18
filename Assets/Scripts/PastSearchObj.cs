@@ -1,13 +1,26 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PastSearchObj : ImageObj {
 
 	public TextMesh SearchTextMesh;
+	public float ZOffset = 0;
+
+	Vector3 startPos;
 
 	public void SetSearchText(string search)
 	{
 		SearchTextMesh.text = search;
+		startPos = SearchTextMesh.transform.localPosition;
+	}
+
+	protected override void Update()
+	{
+		base.Update();
+
+		SearchTextMesh.transform.localPosition = startPos + Vector3.forward * ZOffset;
+
+		Debug.Log("setting pos: " + SearchTextMesh.transform.localPosition);
 	}
 
 //	public override GoInto()
@@ -51,7 +64,7 @@ public class PastSearchObj : ImageObj {
 		// do nothing
 	}
 	
-	protected override void ScaleToAspect(float animTime)
+	protected override void ScaleToBook(float animTime)
 	{
 		// do nothing
 	}

@@ -41,28 +41,22 @@ public class SpinningShape : Community {
 			transform.RotateAround(transform.position,Vector3.up,_velocity.x);
 
 
-			// clamp bounds
-			if (transform.position.y > GetMaxY())
-				transform.position = new Vector3(transform.position.x, GetMaxY(), transform.position.z);
-			else if (transform.position.y < GetMinY())
-				transform.position = new Vector3(transform.position.x, GetMinY(), transform.position.z);
-			
+			ClampToBounds();
 		}
 		
 		
 		ApplyFriction(magnitude);
 	}
 
-//	protected virtual float GetAngleDelta()
-//	{
-//		
-//	}
-//
-//	protected virtual Vector3 GetRotationsAxis()
-//	{
-//		return Vector3.up;
-//
-//	}
+	protected virtual void ClampToBounds()
+	{
+		
+		// clamp bounds
+		if (transform.position.y > GetMaxY())
+			transform.position = new Vector3(transform.position.x, GetMaxY(), transform.position.z);
+		else if (transform.position.y < GetMinY())
+			transform.position = new Vector3(transform.position.x, GetMinY(), transform.position.z);
+	}
 
 
 	float GetHorizontalAngleDelta(Vector3 worldPos)

@@ -86,7 +86,6 @@ public class CubeRotator : MonoBehaviour {
 
 		Vector3 touchDelta = InputManager.Instance.GetOneFingerTouchDelta();
 
-
 		if (InputManager.Instance.GetTouchCount() == 0)
 		{
 			_totalAngleChange = Vector3.zero;

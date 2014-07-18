@@ -20,6 +20,13 @@ Material:
           m_Texture: {fileID: 2800000, guid: b3c70bf6bf48f4a83af9003d71eb6327, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Mask
+        second:
+          m_Texture: {fileID: 2800000, guid: 769edde2bb3bc404185960546bf54b0b, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats: {}
     m_Colors:
       data:

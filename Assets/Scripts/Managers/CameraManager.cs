@@ -32,8 +32,10 @@ public class CameraManager : MonoBehaviour {
 	void Awake () {
 		Instance = this;
 
-	//	PlayerPrefs.DeleteAll();
+		if (Application.isEditor);
+			PlayerPrefs.DeleteAll();
 
+		Debug.Log("adding favorites");
 		AddFavorites();
 	
 
@@ -52,30 +54,28 @@ public class CameraManager : MonoBehaviour {
 	void AddFavorites()
 	{
 		FavoritesButton.SaveFavorite("Textures/Now/alien_meal");
-		FavoritesButton.SaveFavorite("Textures/Now/amazon");
-		FavoritesButton.SaveFavorite("Textures/Now/camera_3");
-		FavoritesButton.SaveFavorite("Textures/Now/contacts");
-		FavoritesButton.SaveFavorite("Textures/Now/coworkers");
-		FavoritesButton.SaveFavorite("Textures/Now/design project");
-		FavoritesButton.SaveFavorite("Textures/Now/devices");
-		FavoritesButton.SaveFavorite("Textures/Now/family");
-		FavoritesButton.SaveFavorite("Textures/Now/ferris_wheel");
-		FavoritesButton.SaveFavorite("Textures/Now/gopro");
+		FavoritesButton.SaveFavorite("Textures/Now/r_amazon");
+		FavoritesButton.SaveFavorite("Textures/Now/r_BALDING");
+		FavoritesButton.SaveFavorite("Textures/Now/r_contacts");
+		FavoritesButton.SaveFavorite("Textures/Now/r_design project");
+		FavoritesButton.SaveFavorite("Textures/Now/r_devices");
+		FavoritesButton.SaveFavorite("Textures/Now/r_family");
+		FavoritesButton.SaveFavorite("Textures/Now/r_ferris");
+		FavoritesButton.SaveFavorite("Textures/Now/r_gopro");
 //		FavoritesButton.SaveFavorite("Textures/Now/hamburger");
-		FavoritesButton.SaveFavorite("Textures/Now/healthy meals");
-		FavoritesButton.SaveFavorite("Textures/Now/home");
-		FavoritesButton.SaveFavorite("Textures/Now/home entertainment");
+		FavoritesButton.SaveFavorite("Textures/Now/r_healthy meals");
+		FavoritesButton.SaveFavorite("Textures/Now/r_home");
+		FavoritesButton.SaveFavorite("Textures/Now/r_home entertainment");
 		FavoritesButton.SaveFavorite("Textures/Now/home monitor");
-		FavoritesButton.SaveFavorite("Textures/Now/imgres-1");
 		FavoritesButton.SaveFavorite("Textures/Now/kid");
-		FavoritesButton.SaveFavorite("Textures/Now/kid gift ideas");
-		FavoritesButton.SaveFavorite("Textures/Now/kids field trip");
-		FavoritesButton.SaveFavorite("Textures/Now/lake");
+		FavoritesButton.SaveFavorite("Textures/Now/r_kid gift ideas");
+		FavoritesButton.SaveFavorite("Textures/Now/r_kids field trip");
+		FavoritesButton.SaveFavorite("Textures/Now/r_lake");
 		FavoritesButton.SaveFavorite("Textures/Now/meal ideas");
 		FavoritesButton.SaveFavorite("Textures/Now/MIDDLE_HAIR");
-		FavoritesButton.SaveFavorite("Textures/Now/model-004");
-		FavoritesButton.SaveFavorite("Textures/Now/model-007");	
-		FavoritesButton.SaveFavorite("Textures/Now/model-008");
+		FavoritesButton.SaveFavorite("Textures/Now/r_model-004");
+		FavoritesButton.SaveFavorite("Textures/Now/r_model-007");	
+		FavoritesButton.SaveFavorite("Textures/Now/r_model-008");
 		FavoritesButton.SaveFavorite("Textures/Amazon/Categories/AmaCat01");
 		FavoritesButton.SaveFavorite("Textures/Amazon/Categories/AmaCat02");
 		FavoritesButton.SaveFavorite("Textures/Amazon/Categories/AmaCat03");
