@@ -110,11 +110,11 @@ public class SpinningShape : Community {
 //			{
 				vel = new Vector3( GetHorizontalAngleDelta(worldPos) , -yVel, 0);
 //			}
-			if (this is FavoritesSphere)
-			{
-				vel.x *= .5f;// = new Vector3( GetHorizontalAngleDelta(worldPos), GetVerticalAngleDelta(worldPos), 0);
-
-			}
+//			if (this is FavoritesSphere)
+//			{
+//				vel.x *= .5f;// = new Vector3( GetHorizontalAngleDelta(worldPos), GetVerticalAngleDelta(worldPos), 0);
+//
+//			}
 
 			
 		}

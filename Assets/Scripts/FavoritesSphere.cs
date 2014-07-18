@@ -10,7 +10,6 @@ public class FavoritesSphere : SpinningShape {
 
 	void Start()
 	{
-
 		_urls = PlayerPrefsX.GetStringArray("FavoritesUrls");
 
 		Debug.Log("urls length: " + _urls.Length);
@@ -27,7 +26,7 @@ public class FavoritesSphere : SpinningShape {
 		float radius = GetComponent<SphereCollider>().bounds.size.x / 2.0f;
 		float numLayers = 3;
 		float angleDelta = 360.0f / (numObjs / numLayers);
-		float itemsPerLayer = 360.0f / angleDelta;
+		float itemsPerLayer = Mathf.Floor( 360.0f / angleDelta );
 		float angle = 0;
 		float heightDelta = .15f;
 
@@ -46,9 +45,7 @@ public class FavoritesSphere : SpinningShape {
 
 			_lastLayer = layer;
 
-
 			dir = Quaternion.AngleAxis(layer*30,Vector3.right) * Vector3.back;
-
 
 			dir = Quaternion.AngleAxis(angle,Vector3.up) * dir;
 

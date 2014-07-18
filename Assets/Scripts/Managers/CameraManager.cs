@@ -32,7 +32,7 @@ public class CameraManager : MonoBehaviour {
 	void Awake () {
 		Instance = this;
 
-		PlayerPrefs.DeleteAll();
+	//	PlayerPrefs.DeleteAll();
 
 		AddFavorites();
 	

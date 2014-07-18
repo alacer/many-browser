@@ -3,6 +3,7 @@
 Properties {
     _Color ("Main Color (A=Opacity)", Color) = (1,1,1,1)
     _MainTex ("Base (A=Opacity)", 2D) = ""
+    _Mask ("Culling Mask", 2D) = "white" {}
 }
  
 Category {
@@ -29,9 +30,11 @@ Category {
 	       
 	        #ifdef FRAGMENT
 	        uniform lowp sampler2D _MainTex;
+	         uniform lowp sampler2D _Mask;
 	        uniform lowp vec4 _Color;
 	        void main() {
-	            gl_FragColor = texture2D(_MainTex, uv) * _Color;
+	
+	            gl_FragColor = texture2D(_MainTex, uv) * texture2D(_Mask, uv) * _Color;
 	        }
 	        
 	        #endif     
