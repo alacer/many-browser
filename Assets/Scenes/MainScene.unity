@@ -6547,7 +6547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchName: 
-  DefaultImage: {fileID: 2800000, guid: 7f46047a16bd3465799fd7459b7f0029, type: 3}
+  DefaultImage: {fileID: 2800000, guid: 8356dc87043194b1489de6fbf62e34be, type: 3}
   IsCommunityItem: 1
   FavoritesButtonMesh: {fileID: 0}
   ReplacementCommunityMaterials:
@@ -6893,7 +6893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchName: 
-  DefaultImage: {fileID: 2800000, guid: 5ce4034c2de7547e8bcb9b5cc14761b5, type: 3}
+  DefaultImage: {fileID: 2800000, guid: 564106f7590634e67ba64568de872424, type: 3}
   IsCommunityItem: 1
   FavoritesButtonMesh: {fileID: 0}
   ReplacementCommunityMaterials:
@@ -8417,7 +8417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchName: home
-  DefaultImage: {fileID: 2800000, guid: a209c84efa7d246f9a1d7ba968f0b6c3, type: 3}
+  DefaultImage: {fileID: 2800000, guid: 30e7087dce99e4ef588cc60540b4a0c1, type: 3}
   IsCommunityItem: 1
   FavoritesButtonMesh: {fileID: 0}
   ReplacementCommunityMaterials:
@@ -9192,7 +9192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchName: 
-  DefaultImage: {fileID: 2800000, guid: 7365ee6982bb44745b04fc20d5bb10b8, type: 3}
+  DefaultImage: {fileID: 2800000, guid: 8184b8ec01e194229b752ff0a364cfd0, type: 3}
   IsCommunityItem: 1
   FavoritesButtonMesh: {fileID: 0}
   ReplacementCommunityMaterials:
@@ -9894,7 +9894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchName: 
-  DefaultImage: {fileID: 2800000, guid: c711f0689b0cf4791b208a17198d6121, type: 3}
+  DefaultImage: {fileID: 2800000, guid: 8356dc87043194b1489de6fbf62e34be, type: 3}
   IsCommunityItem: 1
   FavoritesButtonMesh: {fileID: 0}
   ReplacementCommunityMaterials:
@@ -18896,7 +18896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchName: 
-  DefaultImage: {fileID: 2800000, guid: ed18b906dc5af47ef9034f32c2109e15, type: 3}
+  DefaultImage: {fileID: 2800000, guid: f3b31dd6c7ac948a7a1890e76088aaf6, type: 3}
   IsCommunityItem: 1
   FavoritesButtonMesh: {fileID: 0}
   ReplacementCommunityMaterials:
@@ -20999,7 +20999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchName: vacation
-  DefaultImage: {fileID: 2800000, guid: 75a81663b5f5b448fb4b4806bc7b8b4a, type: 3}
+  DefaultImage: {fileID: 2800000, guid: bb9260ae581254d80a49e660b6fa6cb5, type: 3}
   IsCommunityItem: 1
   FavoritesButtonMesh: {fileID: 0}
   ReplacementCommunityMaterials:
@@ -22298,7 +22298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchName: 
-  DefaultImage: {fileID: 2800000, guid: a461762186a6f42fabced6b2e1575dd2, type: 3}
+  DefaultImage: {fileID: 2800000, guid: 019bba049b1754c80be1084f6c32e80f, type: 3}
   IsCommunityItem: 1
   FavoritesButtonMesh: {fileID: 0}
   ReplacementCommunityMaterials:
@@ -38387,7 +38387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchName: 
-  DefaultImage: {fileID: 2800000, guid: 3bd6cc632bb7d46eba2050a9f68173e2, type: 3}
+  DefaultImage: {fileID: 2800000, guid: d3b9ff3d9001344a5b4acd3008b8dd90, type: 3}
   IsCommunityItem: 1
   FavoritesButtonMesh: {fileID: 0}
   ReplacementCommunityMaterials:
@@ -38754,7 +38754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchName: 
-  DefaultImage: {fileID: 2800000, guid: 611b4a72264bc4bd8b1766a6e68162bc, type: 3}
+  DefaultImage: {fileID: 2800000, guid: 4487270636b5f4dcb849f796542a5015, type: 3}
   IsCommunityItem: 1
   FavoritesButtonMesh: {fileID: 0}
   ReplacementCommunityMaterials:
@@ -39543,7 +39543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchName: 
-  DefaultImage: {fileID: 2800000, guid: 9718c6cafd1c94422ae1bea4fd093486, type: 3}
+  DefaultImage: {fileID: 2800000, guid: 9cdf94457307146ee9809b95e9962ba9, type: 3}
   IsCommunityItem: 1
   FavoritesButtonMesh: {fileID: 0}
   ReplacementCommunityMaterials:
@@ -42145,7 +42145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchName: 
-  DefaultImage: {fileID: 2800000, guid: b279c97bf5dee41d7b395ef66965034c, type: 3}
+  DefaultImage: {fileID: 2800000, guid: 8e1cacbb65bc247248e9c4cd440cafe2, type: 3}
   IsCommunityItem: 1
   FavoritesButtonMesh: {fileID: 0}
   ReplacementCommunityMaterials:
@@ -52002,7 +52002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchName: 
-  DefaultImage: {fileID: 2800000, guid: e8fe2d809428c4158a7895d2df854cb7, type: 3}
+  DefaultImage: {fileID: 2800000, guid: 99520e0f36ded44b99d0ee6199e49e63, type: 3}
   IsCommunityItem: 1
   FavoritesButtonMesh: {fileID: 0}
   ReplacementCommunityMaterials:
