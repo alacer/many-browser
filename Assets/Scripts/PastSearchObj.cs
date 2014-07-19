@@ -59,12 +59,12 @@ public class PastSearchObj : ImageObj {
 		// do nothing
 	}
 
-	protected override void ScaleToBox(float animTime)
+	public override void ScaleToBox(float animTime)
 	{
 		// do nothing
 	}
 	
-	protected override void ScaleToBook(float animTime)
+	public override void ScaleToBook(float animTime)
 	{
 		// do nothing
 	}

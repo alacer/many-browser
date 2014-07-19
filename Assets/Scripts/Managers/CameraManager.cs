@@ -32,8 +32,8 @@ public class CameraManager : MonoBehaviour {
 	void Awake () {
 		Instance = this;
 
-		if (Application.isEditor);
-			PlayerPrefs.DeleteAll();
+//		if (Application.isEditor)
+//			PlayerPrefs.DeleteAll();
 
 		Debug.Log("adding favorites");
 		AddFavorites();

@@ -384,7 +384,7 @@ Transform:
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: -.707106829, z: 0, w: .707106709}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 120, y: 120, z: 120}
+  m_LocalScale: {x: 110, y: 110, z: 110}
   m_Children:
   - {fileID: 400040}
   - {fileID: 400006}
@@ -1201,9 +1201,9 @@ MonoBehaviour:
   MoveSpeed: 1
   RotateDistance: 3
   MinDistToCamera: 1
-  CubeXScale: 87
+  CubeXScale: 110
   CubeRotator: {fileID: 100004}
-  MaxWidthScale: 100
+  MaxWidthScale: 110
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1229,7 +1229,7 @@ MonoBehaviour:
   CubeTransform: {fileID: 400002}
   ActionsPanel: {fileID: 100040}
   _rotationSpeed: .300000012
-  MinAngleToRotate: 5
+  MinAngleToRotate: 15
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1

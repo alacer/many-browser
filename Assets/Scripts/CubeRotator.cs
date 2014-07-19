@@ -13,10 +13,11 @@ public class CubeRotator : MonoBehaviour {
 	Vector3 _startRotation = new Vector3(0,270,0);
 	float _lastSpeed;
 	GameObject _backPanel;
-	GameObject _leftPanel;
+//	GameObject _leftPanel;
 
 
 	bool _fingerLiftedAfterSwipe = true;
+	ImageObj _imageObj;
 
 
 	void Start()
@@ -24,12 +25,12 @@ public class CubeRotator : MonoBehaviour {
 
 		UpdateActionsScale();
 		_backPanel = GameObject.Find("BackPanel");
-		_leftPanel = GameObject.Find("ActionButtonPanel");
+	//	_leftPanel = GameObject.Find("ActionButtonPanel");
 
 
-		ImageObj obj = transform.parent.GetComponent<ImageObj>();
-		if (obj.HasData())
-			GameObject.Find("ObjectDescriptionLabel").GetComponent<UILabel>().text = obj.GetData<string>("Description");
+		_imageObj = transform.parent.GetComponent<ImageObj>();
+		if (_imageObj.HasData())
+			GameObject.Find("ObjectDescriptionLabel").GetComponent<UILabel>().text = _imageObj.GetData<string>("Description");
 	}
 
 	public void DoFastRotateToFront()
@@ -101,7 +102,7 @@ public class CubeRotator : MonoBehaviour {
 		if ( Mathf.Abs(_totalAngleChange.x) >  Mathf.Abs(_totalAngleChange.y) &&  Mathf.Abs(_totalAngleChange.x) > MinAngleToRotate && _fingerLiftedAfterSwipe)
 		{
 			TweenAlpha.Begin(_backPanel,0,0);
-			FadeButtonPanel(0,0);
+	//		FadeButtonPanel(0,0);
 
 			float dir = (_totalAngleChange.x > 0) ? -1 : 1;
 
@@ -111,11 +112,16 @@ public class CubeRotator : MonoBehaviour {
 
 			forward = Quaternion.AngleAxis(-dir * 90,Vector3.up) * forward;
 
+//			if (forward != Vector3.back)
+//				_imageObj.ScaleToBox(.3f);
+//			else
+//				_imageObj.ScaleToBook(.3f);
+
 			// do the rotation
 			LeanTween.rotateY(CubeTransform.gameObject,CubeTransform.rotation.eulerAngles.y + (dir * 90),animTime).setOnComplete( () => 
 			{
 
-				if (forward == Vector3.forward && transform.parent.GetComponent<ImageObj>().IsCommunityItem == false)
+				if (forward == Vector3.forward && _imageObj.IsCommunityItem == false)
 					TweenAlpha.Begin(_backPanel,.3f,1);
 
 				UpdateColliders();
@@ -131,15 +137,15 @@ public class CubeRotator : MonoBehaviour {
 	
 	}
 
-	void FadeButtonPanel(float alpha, float time)
-	{
-		for (int i=0; i < _leftPanel.transform.childCount; i++)
-		{
-			TweenAlpha.Begin(_leftPanel.transform.GetChild(i).gameObject,time,alpha);
-
-		}
-
-	}
+//	void FadeButtonPanel(float alpha, float time)
+//	{
+//		for (int i=0; i < _leftPanel.transform.childCount; i++)
+//		{
+//			TweenAlpha.Begin(_leftPanel.transform.GetChild(i).gameObject,time,alpha);
+//
+//		}
+//
+//	}
 	
 
 	void OnSelect()
@@ -157,9 +163,9 @@ public class CubeRotator : MonoBehaviour {
 	void OnUnselect()
 	{
 
-		FadeButtonPanel(0,0);
+//		FadeButtonPanel(0,0);
 		TweenAlpha.Begin(_backPanel,0,0);
-		TweenAlpha.Begin(_leftPanel,0,0);
+	//	TweenAlpha.Begin(_leftPanel,0,0);
 
 		LeanTween.cancel(CubeTransform.gameObject);
 

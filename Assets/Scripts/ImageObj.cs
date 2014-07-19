@@ -335,7 +335,7 @@ public class ImageObj : MonoBehaviour {
 	{
 
 
-		if (ImageRenderer.materials.Length < 5)
+		if (ImageRenderer.materials.Length < 5 || FavoritesButtonMesh == null)
 		{
 			Debug.Log( " mat length: " + ImageRenderer.materials.Length);
 			return;
@@ -495,7 +495,7 @@ public class ImageObj : MonoBehaviour {
 		
 	}
 	
-	protected virtual void ScaleToBox(float animTime)
+	public virtual void ScaleToBox(float animTime)
 	{
 	
 		Debug.Log("scaling to box");
@@ -503,7 +503,7 @@ public class ImageObj : MonoBehaviour {
 		LeanTween.scale(gameObject,_cubeScale,.1f);
 	}
 	
-	protected virtual void ScaleToBook(float animTime)
+	public virtual void ScaleToBook(float animTime)
 	{
 
 		Debug.Log("scaling to book");
