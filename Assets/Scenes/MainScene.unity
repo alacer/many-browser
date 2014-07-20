@@ -36332,7 +36332,7 @@ GameObject:
   - 4: {fileID: 1311429441}
   - 114: {fileID: 1311429442}
   m_Layer: 8
-  m_Name: Texture
+  m_Name: HelixPillLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
