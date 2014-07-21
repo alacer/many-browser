@@ -14,6 +14,7 @@ public class CubeRotator : MonoBehaviour {
 	float _lastSpeed;
 	GameObject _backPanel;
 //	GameObject _leftPanel;
+	GameObject _rightPanel;
 
 
 	bool _fingerLiftedAfterSwipe = true;
@@ -26,7 +27,7 @@ public class CubeRotator : MonoBehaviour {
 		UpdateActionsScale();
 		_backPanel = GameObject.Find("BackPanel");
 	//	_leftPanel = GameObject.Find("ActionButtonPanel");
-
+		_rightPanel = GameObject.Find("DetailedDescription");
 
 		_imageObj = transform.parent.GetComponent<ImageObj>();
 		if (_imageObj.HasData())
@@ -36,6 +37,7 @@ public class CubeRotator : MonoBehaviour {
 	public void DoFastRotateToFront()
 	{
 		TweenAlpha.Begin(_backPanel,0,0);
+		TweenAlpha.Begin(_rightPanel,0,0);
 		LeanTween.rotateY(CubeTransform.gameObject,-90,.1f);
 		
 		_totalAngleChange = Vector3.zero;
@@ -101,6 +103,7 @@ public class CubeRotator : MonoBehaviour {
 		// did the just swipe to rotate the box?
 		if ( Mathf.Abs(_totalAngleChange.x) >  Mathf.Abs(_totalAngleChange.y) &&  Mathf.Abs(_totalAngleChange.x) > MinAngleToRotate && _fingerLiftedAfterSwipe)
 		{
+			TweenAlpha.Begin(_rightPanel,0,0);
 			TweenAlpha.Begin(_backPanel,0,0);
 	//		FadeButtonPanel(0,0);
 
@@ -112,10 +115,6 @@ public class CubeRotator : MonoBehaviour {
 
 			forward = Quaternion.AngleAxis(-dir * 90,Vector3.up) * forward;
 
-//			if (forward != Vector3.back)
-//				_imageObj.ScaleToBox(.3f);
-//			else
-//				_imageObj.ScaleToBook(.3f);
 
 			// do the rotation
 			LeanTween.rotateY(CubeTransform.gameObject,CubeTransform.rotation.eulerAngles.y + (dir * 90),animTime).setOnComplete( () => 
@@ -123,6 +122,9 @@ public class CubeRotator : MonoBehaviour {
 
 				if (forward == Vector3.forward && _imageObj.IsCommunityItem == false)
 					TweenAlpha.Begin(_backPanel,.3f,1);
+
+				if (forward == Vector3.right && _imageObj.IsCommunityItem == false)
+					TweenAlpha.Begin(_rightPanel,.3f,1);
 
 				UpdateColliders();
 
@@ -164,6 +166,7 @@ public class CubeRotator : MonoBehaviour {
 	{
 
 //		FadeButtonPanel(0,0);
+		TweenAlpha.Begin(_rightPanel,0,0);
 		TweenAlpha.Begin(_backPanel,0,0);
 	//	TweenAlpha.Begin(_leftPanel,0,0);
 

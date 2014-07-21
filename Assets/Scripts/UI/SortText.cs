@@ -16,16 +16,13 @@ public class SortText : MonoBehaviour {
 
 	public void SetText(string key, Dictionary<string,object> data)
 	{
-		//		Debug.Log("setting key: " + key);
-
-		
+	
 			if (key == "Price")
 			{
-				decimal d = new decimal((float)data[key]);
-				string text = "" +  decimal.Round(d,2).ToString ();
-		//		string text =  decimal.Round(d,2).ToString ();
-				_textMesh.text = text;
-		//		Debug.Log("setting price: " + text);
+
+
+				_textMesh.text = GetPrice((float)data[key]);
+	
 			}
 			else if (key == "Popularity")
 			{
@@ -36,23 +33,39 @@ public class SortText : MonoBehaviour {
 			else if (key == "ExpertRating" || key == "BuyerRating")
 			{
 				float val = (float)data[key];
+
 				
-				string stars = "";
-				
-				for (int i=0; i < (int)val; i++)
-					stars = stars + "";
-				
-				float last = val - Mathf.Floor(val);
-				//		Debug.Log("last: " + last);
-				if (last > .33f)
-					stars = stars + "";
-				
-				_textMesh.text = stars;
+				_textMesh.text = GetStarRating(val);
 			}
 			else if (key == "Availability")
 			{
 				_textMesh.text = "";//((int)(float)data[key]).ToString();
 			}
+	}
+
+	public static string GetPrice(float val)
+	{
+		decimal d = new decimal(val);
+		string text = "" +  decimal.Round(d,2).ToString ();
+		
+		return text;
+	}
+
+	public static string GetStarRating(float val)
+	{
+
+		string stars = "";
+		
+		for (int i=0; i < (int)val; i++)
+			stars = stars + "";
+		
+		float last = val - Mathf.Floor(val);
+		//		Debug.Log("last: " + last);
+		if (last > .33f)
+			stars = stars + "";
+		
+		return stars;
+
 	}
 
 	// Update is called once per frame

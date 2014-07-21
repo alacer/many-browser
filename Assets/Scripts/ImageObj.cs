@@ -407,6 +407,9 @@ public class ImageObj : MonoBehaviour {
 			StartCoroutine (textureCache.GetTexture ((string)_data["LargeUrl"], _data, OnGotLargeTexture));
 
 		}
+
+		if (IsCommunityItem == false && HasData())
+			GameObject.Find("DetailedDescription").SendMessage("SetData",this);
 	}
 
 	void OnUnselected()

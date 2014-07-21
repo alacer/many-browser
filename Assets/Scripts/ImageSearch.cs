@@ -241,7 +241,7 @@ public class ImageSearch : MonoBehaviour {
 
 			// Format
 			try {
-				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["Format"][0];
+				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["ProductGroup"][0];
 				
 				
 				data["Format"] = str;
@@ -251,16 +251,28 @@ public class ImageSearch : MonoBehaviour {
 				data["Format"] = "";
 			}
 
+			// Edition
+			try {
+				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["Edition"][0];
+				
+				
+				data["Edition"] = str;
+				
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse Edition error: " + ex.Message);
+				data["Edition"] = "";
+			}
+
 			// Author
 			try {
-				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["Author"][0];
+				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["Publisher"][0];
 				
 				
-				data["Author"] = str;
+				data["Publisher"] = str;
 				
 			} catch (System.Exception ex) {
 				Debug.LogWarning("could not parse Author error: " + ex.Message);
-				data["Author"] = "";
+				data["Publisher"] = "";
 			}
 
 			Debug.Log("5");
