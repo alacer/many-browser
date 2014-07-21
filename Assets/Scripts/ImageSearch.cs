@@ -224,7 +224,7 @@ public class ImageSearch : MonoBehaviour {
 
 			} catch (System.Exception ex) {
 				Debug.LogWarning("could not parse price error: " + ex.Message);
-				data["Price"] = Random.Range(5.0f,20.0f);
+				data["Price"] = Random.Range(1000.0f,2000.0f);
 			}
 
 			// Title
@@ -263,7 +263,7 @@ public class ImageSearch : MonoBehaviour {
 				data["Edition"] = "";
 			}
 
-			// Author
+			// Publisher
 			try {
 				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["Publisher"][0];
 				
@@ -273,6 +273,18 @@ public class ImageSearch : MonoBehaviour {
 			} catch (System.Exception ex) {
 				Debug.LogWarning("could not parse Author error: " + ex.Message);
 				data["Publisher"] = "";
+			}
+
+			// Author
+			try {
+				string str = (string)jArray[i]["body"]["data"]["AWSECommerceService"]["ItemAttributes"][0]["Author"][0];
+				
+				
+				data["Author"] = str;
+				
+			} catch (System.Exception ex) {
+				Debug.LogWarning("could not parse Author error: " + ex.Message);
+				data["Author"] = "";
 			}
 
 			Debug.Log("5");

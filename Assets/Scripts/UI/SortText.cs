@@ -46,7 +46,7 @@ public class SortText : MonoBehaviour {
 	public static string GetPrice(float val)
 	{
 		decimal d = new decimal(val);
-		string text = "" +  decimal.Round(d,2).ToString ();
+		string text = "" +  decimal.Round(d).ToString ();
 		
 		return text;
 	}

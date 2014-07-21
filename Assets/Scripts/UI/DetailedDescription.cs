@@ -20,10 +20,10 @@ public class DetailedDescription : MonoBehaviour {
 			Title.text =  obj.GetData<string>("Title");
 
 		BookImage.mainTexture = obj.ImageRenderer.material.mainTexture;
-		if (obj.HasData("Author"))
+		if (obj.HasData("Author") && obj.GetData<string>("Author") != string.Empty)
 			Author.text = "By " + obj.GetData<string>("Author");
 
-		if (obj.HasData("ExpertRating"))
+		if (obj.HasData("ExpertRating") )
 			StarRating.text = SortText.GetStarRating(obj.GetData<float>("ExpertRating"));
 
 		if (obj.HasData("Format") && obj.HasData("Price"))

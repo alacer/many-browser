@@ -22,18 +22,34 @@ public class SidePanels : MonoBehaviour {
 	public void ShowPanel(CommunityType type)
 	{
 
-		if (_currentPanel == null)
+		if (_currentPanel == null) 
 		{
 			_currentPanel = Panels[(int)type];
-			LeanTween.moveLocal(_currentPanel,Vector3.zero,1);
 
-		}
-		else
-		{
-			LeanTween.moveLocal(_currentPanel,_outPos,1).setOnComplete( () => {
-				_currentPanel = Panels[(int)type];
+			if (type != CommunityType.Kartua)
 				LeanTween.moveLocal(_currentPanel,Vector3.zero,1);
-			});
+				
+		}
+		else // open new
+		{
+			if (_currentPanel.transform.localPosition == Vector3.zero)
+			{
+				Debug.Log ("panel is showing");
+				LeanTween.moveLocal(_currentPanel,_outPos,1).setOnComplete( () => {
+					_currentPanel = Panels[(int)type];
+
+					if (type != CommunityType.Kartua)
+						LeanTween.moveLocal(_currentPanel,Vector3.zero,1);
+				});
+			}
+			else
+			{
+				Debug.Log("panel isnt showing ");
+
+				_currentPanel = Panels[(int)type];
+				if (type != CommunityType.Kartua)
+					LeanTween.moveLocal(_currentPanel,Vector3.zero,1);
+			}
 
 		}
 
