@@ -331,11 +331,11 @@ public class ImageObj : MonoBehaviour {
 
 	}
 
-	public void UpdateFavoritesButton(string url)
+	public virtual void UpdateFavoritesButton(string url)
 	{
 
 
-		if (ImageRenderer.materials.Length < 5 || FavoritesButtonMesh == null)
+		if (ImageRenderer.materials.Length < 5 || this is PastSearchObj)
 		{
 			Debug.Log( " mat length: " + ImageRenderer.materials.Length);
 			return;
@@ -412,7 +412,7 @@ public class ImageObj : MonoBehaviour {
 			GameObject.Find("DetailedDescription").SendMessage("SetData",this);
 	}
 
-	void OnUnselected()
+	protected virtual void OnUnselected()
 	{	
 
 		_boxMaterials[0] = _planeMaterials[0];

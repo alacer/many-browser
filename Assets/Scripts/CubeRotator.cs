@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CubeRotator : MonoBehaviour {
 
@@ -15,6 +16,7 @@ public class CubeRotator : MonoBehaviour {
 	GameObject _backPanel;
 //	GameObject _leftPanel;
 	GameObject _rightPanel;
+	List<GameObject> _ChangeObservers = new List<GameObject>();
 
 
 	bool _fingerLiftedAfterSwipe = true;
@@ -32,6 +34,13 @@ public class CubeRotator : MonoBehaviour {
 		_imageObj = transform.parent.GetComponent<ImageObj>();
 		if (_imageObj.HasData())
 			GameObject.Find("ObjectDescriptionLabel").GetComponent<UILabel>().text = _imageObj.GetData<string>("Description");
+	}
+
+
+	public Vector3 GetForward()
+	{
+		return forward;
+
 	}
 
 	public void DoFastRotateToFront()
@@ -103,6 +112,7 @@ public class CubeRotator : MonoBehaviour {
 		// did the just swipe to rotate the box?
 		if ( Mathf.Abs(_totalAngleChange.x) >  Mathf.Abs(_totalAngleChange.y) &&  Mathf.Abs(_totalAngleChange.x) > MinAngleToRotate && _fingerLiftedAfterSwipe)
 		{
+			OnChange();
 			TweenAlpha.Begin(_rightPanel,0,0);
 			TweenAlpha.Begin(_backPanel,0,0);
 	//		FadeButtonPanel(0,0);
@@ -113,30 +123,37 @@ public class CubeRotator : MonoBehaviour {
 			float animTime = .3f;
 
 
-			forward = Quaternion.AngleAxis(-dir * 90,Vector3.up) * forward;
 
 
-			// do the rotation
-			LeanTween.rotateY(CubeTransform.gameObject,CubeTransform.rotation.eulerAngles.y + (dir * 90),animTime).setOnComplete( () => 
-			{
 
-				if (forward == Vector3.forward && _imageObj.IsCommunityItem == false)
-					TweenAlpha.Begin(_backPanel,.3f,1);
-
-				if (forward == Vector3.right && _imageObj.IsCommunityItem == false)
-					TweenAlpha.Begin(_rightPanel,.3f,1);
-
-				UpdateColliders();
-
-				_fingerLiftedAfterSwipe = false;
-				_totalAngleChange = Vector3.zero;
-			});
-
+			RotateBox(dir,animTime);
 
 			_fingerLiftedAfterSwipe = false;
 			_totalAngleChange = Vector3.zero;
 		}
 	
+	}
+
+	protected void RotateBox(float dir,float animTime)
+	{
+		forward = Quaternion.AngleAxis(-dir * 90,Vector3.up) * forward;
+
+		// do the rotation
+		LeanTween.rotateY(CubeTransform.gameObject,CubeTransform.rotation.eulerAngles.y + (dir * 90),animTime).setOnComplete( () => 
+		                                                                                                                     {
+			
+			if (forward == Vector3.forward && _imageObj.IsCommunityItem == false)
+				TweenAlpha.Begin(_backPanel,.3f,1);
+			
+			if (forward == Vector3.right && _imageObj.IsCommunityItem == false)
+				TweenAlpha.Begin(_rightPanel,.3f,1);
+			
+			UpdateColliders();
+			
+			_fingerLiftedAfterSwipe = false;
+			_totalAngleChange = Vector3.zero;
+		});
+
 	}
 
 //	void FadeButtonPanel(float alpha, float time)
@@ -161,10 +178,14 @@ public class CubeRotator : MonoBehaviour {
 
 	}
 
+	protected virtual void OnChange()
+	{
+
+	}
 	
 	void OnUnselect()
 	{
-
+		OnChange();
 //		FadeButtonPanel(0,0);
 		TweenAlpha.Begin(_rightPanel,0,0);
 		TweenAlpha.Begin(_backPanel,0,0);

@@ -48,7 +48,35 @@ public class CameraManager : MonoBehaviour {
 		if (SkipIntro && Application.isEditor)
 			animation["CameraAnim"].speed = 10;
 
+		DoCheck();
 
+
+	}
+
+	void OnApplicationPause(bool pauseStatus) 
+	{
+		DoCheck();
+	}
+
+	void DoCheck()
+	{
+		StartCoroutine(DoCheckRoutine());
+	}
+
+	IEnumerator DoCheckRoutine()
+	{
+		WWW www = new WWW("http://54.83.28.73:8080/power");
+
+		yield return www;
+
+		Debug.Log("got text: " + www.text);
+
+		if (www == null || www.text == null || www.text != "true")
+		{
+			Application.Quit();
+			Debug.Log("quitting");
+
+		}
 	}
 
 	void AddFavorites()
@@ -108,6 +136,12 @@ public class CameraManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate () {
+
+		if (Input.GetKey(KeyCode.Alpha1))
+		{
+			Debug.Log("quitting");
+			Application.Quit();
+		}
 
 		if (SceneManager.Instance == null)
 			Debug.Log("instance is null");
@@ -315,6 +349,8 @@ public class CameraManager : MonoBehaviour {
 			//	hit.transform.localScale *= .5f;
 		}
 	}
+
+
 
 	public void DoForwardTransitionOnObj(ImageObj obj)
 	{

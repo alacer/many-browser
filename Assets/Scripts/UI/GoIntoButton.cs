@@ -8,6 +8,9 @@ public class GoIntoButton : Tappable {
 
 		ImageObj obj = transform.parent.GetComponent<ImageObj>();
 
+		if (obj == null)
+			obj = GetComponent<ImageObj>();
+
 		if (SelectionManager.Instance.GetSelected() != obj || LeanTween.isTweening(obj.gameObject))
 		{
 			Debug.Log("not selected or obj is tweening");

@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Favorites
-  Type: 1
+  Type: 0
   FadeInOnAwake: 1
   BackgroundLabel: {fileID: 0}
   TouchObjName: FavoritesSphere(Clone)
